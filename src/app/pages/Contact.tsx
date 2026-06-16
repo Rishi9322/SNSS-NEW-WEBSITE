@@ -52,6 +52,8 @@ const ExternalLinkIcon = () => (
   </svg>
 );
 
+const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+
 export function Contact() {
   const [searchParams] = useSearchParams();
   const preselected = searchParams.get("service") ?? "";
@@ -77,22 +79,15 @@ export function Contact() {
 
     setSubmitting(true);
 
-    const payload = {
-      fullName: data.get("fullName"),
-      company: data.get("company"),
-      email: data.get("email"),
-      phone: data.get("phone"),
-      city: data.get("city"),
-      service: data.get("service"),
-      source: data.get("source"),
-      message: data.get("message"),
-    };
+    data.append("access_key", WEB3FORMS_ACCESS_KEY);
+    data.append("subject", "New enquiry — SNSS Global Services website");
+    data.append("from_name", "SNSS Global Services Website");
 
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        headers: { Accept: "application/json" },
+        body: data,
       });
       const result = await res.json();
 
