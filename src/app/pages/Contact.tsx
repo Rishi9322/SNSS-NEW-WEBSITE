@@ -159,6 +159,7 @@ export function Contact() {
                       <select name="service" required value={selectedService} onChange={(e) => setSelectedService(e.target.value)} className="w-full px-4 py-3 border text-sm focus:outline-none appearance-none" style={inputStyle}>
                         <option value="">Select service</option>
                         {SERVICES.map((s) => <option key={s.id} value={s.id}>{s.title}</option>)}
+                        <option value="other">Other</option>
                       </select>
                     </div>
                   </div>
