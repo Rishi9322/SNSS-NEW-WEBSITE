@@ -3,15 +3,6 @@ import { Link, useParams } from "react-router";
 import { FadeIn } from "../components/FadeIn";
 import { NAVY, AMBER, SERVICES } from "../constants";
 
-// Consistent Picsum seeds per service
-const SERVICE_IMAGES: Record<string, string> = {
-  housekeeping:  "https://picsum.photos/seed/housekeeping-office/900/500",
-  pantry:        "https://picsum.photos/seed/pantry-cafeteria/900/500",
-  technical:     "https://picsum.photos/seed/electrical-technical/900/500",
-  "data-entry":  "https://picsum.photos/seed/data-entry-office/900/500",
-  payroll:       "https://picsum.photos/seed/payroll-compliance/900/500",
-  staffing:      "https://picsum.photos/seed/corporate-staffing/900/500",
-};
 
 export function ServiceDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -29,20 +20,13 @@ export function ServiceDetail() {
     );
   }
 
-  const imgSrc = SERVICE_IMAGES[svc.slug] ?? "https://picsum.photos/seed/facility-management/900/500";
-
   return (
     <>
       {/* Page header */}
       <div className="relative overflow-hidden" style={{ background: NAVY }}>
-        {/* Image with dark overlay */}
-        <img
-          src={imgSrc}
-          alt={`${svc.title} — SNSS Global Services`}
-          className="absolute inset-0 w-full h-full object-cover opacity-25"
-          style={{ mixBlendMode: "luminosity" }}
-        />
-        <div className="relative max-w-7xl mx-auto px-5 lg:px-8 py-20 lg:py-28">
+        {/* Subtle geometric pattern overlay */}
+        <div className="absolute inset-0 opacity-5" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)", backgroundSize: "32px 32px" }} />
+        <div className="relative max-w-7xl mx-auto px-5 lg:px-8 py-24 lg:py-32">
           <div className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER }}>
             <Link to="/" className="transition-opacity hover:opacity-70">Home</Link>
             <span className="mx-2 opacity-30">/</span>
@@ -56,16 +40,6 @@ export function ServiceDetail() {
             <p className="text-sm" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.8 }}>{svc.subhead}</p>
           </div>
         </div>
-      </div>
-
-      {/* Image strip — full width below header */}
-      <div className="w-full overflow-hidden" style={{ height: "320px", background: NAVY }}>
-        <img
-          src={imgSrc}
-          alt={`${svc.title} — professional service delivery`}
-          className="w-full h-full object-cover"
-          style={{ filter: "brightness(0.65) saturate(0.7)", display: "block" }}
-        />
       </div>
 
       {/* Main content */}
@@ -168,12 +142,8 @@ export function ServiceDetail() {
               {related.map((rel, i) => (
                 <FadeIn key={rel.id} delay={i * 0.08}>
                   <Link to={`/services/${rel.slug}`} className="group flex items-start gap-5 p-6 transition-all hover:bg-white/5" style={{ border: "1px solid rgba(255,255,255,0.1)", borderRadius: "4px" }}>
-                    <div className="w-10 h-10 flex items-center justify-center flex-shrink-0 overflow-hidden" style={{ borderRadius: "4px" }}>
-                      <img
-                        src={SERVICE_IMAGES[rel.slug] ?? "https://picsum.photos/seed/service/80/80"}
-                        alt={rel.title}
-                        className="w-full h-full object-cover opacity-60"
-                      />
+                    <div className="w-10 h-10 flex items-center justify-center flex-shrink-0" style={{ borderRadius: "4px", background: "rgba(255,255,255,0.08)" }}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke={AMBER} strokeWidth={1.5} className="w-5 h-5"><path d="M9 12h6M9 16h6M7 4h10a2 2 0 012 2v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2z"/></svg>
                     </div>
                     <div>
                       <div className="font-bold text-sm mb-1 text-white">{rel.title}</div>

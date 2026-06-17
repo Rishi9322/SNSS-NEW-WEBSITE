@@ -7,16 +7,50 @@ import { NAVY, AMBER, EMPLOYEE_BENEFITS } from "../constants";
 const ROLES = [
   "Housekeeping Supervisor", "Pantry / Cafeteria Staff", "Electrician (ITI Certified)",
   "Plumber", "Car Driver (LMV / HMV)", "Security Guard", "Data Entry Operator",
-  "Account Manager (Client Services)", "HR Executive",
+  "Account Manager (Client Services)", "HR Executive", "Other",
 ];
+
+const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
 
 export function Careers() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
   const [selectedRole, setSelectedRole] = useState("");
 
   useEffect(() => { document.title = "Careers | SNSS Global Services"; }, []);
 
-  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); setSubmitted(true); setTimeout(() => setSubmitted(false), 6000); };
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError("");
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    if (data.get("_honey")) return;
+    setSubmitting(true);
+    data.append("access_key", WEB3FORMS_ACCESS_KEY);
+    data.append("subject", "New job application — SNSS Global Services website");
+    data.append("from_name", "SNSS Careers Form");
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: data,
+      });
+      const result = await res.json();
+      if (result.success) {
+        setSubmitted(true);
+        form.reset();
+        setSelectedRole("");
+        setTimeout(() => setSubmitted(false), 6000);
+      } else {
+        setError(result.message || "Something went wrong. Please try again or email us directly.");
+      }
+    } catch {
+      setError("Network error. Please check your connection and try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   const inputStyle = { borderColor: "rgba(15,42,74,0.15)", background: "#fff", color: NAVY, borderRadius: "4px" };
 
@@ -72,41 +106,43 @@ export function Careers() {
                   <div className="grid sm:grid-cols-2 gap-4 mb-4">
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: NAVY }}>Full Name *</label>
-                      <input type="text" required placeholder="Your full name" className="w-full px-4 py-3 border text-sm focus:outline-none" style={inputStyle} />
+                      <input name="fullName" type="text" required placeholder="Your full name" className="w-full px-4 py-3 border text-sm focus:outline-none" style={inputStyle} />
                     </div>
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: NAVY }}>Phone *</label>
-                      <input type="tel" required placeholder="+91 98000 00000" className="w-full px-4 py-3 border text-sm focus:outline-none" style={inputStyle} />
+                      <input name="phone" type="tel" required placeholder="+91 98000 00000" className="w-full px-4 py-3 border text-sm focus:outline-none" style={inputStyle} />
                     </div>
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: NAVY }}>City *</label>
-                      <select required className="w-full px-4 py-3 border text-sm focus:outline-none appearance-none" style={inputStyle}>
+                      <select name="city" required className="w-full px-4 py-3 border text-sm focus:outline-none appearance-none" style={inputStyle}>
                         <option value="">Select city</option>
                         {["Mumbai", "Pune", "Ahmedabad", "Bhopal", "Other"].map((c) => <option key={c}>{c}</option>)}
                       </select>
                     </div>
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: NAVY }}>Role *</label>
-                      <select required value={selectedRole} onChange={(e) => setSelectedRole(e.target.value)} className="w-full px-4 py-3 border text-sm focus:outline-none appearance-none" style={inputStyle}>
+                      <select name="role" required value={selectedRole} onChange={(e) => setSelectedRole(e.target.value)} className="w-full px-4 py-3 border text-sm focus:outline-none appearance-none" style={inputStyle}>
                         <option value="">Select role</option>
                         {ROLES.map((r) => <option key={r}>{r}</option>)}
                       </select>
                     </div>
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: NAVY }}>Experience *</label>
-                      <select required className="w-full px-4 py-3 border text-sm focus:outline-none appearance-none" style={inputStyle}>
+                      <select name="experience" required className="w-full px-4 py-3 border text-sm focus:outline-none appearance-none" style={inputStyle}>
                         <option value="">Select range</option>
                         {["Fresher (0–1 years)", "1–3 years", "3–5 years", "5–10 years", "10+ years"].map((r) => <option key={r}>{r}</option>)}
                       </select>
                     </div>
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: NAVY }}>How did you hear?</label>
-                      <select className="w-full px-4 py-3 border text-sm focus:outline-none appearance-none" style={inputStyle}>
+                      <select name="source" className="w-full px-4 py-3 border text-sm focus:outline-none appearance-none" style={inputStyle}>
                         <option value="">Select source</option>
                         {["Job board", "WhatsApp / Referral", "SNSS employee", "Walk-in", "Other"].map((s) => <option key={s}>{s}</option>)}
                       </select>
                     </div>
                   </div>
+
+                  <div className="hidden" aria-hidden="true"><input type="text" name="_honey" tabIndex={-1} autoComplete="off" /></div>
 
                   <AnimatePresence>
                     {submitted && (
@@ -116,8 +152,16 @@ export function Careers() {
                     )}
                   </AnimatePresence>
 
-                  <button type="submit" className="w-full py-3.5 text-sm font-bold text-white transition-all hover:brightness-110 active:scale-[0.98]" style={{ background: NAVY, borderRadius: "4px" }}>
-                    Submit Application
+                  <AnimatePresence>
+                    {error && (
+                      <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mb-4 px-4 py-3 text-sm font-medium" style={{ background: "rgba(220,38,38,0.08)", color: "#dc2626", border: "1px solid rgba(220,38,38,0.2)", borderRadius: "4px" }}>
+                        {error}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  <button type="submit" disabled={submitting} className="w-full py-3.5 text-sm font-bold text-white transition-all hover:brightness-110 active:scale-[0.98] disabled:opacity-60" style={{ background: NAVY, borderRadius: "4px" }}>
+                    {submitting ? "Sending…" : "Submit Application"}
                   </button>
                   <p className="text-center text-xs mt-3" style={{ color: "rgba(15,42,74,0.4)" }}>
                     Or email your resume to{" "}
