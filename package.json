@@ -5,7 +5,10 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "dev": "vite"
+    "dev": "vite",
+    "bench:generate": "node benchmark/generate.mjs",
+    "bench:run": "node benchmark/run.mjs",
+    "bench:evaluate": "node benchmark/evaluate.mjs"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
@@ -66,6 +69,9 @@
   },
   "devDependencies": {
     "@tailwindcss/vite": "4.1.12",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vercel/node": "^5.8.22",
     "@vitejs/plugin-react": "4.7.0",
     "tailwindcss": "4.1.12",
     "vite": "6.3.5"

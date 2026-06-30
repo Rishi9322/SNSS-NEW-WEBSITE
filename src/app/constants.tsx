@@ -1,6 +1,8 @@
 export const NAVY = "#0F2A4A";
 export const AMBER = "#E8871A";
 
+export const WA_PATH = "M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z";
+
 export const REGISTRATIONS = [
   { label: "CIN", value: "U74999MH2019PTC323363" },
   { label: "GST", value: "27ABBCS8372G1Z2" },
@@ -46,6 +48,7 @@ export interface Service {
   icon: React.ReactNode;
   desc: string;
   industries: string;
+  outcome: string;
   h1: string;
   subhead: string;
   whatIncluded: string[];
@@ -67,6 +70,7 @@ export const SERVICES: Service[] = [
     ),
     desc: "Trained, uniformed housekeeping staff for corporate offices, commercial spaces, and institutions. Daily cleaning, deep cleaning, and specialised sanitation.",
     industries: "Offices · Malls · Hospitals · Schools",
+    outcome: "Your space stays clean. Your team never notices staff gaps.",
     h1: "Professional Housekeeping & Janitorial Services",
     subhead: "ISO-certified housekeeping. 700+ trained, EPFO/ESIC-compliant staff across Mumbai, Pune and 7+ states.",
     whatIncluded: [
@@ -102,6 +106,7 @@ export const SERVICES: Service[] = [
     ),
     desc: "Courteous, well-groomed pantry attendants and cafeteria staff. Tea/coffee service, pantry upkeep, and cafeteria operations managed end-to-end.",
     industries: "Corporate Offices · Call Centres · Hospitals",
+    outcome: "Guests and employees are served well. You don't think about it.",
     h1: "Pantry Management & Cafeteria Staffing Services",
     subhead: "Professional pantry staff outsourcing for corporate offices across Mumbai, Pune, Ahmedabad and Bhopal.",
     whatIncluded: [
@@ -131,6 +136,7 @@ export const SERVICES: Service[] = [
     ),
     desc: "Certified electricians and skilled plumbers for installation, preventive maintenance, and emergency repair of all facility systems.",
     industries: "Offices · Factories · Warehouses · Malls",
+    outcome: "Breakdowns get fixed before they become complaints.",
     h1: "Electrical, Plumbing & Technical Maintenance Services",
     subhead: "Certified technical staff for installation, preventive maintenance, and emergency repair across commercial facilities.",
     whatIncluded: [
@@ -162,6 +168,7 @@ export const SERVICES: Service[] = [
     ),
     desc: "Accurate data entry operators and back-office support staff. Documentation, record-keeping, and administrative support for corporate clients.",
     industries: "Finance · Healthcare · Government Bodies",
+    outcome: "Backlogs clear. Records stay accurate. Audits don't surprise you.",
     h1: "Data Entry & Office Support Staffing",
     subhead: "Accurate, compliant data entry operators for corporate back-office, documentation, and records management.",
     whatIncluded: [
@@ -192,6 +199,7 @@ export const SERVICES: Service[] = [
     ),
     desc: "End-to-end payroll processing with EPFO, ESIC, Professional Tax, and MLWF compliance. Salary credited by the 7th of every month. Zero liability for clients.",
     industries: "All Sectors · Contract Labour",
+    outcome: "Staff paid on time, every month. Zero compliance exposure for you.",
     h1: "Payroll Management & Labour Compliance Services",
     subhead: "Full-service payroll outsourcing with PF, ESIC, PT, and MLWF compliance. Salary by the 7th. Zero client liability.",
     whatIncluded: [
@@ -225,6 +233,7 @@ export const SERVICES: Service[] = [
     ),
     desc: "Background-verified drivers for corporate fleets, security personnel, and flexible contract labour for operational scaling needs.",
     industries: "Corporate · Logistics · Manufacturing",
+    outcome: "Verified people, on site when you need them — not when it's convenient.",
     h1: "Facility Staffing: Drivers, Security & Contract Labour",
     subhead: "Background-verified, licensed drivers and security staff for corporate clients across Mumbai, Pune, Ahmedabad and Bhopal.",
     whatIncluded: [
@@ -293,30 +302,76 @@ export const INDUSTRIES_SERVED = [
 
 export const TESTIMONIALS = [
   {
-    quote: "SNSS has managed our 800-seat office housekeeping for over three years. Their staff consistency and responsiveness to escalations is genuinely better than anything we experienced before. One call to our account manager and it's done.",
+    quote: "We've had SNSS managing our 800-seat office for three years. In that time I've escalated maybe four times — and each time it was resolved before I had to follow up. That's the actual metric that matters.",
     author: "Rajesh Kulkarni",
     role: "Facility Manager",
-    company: "Leading IT Services Firm, Pune",
+    company: "IT Services Firm, Pune",
+    tenure: "3 years",
   },
   {
-    quote: "Switching to SNSS as our IFM vendor simplified everything — one vendor, one invoice, one accountability. Compliance documentation is always ready when our auditors ask for it. That peace of mind is worth more than any savings.",
+    quote: "Our auditors asked for compliance documentation mid-review, no notice. I forwarded to my SNSS account manager and had everything in 20 minutes. That's not something you get from a typical vendor.",
     author: "Priya Sharma",
     role: "Head of Administration",
     company: "NBFC, Mumbai",
+    tenure: "2+ years",
   },
   {
-    quote: "We needed trained drivers on short notice for our executive fleet expansion. SNSS arranged verified, licensed drivers within 48 hours. Background checks, appointment letters, uniforms — all handled before day one.",
+    quote: "We needed four verified drivers for an executive fleet expansion in under 48 hours. Background checks, appointment letters, uniforms — SNSS had people on site before we'd even sorted the access cards.",
     author: "Anil Desai",
     role: "Corporate Services Manager",
     company: "Pharmaceutical Company, Ahmedabad",
+    tenure: "1.5 years",
   },
 ];
 
-export const CLIENT_LOGOS = [
-  { name: "Client A", letters: "CA" },
-  { name: "Client B", letters: "CB" },
-  { name: "Client C", letters: "CC" },
-  { name: "Client D", letters: "CD" },
-  { name: "Client E", letters: "CE" },
-  { name: "Client F", letters: "CF" },
+
+/* ============================================================
+   LABOUR LAW ASSIST CONSTANTS (MVP)
+   ============================================================ */
+
+export const LABOUR_ASSIST_DISCLAIMER = 
+  "This is an AI-powered informational tool only. It is not legal advice. Labour laws change frequently and vary by state. Always verify with official notifications and consult a qualified labour lawyer or consultant for your specific situation.";
+
+export const LABOUR_ASSIST_SHORT_DISCLAIMER =
+  "Not legal advice. For informational purposes only. Consult a qualified lawyer for your case.";
+
+export const DEFAULT_PROFILE = {
+  name: "",
+  role: "employee" as "employee" | "employer",
+  state: "Maharashtra",
+  sector: "",
+};
+
+export const COMMON_STATES = [
+  "Maharashtra",
+  "Delhi",
+  "Karnataka",
+  "Tamil Nadu",
+  "Gujarat",
+  "Uttar Pradesh",
+  "West Bengal",
+  "Telangana",
+  "Andhra Pradesh",
+  "Rajasthan",
+  "Haryana",
+  "Punjab",
+  "Madhya Pradesh",
+  "Kerala",
+  "Other",
 ];
+
+export const ISSUE_QUICKSTARTS = [
+  "Termination / retrenchment rights",
+  "Salary not paid on time",
+  "PF withdrawal or transfer",
+  "Maternity leave entitlement",
+  "Sexual harassment at workplace (POSH)",
+  "Overtime / working hours rules",
+  "Gratuity eligibility after resignation",
+  "Contract labour compliance",
+  "Leave policy (earned/casual/sick)",
+  "Minimum wages in my state",
+];
+
+export const ESCALATION_MESSAGE =
+  "Your situation involves potential litigation, termination disputes, or POSH issues. This tool cannot represent you or draft documents. Please consult a qualified labour lawyer or reach out to SNSS for compliance support.";

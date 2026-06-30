@@ -1,10 +1,14 @@
-import { useEffect } from "react";
 import { Link } from "react-router";
 import { FadeIn } from "../components/FadeIn";
 import { NAVY, AMBER, SERVICES } from "../constants";
+import { useSEO } from "../hooks/useSEO";
 
 export function Services() {
-  useEffect(() => { document.title = "Our Services | SNSS Global Services"; }, []);
+  useSEO({
+    title: "Facilities Management Services — Housekeeping, Pantry, Technical, Payroll & Staffing",
+    description: "SNSS offers six integrated facilities management services: housekeeping, pantry management, electrical & technical maintenance, data entry, payroll compliance, and contract staffing across India.",
+    path: "/services",
+  });
 
   return (
     <>
@@ -15,10 +19,10 @@ export function Services() {
             <span className="mx-2 opacity-30">/</span>Services
           </div>
           <h1 className="text-white mb-5" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-0.025em" }}>
-            Six services.<br />One accountable partner.
+            Six services.<br />Zero coordination overhead.
           </h1>
           <p className="max-w-2xl text-sm" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.8 }}>
-            Integration is the expertise. A facility manager can call us for any staffing or maintenance problem — one contract, one SLA, one account manager. That is worth more than three best-in-class specialists you coordinate individually.
+            Most facilities teams manage three to five vendors for the same building. SNSS consolidates all of it — housekeeping, pantry, technical, payroll, staffing — under a single contract and a single point of accountability. That is the actual value: not any individual service, but the fact that you stop chasing vendors.
           </p>
         </div>
       </div>

@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { FadeIn } from "../components/FadeIn";
 import { NAVY, AMBER, REGISTRATIONS, LABOUR_COMPLIANCE, GEM_CONTRACTS, ISO_CERTS } from "../constants";
+import { useSEO } from "../hooks/useSEO";
 
 type Tab = "registrations" | "labour" | "iso" | "gem" | "financial";
 
@@ -33,7 +34,11 @@ function RegTable({ rows }: { rows: { label: string; value: string }[] }) {
 export function Compliance() {
   const [activeTab, setActiveTab] = useState<Tab>("registrations");
 
-  useEffect(() => { document.title = "Compliance Resource Centre | SNSS Global Services"; }, []);
+  useSEO({
+    title: "Compliance Resource Centre — ISO Certs, GeM Contracts & Registrations",
+    description: "View SNSS Global Services' full compliance credentials: ISO 9001/14001/45001/27001 certifications, EPFO/ESIC registrations, GeM contract history, GST, MSME Udyam, and DIPP Startup India.",
+    path: "/compliance",
+  });
 
   return (
     <>

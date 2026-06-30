@@ -1,0 +1,22 @@
+{
+  "summary": {
+    "generatedAt": "2026-06-29T13:04:47.162Z",
+    "totalCases": 2,
+    "averageOverall": 79,
+    "medianOverall": 79,
+    "bestModel": "smoke-model"
+  },
+  "leaderboard": [
+    {
+      "model": "smoke-model",
+      "cases": 2,
+      "averageOverall": 79,
+      "averageAccuracy": 100,
+      "averageReasoning": 0,
+      "averageHallucination": 100,
+      "averageCitationAccuracy": 0,
+      "averageLatency": 100,
+      "p95Latency": 1234
+    }
+  ]
+}

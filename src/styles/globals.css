@@ -1,0 +1,15 @@
+/* Global focus ring — visible on keyboard nav, hidden on mouse */
+:focus-visible {
+  outline: 2px solid #E8871A;
+  outline-offset: 2px;
+}
+
+/* Suppress default blue outline everywhere (we handle it above) */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}

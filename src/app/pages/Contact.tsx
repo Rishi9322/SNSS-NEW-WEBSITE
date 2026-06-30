@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router";
+import { useSEO } from "../hooks/useSEO";
 import { AnimatePresence, motion } from "motion/react";
 import { FadeIn } from "../components/FadeIn";
 import { NAVY, AMBER, SERVICES } from "../constants";
@@ -63,10 +64,13 @@ export function Contact() {
   const [error, setError] = useState("");
   const [activeCity, setActiveCity] = useState(0);
 
-  useEffect(() => {
-    document.title = "Contact & Get a Quote | SNSS Global Services";
-    setSelectedService(preselected);
-  }, [preselected]);
+  useSEO({
+    title: "Contact SNSS Global Services — Get a Free Quote",
+    description: "Contact SNSS Global Services for a free quote on housekeeping, pantry, technical maintenance, payroll, or staffing. Offices in Mumbai, Pune, Ahmedabad, and Bhopal. Response within 4 business hours.",
+    path: "/contact",
+  });
+
+  useEffect(() => { setSelectedService(preselected); }, [preselected]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -134,7 +138,7 @@ export function Contact() {
             {/* Form */}
             <div className="lg:col-span-3">
               <FadeIn>
-                <form onSubmit={handleSubmit} className="p-8" style={{ border: "1px solid rgba(15,42,74,0.1)", borderRadius: "4px" }}>
+                <form onSubmit={handleSubmit} className="p-8" style={{ border: "1px solid rgba(15,42,74,0.1)", borderRadius: "4px" }} aria-label="Enquiry form" noValidate>
                   <div className="grid sm:grid-cols-2 gap-4 mb-4">
                     {[
                       { name: "fullName", label: "Full Name", type: "text", placeholder: "Rajesh Kumar", required: true },
@@ -143,8 +147,8 @@ export function Contact() {
                       { name: "phone", label: "Phone Number", type: "tel", placeholder: "+91 98000 00000", required: true },
                     ].map((f) => (
                       <div key={f.name}>
-                        <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: NAVY }}>{f.label}{f.required && " *"}</label>
-                        <input name={f.name} type={f.type} required={f.required} placeholder={f.placeholder} className="w-full px-4 py-3 border text-sm focus:outline-none" style={inputStyle} />
+                        <label htmlFor={`field-${f.name}`} className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: NAVY }}>{f.label}{f.required && <span aria-hidden="true"> *</span>}{f.required && <span className="sr-only"> (required)</span>}</label>
+                        <input id={`field-${f.name}`} name={f.name} type={f.type} required={f.required} placeholder={f.placeholder} aria-required={f.required ? "true" : "false"} className="w-full px-4 py-3 border text-sm focus:outline-none" style={inputStyle} />
                       </div>
                     ))}
                     <div>
@@ -181,7 +185,7 @@ export function Contact() {
 
                   <AnimatePresence>
                     {submitted && (
-                      <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mb-4 px-4 py-3 text-sm font-medium" style={{ background: "rgba(34,197,94,0.08)", color: "#16a34a", border: "1px solid rgba(34,197,94,0.2)", borderRadius: "4px" }}>
+                      <motion.div role="alert" aria-live="polite" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mb-4 px-4 py-3 text-sm font-medium" style={{ background: "rgba(34,197,94,0.08)", color: "#16a34a", border: "1px solid rgba(34,197,94,0.2)", borderRadius: "4px" }}>
                         ✓ Enquiry received. We'll respond within 4 business hours.
                       </motion.div>
                     )}
@@ -189,7 +193,7 @@ export function Contact() {
 
                   <AnimatePresence>
                     {error && (
-                      <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mb-4 px-4 py-3 text-sm font-medium" style={{ background: "rgba(220,38,38,0.08)", color: "#dc2626", border: "1px solid rgba(220,38,38,0.2)", borderRadius: "4px" }}>
+                      <motion.div role="alert" aria-live="assertive" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mb-4 px-4 py-3 text-sm font-medium" style={{ background: "rgba(220,38,38,0.08)", color: "#dc2626", border: "1px solid rgba(220,38,38,0.2)", borderRadius: "4px" }}>
                         {error}
                       </motion.div>
                     )}

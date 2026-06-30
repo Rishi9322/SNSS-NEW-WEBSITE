@@ -1,9 +1,9 @@
-import { useEffect } from "react";
 import { Link } from "react-router";
 import { NAVY, AMBER } from "../constants";
+import { useSEO } from "../hooks/useSEO";
 
 export function Privacy() {
-  useEffect(() => { document.title = "Privacy Policy | SNSS Global Services"; }, []);
+  useSEO({ title: "Privacy Policy | SNSS Global Services", description: "Privacy policy for SNSS Global Services Pvt. Ltd.", path: "/privacy" });
   return (
     <>
       <div className="py-14" style={{ background: NAVY }}>

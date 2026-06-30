@@ -1,0 +1,3 @@
+id,category,model,accuracy,reasoning,instructionFollowing,hallucination,citationAccuracy,toolUse,planning,creativity,memory,consistency,latency,costEfficiency,safety,honesty,overall,latencyMs,promptTokens,completionTokens,totalTokens
+labour-law-001,Labour Law,smoke-model,100,0,100,100,0,100,100,100,100,100,100,100,100,70,79,1234,100,50,150
+labour-law-002,Labour Law,smoke-model,100,0,100,100,0,100,100,97,100,100,100,100,100,70,79,1234,100,50,150

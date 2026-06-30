@@ -27,13 +27,17 @@ pnpm build    # production build to dist/
 
 ### Environment variables
 
-Copy `.env.example` to `.env` and fill in your own [Web3Forms](https://web3forms.com) access key (free, no account required — just enter an email to get a key):
+Copy `.env.example` to `.env` and fill in the keys you need:
 
 ```
 VITE_WEB3FORMS_ACCESS_KEY=your-web3forms-access-key
+# Optional: for Labour Law Assist AI responses (MVP falls back to grounded mock responses)
+VITE_LLM_API_KEY=your-xai-or-openai-key
 ```
 
-The contact form on `/contact` posts directly to Web3Forms' API from the browser — there's no server-side code involved, so this is the only setup step needed for enquiries to start arriving by email.
+- Web3Forms is required for the contact form.
+- `VITE_LLM_API_KEY` enables real LLM-powered answers in Labour Law Assist. Without it the feature still works using the curated dataset + deterministic grounded responses.
+- Never commit real keys. The `.env` file is gitignored.
 
 ## Project structure
 
@@ -74,7 +78,29 @@ src/
 | `/contact` | Contact & quote request |
 | `/privacy` | Privacy Policy |
 | `/terms` | Terms of Service |
+| `/assist` | Labour Law Assist (AI chatbot for Indian labour law) |
 | `*` | 404 |
+
+## Labour Law Assist (AI Chatbot)
+
+**Integrated feature** (MVP) added to the site at `/assist`.
+
+- **Purpose**: Situation-specific answers to Indian labour law questions (wages, termination, leave, PF/ESI, POSH, etc.) grounded in a curated dataset.
+- **Key requirements met**: Personalization via profile (state, role, sector), clarifying questions, structured responses with citations, strict guardrails (no drafting, escalate for litigation/POSH/termination, no false certainty).
+- **Tech (MVP)**: Client-side only. Curated JSON dataset + simple retrieval. Optional LLM API (xAI/OpenAI) via `VITE_LLM_API_KEY`. Chat history & profile stored in localStorage.
+- **Design**: Fully integrated — uses existing NAVY/AMBER palette, shadcn/ui components, Layout, motion, and typography.
+- **Access**: 
+  - Direct: `/#/assist`
+  - Floating "Ask AI" button appears on all pages (bottom-right, next to WhatsApp).
+  - Navigation link in header (after Compliance).
+
+**Disclaimers**: Every response and the page itself carry clear "This is not legal advice" language. Users are directed to consult qualified lawyers for their situations. Dataset last updated June 2026 (manual curation).
+
+**Development notes**:
+- Full implementation plan and decisions: `.kilo/plans/labour-law-assist-mvp.md`
+- Dataset lives at `src/data/labour-law-dataset.json`
+- To enable real LLM responses: add key to `.env` (see below). MVP works with mock/grounded responses even without key.
+- Future phases (documented in plan): real auth, vector DB (Supabase), admin dataset tools, Next.js migration.
 
 ## Deployment
 

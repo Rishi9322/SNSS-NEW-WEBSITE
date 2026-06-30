@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Benchmark Report</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 24px; color: #12233d; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #d7dbe3; padding: 8px; text-align: left; font-size: 12px; vertical-align: top; }
+    th { background: #f4f6fa; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
+    .card { border: 1px solid #d7dbe3; border-radius: 8px; padding: 12px; background: white; }
+    .score { font-size: 26px; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <h1>Benchmark Report</h1>
+  <div class="grid">
+    <div class="card"><div>Cases</div><div class="score">2</div></div>
+    <div class="card"><div>Average Overall</div><div class="score">79</div></div>
+    <div class="card"><div>Median Overall</div><div class="score">79</div></div>
+    <div class="card"><div>Best Model</div><div class="score">smoke-model</div></div>
+  </div>
+  <table>
+    <thead><tr><th>ID</th><th>Category</th><th>Model</th><th>Overall</th><th>Accuracy</th><th>Reasoning</th><th>Hallucination</th><th>Citations</th><th>Latency</th></tr></thead>
+    <tbody><tr><td>labour-law-001</td><td>Labour Law</td><td>smoke-model</td><td>79</td><td>100</td><td>0</td><td>100</td><td>0</td><td>100</td></tr><tr><td>labour-law-002</td><td>Labour Law</td><td>smoke-model</td><td>79</td><td>100</td><td>0</td><td>100</td><td>0</td><td>100</td></tr></tbody>
+  </table>
+</body>
+</html>

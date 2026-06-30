@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { NAVY, AMBER, SERVICES } from "../constants";
@@ -16,9 +16,16 @@ export function Layout() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [fabOpen, setFabOpen] = useState(false);
+  const fabRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
-  useEffect(() => { setMenuOpen(false); setServicesOpen(false); window.scrollTo(0, 0); }, [location.pathname]);
+  useEffect(() => { setMenuOpen(false); setServicesOpen(false); setFabOpen(false); window.scrollTo(0, 0); }, [location.pathname]);
+  useEffect(() => {
+    const handler = (e: MouseEvent) => { if (fabRef.current && !fabRef.current.contains(e.target as Node)) setFabOpen(false); };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", fn);
@@ -28,13 +35,15 @@ export function Layout() {
   return (
     <div className="min-h-screen flex flex-col" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: NAVY }}>
 
+      {/* Skip navigation — screen readers + keyboard users */}
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:rounded" style={{ background: AMBER, color: "#fff" }}>
+        Skip to main content
+      </a>
+
       {/* Top bar */}
-      <div className="hidden lg:flex items-center justify-between px-8 py-2 text-xs" style={{ background: "#08192e", color: "rgba(255,255,255,0.45)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-        <span>ISO Certified · Est. 1999 · MSME Udyam · Startup India DIPP115148</span>
-        <div className="flex items-center gap-6">
-          <a href="mailto:INFO@SNSSGROUP.COM" className="hover:text-white transition-colors">INFO@SNSSGROUP.COM</a>
-          <a href="https://wa.me/918655362161" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">+91 86553 62161</a>
-        </div>
+      <div className="hidden lg:flex items-center justify-end px-8 py-2 text-xs gap-6" style={{ background: "#08192e", color: "rgba(255,255,255,0.45)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+        <a href="mailto:info@snssgroup.com" className="hover:text-white transition-colors">info@snssgroup.com</a>
+        <a href="https://wa.me/918655362161" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">+91 86553 62161</a>
       </div>
 
       {/* Header */}
@@ -48,8 +57,20 @@ export function Layout() {
           {/* Desktop nav */}
           <nav className="hidden lg:flex items-center gap-0.5">
             {/* Services dropdown */}
-            <div className="relative" onMouseEnter={() => setServicesOpen(true)} onMouseLeave={() => setServicesOpen(false)}>
-              <Link to="/services" className="flex items-center gap-1 text-sm px-3 py-2 rounded transition-colors" style={{ color: location.pathname.startsWith("/services") ? "#fff" : "rgba(255,255,255,0.6)" }}>
+            <div
+              className="relative"
+              onMouseEnter={() => setServicesOpen(true)}
+              onMouseLeave={() => setServicesOpen(false)}
+              onFocus={() => setServicesOpen(true)}
+              onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setServicesOpen(false); }}
+            >
+              <Link
+                to="/services"
+                aria-haspopup="true"
+                aria-expanded={servicesOpen}
+                className="flex items-center gap-1 text-sm px-3 py-2 rounded transition-colors focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-1 focus-visible:outline-none"
+                style={{ color: location.pathname.startsWith("/services") ? "#fff" : "rgba(255,255,255,0.6)" }}
+              >
                 Services
                 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth={2} className={`w-3 h-3 transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`}><path d="M2 4l4 4 4-4" /></svg>
               </Link>
@@ -59,7 +80,7 @@ export function Layout() {
                     className="absolute top-full left-0 pt-1.5 z-50 w-60">
                     <div className="overflow-hidden" style={{ background: "#fff", border: "1px solid rgba(15,42,74,0.12)", borderRadius: "6px", boxShadow: "0 8px 24px rgba(0,0,0,0.12)" }}>
                       {SERVICES.map((s) => (
-                        <Link key={s.slug} to={`/services/${s.slug}`} className="block px-4 py-2.5 text-sm transition-colors hover:bg-slate-50 border-b last:border-0" style={{ borderColor: "rgba(15,42,74,0.06)", color: NAVY }}>
+                        <Link key={s.slug} to={`/services/${s.slug}`} className="block px-4 py-2.5 text-sm transition-colors hover:bg-slate-50 border-b last:border-0 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-amber-400 focus-visible:outline-none" style={{ borderColor: "rgba(15,42,74,0.06)", color: NAVY }}>
                           {s.title}
                         </Link>
                       ))}
@@ -80,7 +101,7 @@ export function Layout() {
           </nav>
 
           {/* Mobile hamburger */}
-          <button className="lg:hidden text-white p-2" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
+          <button type="button" className="lg:hidden text-white p-2" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu" >
             <div className="w-5 flex flex-col gap-1.5">
               <span className={`h-0.5 bg-white rounded-full transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
               <span className={`h-0.5 bg-white rounded-full transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
@@ -94,10 +115,25 @@ export function Layout() {
             <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }}
               className="lg:hidden overflow-hidden" style={{ background: "#08192e", borderTop: "1px solid rgba(255,255,255,0.07)" }}>
               <div className="px-5 py-4 flex flex-col">
-                <Link to="/services" className="text-white/70 hover:text-white text-sm py-3 border-b border-white/5">Services</Link>
-                {SERVICES.map((s) => (
-                  <Link key={s.slug} to={`/services/${s.slug}`} className="pl-4 py-2.5 text-xs border-b border-white/5 last:border-0" style={{ color: "rgba(255,255,255,0.45)" }}>{s.title}</Link>
-                ))}
+                {/* Services accordion */}
+                <button
+                  type="button"
+                  onClick={() => setServicesOpen(!servicesOpen)}
+                  className="flex items-center justify-between text-white/70 hover:text-white text-sm py-3 border-b border-white/5 w-full text-left"
+                >
+                  Services
+                  <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth={2} className={`w-3 h-3 transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`}><path d="M2 4l4 4 4-4" /></svg>
+                </button>
+                <AnimatePresence>
+                  {servicesOpen && (
+                    <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.15 }} className="overflow-hidden">
+                      <Link to="/services" className="block pl-4 py-2.5 text-xs border-b border-white/5 font-medium" style={{ color: "rgba(255,255,255,0.6)" }}>All Services</Link>
+                      {SERVICES.map((s) => (
+                        <Link key={s.slug} to={`/services/${s.slug}`} className="block pl-4 py-2.5 text-xs border-b border-white/5 last:border-0" style={{ color: "rgba(255,255,255,0.45)" }}>{s.title}</Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
                 {NAV.filter(l => l.label !== "Services").map((l) => (
                   <Link key={l.to} to={l.to} className="text-white/70 hover:text-white text-sm py-3 border-b border-white/5">{l.label}</Link>
                 ))}
@@ -108,7 +144,7 @@ export function Layout() {
         </AnimatePresence>
       </header>
 
-      <main className="flex-1"><Outlet /></main>
+      <main id="main-content" className="flex-1"><Outlet /></main>
 
       {/* Footer */}
       <footer style={{ background: NAVY, borderTop: "1px solid rgba(255,255,255,0.07)" }} className="pt-16 pb-10">
@@ -166,7 +202,7 @@ export function Layout() {
                 </li>
                 <li>
                   <div className="text-[10px] uppercase tracking-widest mb-1.5" style={{ color: "rgba(255,255,255,0.25)" }}>Email</div>
-                  <a href="mailto:INFO@SNSSGROUP.COM" className="text-sm transition-colors" style={{ color: "rgba(255,255,255,0.5)" }}>INFO@SNSSGROUP.COM</a>
+                  <a href="mailto:info@snssgroup.com" className="text-sm transition-colors" style={{ color: "rgba(255,255,255,0.5)" }}>info@snssgroup.com</a>
                 </li>
                 <li>
                   <div className="text-[10px] uppercase tracking-widest mb-1.5" style={{ color: "rgba(255,255,255,0.25)" }}>WhatsApp</div>
@@ -188,14 +224,42 @@ export function Layout() {
         </div>
       </footer>
 
-      {/* Floating WhatsApp */}
-      <a href="https://wa.me/918655362161" target="_blank" rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-50 w-13 h-13 rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-95"
-        style={{ width: 52, height: 52, background: "#25D366", boxShadow: "0 4px 20px rgba(37,211,102,0.4)" }} aria-label="Chat on WhatsApp">
-        <svg viewBox="0 0 24 24" fill="white" className="w-6 h-6">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-        </svg>
-      </a>
+      {/* Expandable FAB — single entry point for contact actions */}
+      <div ref={fabRef} className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+        {/* Action items — shown when open */}
+        {fabOpen && (
+          <>
+            <Link to="/assist"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold text-white shadow-lg transition-all hover:scale-105 active:scale-95 animate-fadeInUp"
+              style={{ background: AMBER, boxShadow: "0 4px 16px rgba(232,135,26,0.4)", whiteSpace: "nowrap" }}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} className="w-4 h-4">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+              Ask Labour Law AI
+            </Link>
+            <a href="https://wa.me/918655362161" target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold text-white shadow-lg transition-all hover:scale-105 active:scale-95"
+              style={{ background: "#25D366", boxShadow: "0 4px 16px rgba(37,211,102,0.4)", whiteSpace: "nowrap" }}>
+              <svg viewBox="0 0 24 24" fill="white" className="w-4 h-4">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+              </svg>
+              WhatsApp Us
+            </a>
+          </>
+        )}
+        {/* Main toggle button */}
+        <button
+          type="button"
+          onClick={() => setFabOpen(o => !o)}
+          aria-label="Contact options"
+          className="w-14 h-14 rounded-full flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-lg"
+          style={{ background: NAVY, boxShadow: "0 4px 20px rgba(15,42,74,0.4)" }}>
+          {fabOpen
+            ? <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2.5} className="w-5 h-5"><path d="M18 6L6 18M6 6l12 12" /></svg>
+            : <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2} className="w-5 h-5"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+          }
+        </button>
+      </div>
     </div>
   );
 }

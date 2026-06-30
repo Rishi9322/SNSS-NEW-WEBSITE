@@ -1,10 +1,14 @@
-import { useEffect } from "react";
 import { Link } from "react-router";
 import { FadeIn } from "../components/FadeIn";
 import { NAVY, AMBER, TIMELINE, INDUSTRIES_SERVED, TESTIMONIALS } from "../constants";
+import { useSEO } from "../hooks/useSEO";
 
 export function About() {
-  useEffect(() => { document.title = "About Us | SNSS Global Services"; }, []);
+  useSEO({
+    title: "About SNSS Global Services — 25 Years of Facilities Management in India",
+    description: "Founded in Mumbai in 1999, SNSS Global Services is an ISO-certified integrated facilities management company serving corporate, government, and institutional clients across 7+ states.",
+    path: "/about",
+  });
 
   return (
     <>
@@ -15,6 +19,9 @@ export function About() {
           alt="SNSS corporate facilities management operations"
           className="absolute inset-0 w-full h-full object-cover opacity-20"
           style={{ mixBlendMode: "luminosity" }}
+          width={1400}
+          height={600}
+          loading="lazy"
         />
         <div className="relative max-w-7xl mx-auto px-5 lg:px-8">
           <div className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER }}>

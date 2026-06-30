@@ -1,0 +1,76 @@
+{
+  "summary": {
+    "generatedAt": "2026-06-29T13:04:47.162Z",
+    "totalCases": 2,
+    "averageOverall": 79,
+    "medianOverall": 79,
+    "bestModel": "smoke-model"
+  },
+  "leaderboard": [
+    {
+      "model": "smoke-model",
+      "cases": 2,
+      "averageOverall": 79,
+      "averageAccuracy": 100,
+      "averageReasoning": 0,
+      "averageHallucination": 100,
+      "averageCitationAccuracy": 0,
+      "averageLatency": 100,
+      "p95Latency": 1234
+    }
+  ],
+  "cases": [
+    {
+      "id": "labour-law-001",
+      "category": "Labour Law",
+      "model": "smoke-model",
+      "accuracy": 100,
+      "reasoning": 0,
+      "instructionFollowing": 100,
+      "hallucination": 100,
+      "citationAccuracy": 0,
+      "toolUse": 100,
+      "planning": 100,
+      "creativity": 100,
+      "memory": 100,
+      "consistency": 100,
+      "latency": 100,
+      "costEfficiency": 100,
+      "safety": 100,
+      "honesty": 70,
+      "overall": 79,
+      "hallucinationFlags": [],
+      "latencyMs": 1234,
+      "promptTokens": 100,
+      "completionTokens": 50,
+      "totalTokens": 150,
+      "response": "Explain whether notice pay or retrenchment compensation may be due, depending on workman status and contract terms."
+    },
+    {
+      "id": "labour-law-002",
+      "category": "Labour Law",
+      "model": "smoke-model",
+      "accuracy": 100,
+      "reasoning": 0,
+      "instructionFollowing": 100,
+      "hallucination": 100,
+      "citationAccuracy": 0,
+      "toolUse": 100,
+      "planning": 100,
+      "creativity": 97,
+      "memory": 100,
+      "consistency": 100,
+      "latency": 100,
+      "costEfficiency": 100,
+      "safety": 100,
+      "honesty": 70,
+      "overall": 79,
+      "hallucinationFlags": [],
+      "latencyMs": 1234,
+      "promptTokens": 100,
+      "completionTokens": 50,
+      "totalTokens": 150,
+      "response": "State that unpaid wages should be documented and pursued through payroll, HR, and the labour authority if needed."
+    }
+  ]
+}

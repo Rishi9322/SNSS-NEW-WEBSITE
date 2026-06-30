@@ -2,14 +2,53 @@ import { useEffect } from "react";
 import { Link, useParams } from "react-router";
 import { FadeIn } from "../components/FadeIn";
 import { NAVY, AMBER, SERVICES } from "../constants";
+import { useSEO } from "../hooks/useSEO";
 
+const BASE = "https://www.snssgroup.com";
 
 export function ServiceDetail() {
   const { slug } = useParams<{ slug: string }>();
   const svc = SERVICES.find((s) => s.slug === slug);
   const related = SERVICES.filter((s) => svc?.relatedSlugs.includes(s.slug));
 
-  useEffect(() => { if (svc) document.title = `${svc.title} | SNSS Global Services`; }, [svc]);
+  useSEO({
+    title: svc ? `${svc.title} | SNSS Global Services` : "Service | SNSS Global Services",
+    description: svc ? svc.subhead : "Integrated facilities management services for corporate India.",
+    path: svc ? `/services/${svc.slug}` : "/services",
+  });
+
+  useEffect(() => {
+    if (!svc) return;
+    const id = "service-detail-schema";
+    document.getElementById(id)?.remove();
+    const el = document.createElement("script");
+    el.id = id;
+    el.type = "application/ld+json";
+    el.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": BASE + "/" },
+            { "@type": "ListItem", "position": 2, "name": "Services", "item": BASE + "/services" },
+            { "@type": "ListItem", "position": 3, "name": svc.title, "item": `${BASE}/services/${svc.slug}` },
+          ],
+        },
+        {
+          "@type": "Service",
+          "@id": `${BASE}/services/${svc.slug}#service`,
+          "name": svc.title,
+          "description": svc.subhead,
+          "provider": { "@type": "Organization", "@id": BASE + "/#organization" },
+          "serviceType": svc.title,
+          "areaServed": ["Mumbai", "Pune", "Ahmedabad", "Bhopal"],
+        },
+      ],
+    });
+    document.head.appendChild(el);
+    return () => { document.getElementById(id)?.remove(); };
+  }, [svc]);
 
   if (!svc) {
     return (

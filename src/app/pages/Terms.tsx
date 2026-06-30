@@ -1,9 +1,9 @@
-import { useEffect } from "react";
 import { Link } from "react-router";
 import { NAVY, AMBER } from "../constants";
+import { useSEO } from "../hooks/useSEO";
 
 export function Terms() {
-  useEffect(() => { document.title = "Terms of Service | SNSS Global Services"; }, []);
+  useSEO({ title: "Terms of Service | SNSS Global Services", description: "Terms of service for SNSS Global Services Pvt. Ltd.", path: "/terms" });
   return (
     <>
       <div className="py-14" style={{ background: NAVY }}>

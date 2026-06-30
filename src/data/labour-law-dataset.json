@@ -1,0 +1,359 @@
+{
+  "metadata": {
+    "last_updated": "2026-06-18",
+    "version": "1.0.0-mvp",
+    "source": "Curated from central labour acts, Labour Codes, and major state Shops & Establishments Acts. Implementation status as of June 2026. Always verify with latest central/state notifications.",
+    "disclaimer": "This is a curated knowledge base for informational use only. It is not legal advice. Labour law changes frequently at state level."
+  },
+  "entries": [
+    {
+      "id": "ida-1",
+      "act": "Industrial Disputes Act, 1947",
+      "section": "Section 2(oo) & Section 25F",
+      "title": "Definition of retrenchment and conditions precedent to retrenchment",
+      "summary": "Retrenchment means termination of service for any reason whatsoever, otherwise than as a punishment inflicted by way of disciplinary action. For workmen with 1+ year continuous service, employer must give 1 month notice or pay in lieu, and compensation of 15 days average pay for every completed year.",
+      "applicability": {
+        "states": ["All India (central act)"],
+        "employee_types": ["Workman"],
+        "company_size": "Any (special rules apply for establishments with 100+ workmen under Chapter VB in some states)"
+      },
+      "tags": ["termination", "retrenchment", "workman", "notice", "compensation"],
+      "last_updated": "2026-06-18",
+      "source": "Industrial Disputes Act, 1947"
+    },
+    {
+      "id": "ida-2",
+      "act": "Industrial Disputes Act, 1947",
+      "section": "Section 25G",
+      "title": "Procedure for retrenchment",
+      "summary": "The employer shall ordinarily retrench the workman who was the last person to be employed in that category. This is the 'last come first go' principle.",
+      "applicability": {
+        "states": ["All India (central act)"],
+        "employee_types": ["Workman"],
+        "company_size": "All"
+      },
+      "tags": ["termination", "retrenchment", "last come first go"],
+      "last_updated": "2026-06-18",
+      "source": "Industrial Disputes Act, 1947"
+    },
+    {
+      "id": "pow-1",
+      "act": "Payment of Wages Act, 1936",
+      "section": "Section 5",
+      "title": "Time of payment of wages",
+      "summary": "Wages must be paid before the expiry of the 7th day after the last day of the wage period. For establishments with 1000+ employees, before the 10th day.",
+      "applicability": {
+        "states": ["All India (central act)"],
+        "employee_types": ["All employees drawing wages below the ceiling (currently ₹24,000/month in most states)"],
+        "company_size": "All"
+      },
+      "tags": ["wages", "payment timeline", "salary delay"],
+      "last_updated": "2026-06-18",
+      "source": "Payment of Wages Act, 1936"
+    },
+    {
+      "id": "mw-1",
+      "act": "Minimum Wages Act, 1948",
+      "section": "Section 12",
+      "title": "Payment of minimum rates of wages",
+      "summary": "Employer shall pay to every employee engaged in a scheduled employment wages at a rate not less than the minimum rate of wages fixed by the appropriate government.",
+      "applicability": {
+        "states": ["All India (central act) - rates fixed by State Governments"],
+        "employee_types": ["Scheduled employments"],
+        "company_size": "All"
+      },
+      "tags": ["minimum wages", "wage rate"],
+      "last_updated": "2026-06-18",
+      "source": "Minimum Wages Act, 1948"
+    },
+    {
+      "id": "pba-1",
+      "act": "Payment of Bonus Act, 1965",
+      "section": "Section 10",
+      "title": "Payment of minimum bonus",
+      "summary": "Every employer shall pay to every employee a minimum bonus of 8.33% of the salary or wage earned by the employee during the accounting year or ₹100, whichever is higher.",
+      "applicability": {
+        "states": ["All India (central act)"],
+        "employee_types": ["Employees drawing salary up to ₹21,000 per month"],
+        "company_size": "Establishments employing 20 or more persons"
+      },
+      "tags": ["bonus", "minimum bonus"],
+      "last_updated": "2026-06-18",
+      "source": "Payment of Bonus Act, 1965"
+    },
+    {
+      "id": "pga-1",
+      "act": "Payment of Gratuity Act, 1972",
+      "section": "Section 4",
+      "title": "Payment of gratuity",
+      "summary": "Gratuity is payable to an employee on termination of employment after continuous service of 5 years. Rate is 15 days wages for every completed year of service. No minimum service required in case of death or disablement.",
+      "applicability": {
+        "states": ["All India (central act)"],
+        "employee_types": ["Employees (excluding apprentices)"],
+        "company_size": "Every shop or establishment employing 10 or more persons"
+      },
+      "tags": ["gratuity", "5 years service"],
+      "last_updated": "2026-06-18",
+      "source": "Payment of Gratuity Act, 1972"
+    },
+    {
+      "id": "epf-1",
+      "act": "Employees' Provident Funds and Miscellaneous Provisions Act, 1952",
+      "section": "Section 6",
+      "title": "Contributions",
+      "summary": "Employee contributes 12% of basic wages + DA + retaining allowance. Employer contributes 12% (3.67% to EPF + 8.33% to EPS).",
+      "applicability": {
+        "states": ["All India (central act)"],
+        "employee_types": ["Employees earning up to ₹15,000 per month (can be higher voluntarily)"],
+        "company_size": "20 or more employees (certain industries 50+)"
+      },
+      "tags": ["EPF", "PF", "provident fund", "12%"],
+      "last_updated": "2026-06-18",
+      "source": "EPF Act, 1952"
+    },
+    {
+      "id": "esi-1",
+      "act": "Employees' State Insurance Act, 1948",
+      "section": "Section 39",
+      "title": "Contributions",
+      "summary": "Employee contributes 0.75% of wages. Employer contributes 3.25% of wages. Covers medical benefit, sickness benefit, maternity benefit, disablement benefit, dependent benefit.",
+      "applicability": {
+        "states": ["All India (central act) - implemented in notified areas"],
+        "employee_types": ["Employees drawing wages up to ₹21,000 per month"],
+        "company_size": "10 or more employees (power-using) or 20+ (non-power)"
+      },
+      "tags": ["ESI", "ESIC", "medical", "0.75%", "3.25%"],
+      "last_updated": "2026-06-18",
+      "source": "ESI Act, 1948"
+    },
+    {
+      "id": "mba-1",
+      "act": "Maternity Benefit Act, 1961",
+      "section": "Section 5",
+      "title": "Right to payment of maternity benefit",
+      "summary": "Every woman is entitled to maternity benefit at the rate of the average daily wage for the period of her actual absence (maximum 26 weeks for first two children, 12 weeks for third and subsequent).",
+      "applicability": {
+        "states": ["All India (central act)"],
+        "employee_types": ["Women employees"],
+        "company_size": "10 or more employees"
+      },
+      "tags": ["maternity", "26 weeks", "maternity leave"],
+      "last_updated": "2026-06-18",
+      "source": "Maternity Benefit Act, 1961"
+    },
+    {
+      "id": "posh-1",
+      "act": "Sexual Harassment of Women at Workplace (Prevention, Prohibition and Redressal) Act, 2013",
+      "section": "Section 19",
+      "title": "Duties of employer",
+      "summary": "Every employer must provide a safe working environment, constitute Internal Complaints Committee (ICC) where 10+ employees, display penal consequences, organize workshops, assist in filing complaint with police if required.",
+      "applicability": {
+        "states": ["All India (central act)"],
+        "employee_types": ["Women employees (and men in some interpretations)"],
+        "company_size": "All workplaces (ICC mandatory for 10 or more employees)"
+      },
+      "tags": ["POSH", "sexual harassment", "ICC", "workplace safety"],
+      "last_updated": "2026-06-18",
+      "source": "POSH Act, 2013"
+    },
+    {
+      "id": "cla-1",
+      "act": "Contract Labour (Regulation and Abolition) Act, 1970",
+      "section": "Section 7",
+      "title": "Registration of establishments",
+      "summary": "Principal employer must register the establishment if employing 20 or more contract labourers. Contractor must obtain licence.",
+      "applicability": {
+        "states": ["All India (central act)"],
+        "employee_types": ["Contract labour"],
+        "company_size": "20 or more contract workers"
+      },
+      "tags": ["contract labour", "principal employer", "licence"],
+      "last_updated": "2026-06-18",
+      "source": "Contract Labour Act, 1970"
+    },
+    {
+      "id": "fa-1",
+      "act": "Factories Act, 1948",
+      "section": "Section 51",
+      "title": "Weekly hours",
+      "summary": "No adult worker shall be required or allowed to work in a factory for more than 48 hours in any week.",
+      "applicability": {
+        "states": ["All India (central act)"],
+        "employee_types": ["Workers in factories"],
+        "company_size": "10+ workers with power / 20+ without power"
+      },
+      "tags": ["working hours", "48 hours", "factory"],
+      "last_updated": "2026-06-18",
+      "source": "Factories Act, 1948"
+    },
+    {
+      "id": "code-wages-1",
+      "act": "Code on Wages, 2019",
+      "section": "Section 5 & 6 (notified variably)",
+      "title": "Minimum wages and floor wage",
+      "summary": "The Code subsumes Minimum Wages Act, Payment of Wages Act, Payment of Bonus Act and Equal Remuneration Act. Central government to fix national floor wage. States must fix minimum wages not less than floor wage. As of June 2026, full implementation status varies significantly by state.",
+      "applicability": {
+        "states": ["Implementation status varies by state — check latest notification"],
+        "employee_types": ["All employees"],
+        "company_size": "All"
+      },
+      "implementation_status": "Partially notified in several states. Many provisions still governed by old acts in states that have not fully implemented the Code.",
+      "tags": ["labour code", "code on wages", "minimum wage", "floor wage"],
+      "last_updated": "2026-06-18",
+      "source": "Code on Wages, 2019"
+    },
+    {
+      "id": "code-ir-1",
+      "act": "Industrial Relations Code, 2020",
+      "section": "Chapter on lay-off, retrenchment, closure",
+      "title": "Changes to termination rules for larger establishments",
+      "summary": "The Code raises the threshold for prior government permission for lay-off/retrenchment/closure from 100 to 300 workers in some cases. Standing orders now required for establishments with 300+ workers (earlier 100). Implementation status is uneven across states as of 2026.",
+      "applicability": {
+        "states": ["Implementation status varies — many states have not yet notified corresponding rules"],
+        "employee_types": ["Workmen / workers"],
+        "company_size": "Varies"
+      },
+      "implementation_status": "Not uniformly implemented. Several states continue to apply pre-existing thresholds under old laws.",
+      "tags": ["industrial relations code", "termination", "layoff", "retrenchment", "standing orders"],
+      "last_updated": "2026-06-18",
+      "source": "Industrial Relations Code, 2020"
+    },
+    {
+      "id": "code-ss-1",
+      "act": "Code on Social Security, 2020",
+      "section": "EPF, ESI, Gratuity provisions",
+      "title": "Unified social security framework",
+      "summary": "Subsumes EPF Act, ESI Act, Payment of Gratuity Act, Maternity Benefit Act, and others. Introduces gig worker and platform worker definitions with social security provisions. Full operationalization is still in progress across states.",
+      "applicability": {
+        "states": ["Varies by state notification"],
+        "employee_types": ["Employees, gig workers, platform workers"],
+        "company_size": "All"
+      },
+      "implementation_status": "Partial rollout. Core EPF/ESI/gratuity provisions largely continue under old acts in most jurisdictions until full state adoption.",
+      "tags": ["social security code", "EPF", "ESI", "gig worker", "gratuity"],
+      "last_updated": "2026-06-18",
+      "source": "Code on Social Security, 2020"
+    },
+    {
+      "id": "code-osh-1",
+      "act": "Occupational Safety, Health and Working Conditions Code, 2020",
+      "section": "Working hours, contract labour, factories",
+      "title": "Consolidated OSH framework",
+      "summary": "Subsumes Factories Act, Contract Labour Act, and several others. Introduces single registration, inter-state migrant worker provisions, and updated working hour rules. Implementation is gradual.",
+      "applicability": {
+        "states": ["Implementation status varies significantly"],
+        "employee_types": ["Workers across sectors"],
+        "company_size": "All"
+      },
+      "implementation_status": "Many states still operating under old Acts for factories, contract labour, and working conditions as of mid-2026.",
+      "tags": ["OSH code", "factories", "contract labour", "working conditions"],
+      "last_updated": "2026-06-18",
+      "source": "OSH Code, 2020"
+    },
+    {
+      "id": "maha-se-1",
+      "act": "Maharashtra Shops and Establishments (Regulation of Employment and Conditions of Service) Act, 2017",
+      "section": "Section 14, 15, 18",
+      "title": "Working hours, weekly holiday, leave",
+      "summary": "Maximum 9 hours per day and 48 hours per week. Employee entitled to one paid holiday per week. Earned leave: 1 day for every 20 days worked (max 27 days). Casual leave and sick leave also provided.",
+      "applicability": {
+        "states": ["Maharashtra"],
+        "employee_types": ["Employees in shops and establishments"],
+        "company_size": "All (registration required based on employee count)"
+      },
+      "tags": ["shops and establishments", "maharashtra", "working hours", "leave"],
+      "last_updated": "2026-06-18",
+      "source": "Maharashtra Shops & Establishments Act, 2017"
+    },
+    {
+      "id": "delhi-se-1",
+      "act": "Delhi Shops and Establishments Act, 1954 (as amended)",
+      "section": "Section 14, 15",
+      "title": "Hours of work and holidays",
+      "summary": "No employee shall be required to work more than 9 hours in a day or 48 hours in a week. One whole day holiday in a week with wages.",
+      "applicability": {
+        "states": ["Delhi"],
+        "employee_types": ["Employees in shops, commercial establishments"],
+        "company_size": "All"
+      },
+      "tags": ["shops and establishments", "delhi", "working hours"],
+      "last_updated": "2026-06-18",
+      "source": "Delhi Shops and Establishments Act"
+    },
+    {
+      "id": "ka-se-1",
+      "act": "Karnataka Shops and Commercial Establishments Act, 1961",
+      "section": "Section 11",
+      "title": "Daily and weekly hours",
+      "summary": "Maximum 9 hours a day and 48 hours a week. Overtime permitted with double wages.",
+      "applicability": {
+        "states": ["Karnataka"],
+        "employee_types": ["Employees in shops and commercial establishments"],
+        "company_size": "All"
+      },
+      "tags": ["shops and establishments", "karnataka", "overtime"],
+      "last_updated": "2026-06-18",
+      "source": "Karnataka Shops and Commercial Establishments Act"
+    },
+    {
+      "id": "termination-general-1",
+      "act": "General Principles (cross-referenced across ID Act + state S&E Acts)",
+      "section": "N/A",
+      "title": "Termination without cause for non-workmen / managerial staff",
+      "summary": "For employees not classified as 'workmen' under the Industrial Disputes Act (typically managers, supervisors above certain salary), employment contracts and state Shops & Establishments Acts govern notice period. Common practice is 30-90 days notice or pay in lieu. No automatic retrenchment compensation unless contract provides.",
+      "applicability": {
+        "states": ["All"],
+        "employee_types": ["Non-workmen (managerial, supervisory, confidential)"],
+        "company_size": "All"
+      },
+      "tags": ["termination", "notice period", "non-workman", "managerial"],
+      "last_updated": "2026-06-18",
+      "source": "General employment law principles + state S&E Acts"
+    },
+    {
+      "id": "pf-withdrawal-1",
+      "act": "EPF Act + EPFO Circulars",
+      "section": "Para 68 of EPF Scheme",
+      "title": "Advance from PF account",
+      "summary": "Members can withdraw up to 50% of PF balance for marriage, education, illness, or purchase of site/house after 7 years membership. Full withdrawal allowed on retirement after 58 or on leaving service after 2 months of unemployment.",
+      "applicability": {
+        "states": ["All India"],
+        "employee_types": ["EPF members"],
+        "company_size": "All"
+      },
+      "tags": ["EPF", "PF withdrawal", "advance"],
+      "last_updated": "2026-06-18",
+      "source": "EPF Scheme, 1952"
+    },
+    {
+      "id": "leave-general-1",
+      "act": "State Shops & Establishments Acts + Factories Act",
+      "section": "Varies by state",
+      "title": "Earned leave, casual leave, sick leave",
+      "summary": "Most states provide 12-15 days casual/sick leave and 15-21 days earned/privilege leave per year. Exact entitlements differ by state Shops & Establishments Act and whether the establishment is a factory.",
+      "applicability": {
+        "states": ["Varies by state — always check local S&E Act"],
+        "employee_types": ["Most employees"],
+        "company_size": "All"
+      },
+      "tags": ["leave", "earned leave", "casual leave", "sick leave"],
+      "last_updated": "2026-06-18",
+      "source": "State Shops & Establishments Acts"
+    },
+    {
+      "id": "standing-orders-1",
+      "act": "Industrial Employment (Standing Orders) Act, 1946 / IR Code",
+      "section": "Section 1",
+      "title": "Applicability of standing orders",
+      "summary": "Industrial establishments with 100 or more workmen (threshold raised to 300 in some states under new Code) must have certified standing orders covering classification of workers, shift working, attendance, leave, termination, etc.",
+      "applicability": {
+        "states": ["All (thresholds vary)"],
+        "employee_types": ["Workmen in industrial establishments"],
+        "company_size": "100+ (or 300+ in states that adopted new Code)"
+      },
+      "tags": ["standing orders", "model standing orders"],
+      "last_updated": "2026-06-18",
+      "source": "Industrial Employment (Standing Orders) Act, 1946"
+    }
+  ]
+}

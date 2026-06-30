@@ -2,22 +2,91 @@
   <!DOCTYPE html>
   <html lang="en">
     <head>
-      
+
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Build responsive single-page website</title>
-      <meta name="description" content="This responsive single-page website showcases SNSS Global Services, offering integrated facilities management solutions for corporate clients across India." />
+      <title>SNSS Global Services | Integrated Facilities Management — Mumbai, Pune, Ahmedabad, Bhopal</title>
+      <meta name="description" content="SNSS Global Services provides integrated facilities management — housekeeping, pantry, technical maintenance, payroll, and staffing — for corporate India. ISO certified. 25+ years. 700+ staff." />
+      <link rel="canonical" href="https://www.snssgroup.com/" />
       <link rel="icon" type="image/png" href="/favicon.png" />
-      <meta name="robots" content="noindex, nofollow" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+
+      <!-- Open Graph -->
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="SNSS Global Services" />
+      <meta property="og:title" content="SNSS Global Services | Integrated Facilities Management" />
+      <meta property="og:description" content="One vendor for housekeeping, pantry, technical maintenance, payroll compliance, and staffing. ISO certified. Government GeM empanelled. Deployed across 7+ states since 1999." />
+      <meta property="og:url" content="https://www.snssgroup.com/" />
+      <meta property="og:image" content="https://www.snssgroup.com/og-image.png" />
+      <meta property="og:locale" content="en_IN" />
+
+      <!-- Twitter Card -->
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="SNSS Global Services | Integrated Facilities Management" />
+      <meta name="twitter:description" content="One vendor for housekeeping, pantry, technical maintenance, payroll compliance, and staffing across corporate India." />
+      <meta name="twitter:image" content="https://www.snssgroup.com/og-image.png" />
+
+      <!-- JSON-LD: Organization + LocalBusiness -->
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": ["Organization", "LocalBusiness"],
+            "@id": "https://www.snssgroup.com/#organization",
+            "name": "SNSS Global Services Pvt. Ltd.",
+            "url": "https://www.snssgroup.com/",
+            "logo": "https://www.snssgroup.com/favicon.png",
+            "foundingDate": "1999",
+            "description": "Integrated facilities management company providing housekeeping, pantry management, technical maintenance, payroll compliance, data entry, and staffing services across corporate India.",
+            "telephone": "+91-86553-62161",
+            "email": "INFO@SNSSGROUP.COM",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "409, Sej Plaza, Marve Road, Malad (W)",
+              "addressLocality": "Mumbai",
+              "addressRegion": "Maharashtra",
+              "postalCode": "400064",
+              "addressCountry": "IN"
+            },
+            "areaServed": [
+              { "@type": "City", "name": "Mumbai" },
+              { "@type": "City", "name": "Pune" },
+              { "@type": "City", "name": "Ahmedabad" },
+              { "@type": "City", "name": "Bhopal" }
+            ],
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": "Facilities Management Services",
+              "itemListElement": [
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Housekeeping & Janitorial Services" } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Pantry Management" } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Electrical, Plumbing & Technical Maintenance" } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Data Entry & Office Support" } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Payroll Management & Compliance" } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Drivers, Security & Contract Labour" } }
+              ]
+            },
+            "sameAs": [
+              "https://www.linkedin.com/company/snss-global-services",
+              "https://www.indiamart.com/snss-global-services/",
+              "https://www.crunchbase.com/organization/snss-global-services",
+              "https://udyamregistration.gov.in"
+            ]
+          }
+        ]
+      }
+      </script>
+
       <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
-      
+
     </head>
 
     <body>
-      
+
       <div id="root"></div>
       <script type="module" src="/src/main.tsx"></script>
-      
+
     </body>
   </html>
-  

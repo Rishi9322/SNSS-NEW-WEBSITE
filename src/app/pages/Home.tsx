@@ -1,13 +1,46 @@
 import { useEffect } from "react";
 import { Link } from "react-router";
 import { FadeIn } from "../components/FadeIn";
-import { NAVY, AMBER, SERVICES, PROOF_POINTS, CORP_VALUE_PROPS, TESTIMONIALS } from "../constants";
+import { NAVY, AMBER, WA_PATH, SERVICES, PROOF_POINTS, CORP_VALUE_PROPS, TESTIMONIALS } from "../constants";
+import { useSEO } from "../hooks/useSEO";
 
-const WA_PATH = "M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z";
+const HOME_FAQS = [
+  { q: "What services does SNSS Global Services provide?", a: "SNSS provides six integrated facilities management services: housekeeping and janitorial, pantry management, electrical and technical maintenance, data entry and office support, payroll management and labour compliance, and contract staffing including drivers and security personnel." },
+  { q: "Which cities does SNSS operate in?", a: "SNSS has offices in Mumbai (corporate HQ), Pune, Ahmedabad, and Bhopal, and deploys staff across 7+ states in India." },
+  { q: "Is SNSS ISO certified?", a: "Yes. SNSS holds six ISO certifications: ISO 9001:2015 (Quality), ISO 14001:2015 (Environment), ISO 45001:2018 (Health & Safety), ISO 27001:2013 (Information Security), ISO 22000:2018 (Food Safety), and ISO 21001:2018 (Educational Organisations)." },
+  { q: "Does SNSS handle PF and ESIC compliance for deployed staff?", a: "Yes. SNSS manages all statutory compliance for its staff — EPFO (PF), ESIC, Professional Tax, and MLWF — at zero liability to the client organisation. Salaries are credited by the 7th of every month." },
+  { q: "How quickly can SNSS deploy staff for a new facility?", a: "SNSS maintains a ready bench of trained, background-verified staff and can deploy drivers, housekeeping, and pantry personnel within 48 hours for urgent requirements." },
+  { q: "Does SNSS work with government organisations?", a: "Yes. SNSS is empanelled on the Government e-Marketplace (GeM) and holds active contracts with central government bodies including EPFO, Sports Authority of India, and Kendriya Vidyalaya Sangathan." },
+  { q: "What is SNSS's replacement policy for absent staff?", a: "SNSS guarantees same-day replacement from its bench strength if any deployed staff member is absent. The client does not need to make any calls — the replacement is arranged automatically." },
+  { q: "How long has SNSS been operating?", a: "SNSS was founded in Mumbai in 1999 and has been providing integrated facilities management services for over 25 years, with operations across Maharashtra, Gujarat, and central India." },
+  { q: "Can SNSS manage multiple services under a single contract?", a: "Yes. This is SNSS's core offering — all six services (housekeeping, pantry, technical, data entry, payroll, staffing) are managed under a single contract, single SLA, and single account manager." },
+  { q: "How do I get a quote from SNSS?", a: "You can request a quote via the contact form at snssgroup.com/contact, by emailing info@snssgroup.com, or by calling/WhatsApp at +91 86553 62161. SNSS responds to all enquiries within 4 business hours." },
+];
 
 export function Home() {
+  useSEO({
+    title: "SNSS Global Services | Integrated Facilities Management — Mumbai, Pune, Ahmedabad, Bhopal",
+    description: "SNSS provides integrated facilities management — housekeeping, pantry, technical maintenance, payroll compliance, and staffing — for corporate India. ISO certified. 700+ staff. Est. 1999.",
+    path: "/",
+  });
+
   useEffect(() => {
-    document.title = "SNSS Global Services | Facilities Management in Mumbai, Pune, Ahmedabad & Bhopal";
+    const id = "home-faq-schema";
+    document.getElementById(id)?.remove();
+    const el = document.createElement("script");
+    el.id = id;
+    el.type = "application/ld+json";
+    el.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": HOME_FAQS.map(({ q, a }) => ({
+        "@type": "Question",
+        "name": q,
+        "acceptedAnswer": { "@type": "Answer", "text": a },
+      })),
+    });
+    document.head.appendChild(el);
+    return () => { document.getElementById(id)?.remove(); };
   }, []);
 
   return (
@@ -20,14 +53,14 @@ export function Home() {
             {/* Left: copy */}
             <div className="lg:col-span-3 py-20">
               <p className="text-xs font-bold tracking-[0.2em] uppercase mb-8" style={{ color: AMBER }}>
-                Est. 1999 · ISO Certified · Government Trusted
+                Trusted by corporate India since 1999
               </p>
               <h1 className="text-white mb-8" style={{ fontSize: "clamp(2.4rem, 5vw, 4.2rem)", fontWeight: 800, lineHeight: 1.05, letterSpacing: "-0.03em" }}>
-                Facilities Management<br />
-                <span style={{ color: AMBER }}>Made Professional.</span>
+                Your facility runs.<br />
+                <span style={{ color: AMBER }}>Your team focuses.</span>
               </h1>
               <p className="mb-10 max-w-xl" style={{ color: "rgba(255,255,255,0.6)", fontSize: "clamp(1rem, 1.4vw, 1.1rem)", lineHeight: 1.8 }}>
-                700+ trained, background-verified staff. Full PF/ESIC compliance. One contract, one point of contact. Deployed across 7+ states since 1999.
+                SNSS takes staffing, compliance, and day-to-day coordination completely off your plate — one vendor, one point of contact, full accountability. No chasing. No gaps.
               </p>
               <div className="flex flex-wrap gap-3 mb-16">
                 <Link to="/contact" className="px-7 py-3.5 rounded font-bold text-sm transition-all hover:brightness-110 active:scale-95" style={{ background: AMBER, color: "#fff" }}>
@@ -37,10 +70,6 @@ export function Home() {
                   View Credentials
                   <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4"><path d="M3 8h10M8 3l5 5-5 5" /></svg>
                 </Link>
-                <a href="https://wa.me/918655362161" target="_blank" rel="noopener noreferrer" className="px-7 py-3.5 rounded font-bold text-sm transition-all hover:bg-white/10 flex items-center gap-2" style={{ background: "rgba(255,255,255,0.07)", color: "rgba(255,255,255,0.85)", border: "1px solid rgba(255,255,255,0.15)" }}>
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4"><path d={WA_PATH} /></svg>
-                  WhatsApp Us
-                </a>
               </div>
 
               {/* Stats bar */}
@@ -53,7 +82,7 @@ export function Home() {
                 ].map((s, i) => (
                   <div key={i}>
                     <div className="font-extrabold" style={{ fontSize: "clamp(1.6rem, 2.5vw, 2.4rem)", color: AMBER, lineHeight: 1, letterSpacing: "-0.02em" }}>{s.value}</div>
-                    <div className="mt-1 text-xs font-medium uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.4)" }}>{s.label}</div>
+                    <div className="mt-1 text-xs font-medium uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.6)" }}>{s.label}</div>
                   </div>
                 ))}
               </div>
@@ -69,6 +98,9 @@ export function Home() {
                   alt="Professional facility management — clean corporate office environment"
                   className="w-full h-full object-cover"
                   style={{ marginLeft: "1rem" }}
+                  width={700}
+                  height={1000}
+                  fetchPriority="high"
                 />
                 {/* Stat overlay card */}
                 <div className="absolute bottom-12 left-4 right-8 p-5" style={{ background: NAVY, border: `1px solid rgba(255,255,255,0.1)` }}>
@@ -129,13 +161,10 @@ export function Home() {
                 <Link to={`/services/${svc.slug}`} className="group flex items-center gap-6 py-5 transition-all" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
                   <span className="text-xs font-bold tabular-nums w-6 flex-shrink-0" style={{ color: "rgba(255,255,255,0.25)" }}>0{i + 1}</span>
                   <div className="flex-1 min-w-0">
-                    <div className="font-bold mb-1 transition-colors" style={{ fontSize: "clamp(1rem, 1.8vw, 1.2rem)", color: "rgba(255,255,255,0.9)" }}
-                      onMouseEnter={e => (e.currentTarget.style.color = AMBER)}
-                      onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.9)")}
-                    >
+                    <div className="font-bold mb-1 text-white/90 group-hover:text-amber-400 transition-colors" style={{ fontSize: "clamp(1rem, 1.8vw, 1.2rem)" }}>
                       {svc.title}
                     </div>
-                    <p className="text-sm hidden lg:block" style={{ color: "rgba(255,255,255,0.4)" }}>{svc.industries}</p>
+                    <p className="text-sm hidden lg:block text-white/55">{svc.outcome}</p>
                   </div>
                   <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5 flex-shrink-0 transition-transform group-hover:translate-x-1" style={{ color: "rgba(255,255,255,0.2)" }}>
                     <path d="M3 8h10M8 3l5 5-5 5" />
@@ -148,7 +177,7 @@ export function Home() {
 
           <FadeIn delay={0.3}>
             <p className="mt-10 text-sm" style={{ color: "rgba(255,255,255,0.4)" }}>
-              Integration is the expertise — not category depth. One contract, one SLA, one account manager for everything.
+              Each service is managed by the same team, under the same SLA, on the same invoice. That's the actual value.
             </p>
           </FadeIn>
         </div>
@@ -158,19 +187,19 @@ export function Home() {
       <section className="py-20 lg:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-5 lg:px-8">
           <FadeIn>
-            <p className="text-xs font-bold tracking-[0.18em] uppercase mb-4" style={{ color: AMBER }}>For corporate buyers</p>
+            <p className="text-xs font-bold tracking-[0.18em] uppercase mb-4" style={{ color: AMBER }}>Before &amp; after SNSS</p>
             <h2 className="mb-3" style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 800, color: NAVY, lineHeight: 1.1, letterSpacing: "-0.025em" }}>
-              We remove the staffing headache.
+              What changes when you hand it over.
             </h2>
             <p className="mb-12 max-w-xl text-sm" style={{ color: "rgba(15,42,74,0.6)", lineHeight: 1.75 }}>
-              Every problem on the left is something your team currently manages. Every solution on the right is something SNSS absorbs entirely.
+              These are real operational headaches we've heard from facility managers and HR leads. Every row on the right is something SNSS absorbs completely.
             </p>
           </FadeIn>
           <FadeIn delay={0.06}>
             <div className="rounded overflow-hidden" style={{ border: "1px solid rgba(15,42,74,0.12)" }}>
               <div className="grid grid-cols-2 text-xs font-bold py-3 px-6 tracking-wider uppercase" style={{ background: NAVY, color: "white" }}>
-                <div>Problem</div>
-                <div style={{ color: AMBER }}>SNSS solution</div>
+                <div>What you deal with today</div>
+                <div style={{ color: AMBER }}>What you deal with after SNSS</div>
               </div>
               {CORP_VALUE_PROPS.map((row, i) => (
                 <div key={i} className="grid grid-cols-2 text-sm py-4 px-6" style={{ borderTop: "1px solid rgba(15,42,74,0.07)", background: i % 2 === 1 ? "rgba(15,42,74,0.02)" : "#fff" }}>
@@ -210,6 +239,9 @@ export function Home() {
                   alt="Corporate facility management team"
                   className="w-full object-cover"
                   style={{ borderRadius: "2px", filter: "brightness(0.75) saturate(0.8)" }}
+                  width={600}
+                  height={340}
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -219,12 +251,19 @@ export function Home() {
             {TESTIMONIALS.map((t, i) => (
               <FadeIn key={i} delay={i * 0.08}>
                 <div className="flex flex-col gap-5" style={{ borderTop: `3px solid ${i === 0 ? AMBER : "rgba(255,255,255,0.12)"}`, paddingTop: "1.5rem" }}>
-                  <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.7)" }}>
+                  <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.75)", fontStyle: "italic" }}>
                     "{t.quote}"
                   </p>
-                  <div>
-                    <div className="font-bold text-sm text-white">{t.author}</div>
-                    <div className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>{t.role} · {t.company}</div>
+                  <div className="flex items-end justify-between gap-4">
+                    <div>
+                      <div className="font-bold text-sm text-white">{t.author}</div>
+                      <div className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>{t.role} · {t.company}</div>
+                    </div>
+                    {"tenure" in t && (
+                      <div className="flex-shrink-0 text-xs font-bold px-2.5 py-1 rounded-full" style={{ background: "rgba(255,255,255,0.07)", color: "rgba(255,255,255,0.35)" }}>
+                        {(t as { tenure: string }).tenure}
+                      </div>
+                    )}
                   </div>
                 </div>
               </FadeIn>
@@ -300,6 +339,28 @@ export function Home() {
                     Open in Google Maps
                     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={2} className="w-3 h-3"><path d="M6 3H3v10h10v-3M9 3h4v4M13 3l-6 6" /></svg>
                   </a>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── FAQ ── */}
+      <section className="py-20 lg:py-28 bg-white">
+        <div className="max-w-7xl mx-auto px-5 lg:px-8">
+          <FadeIn>
+            <p className="text-xs font-bold tracking-[0.18em] uppercase mb-4" style={{ color: AMBER }}>Common questions</p>
+            <h2 className="mb-12" style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 800, color: NAVY, lineHeight: 1.1, letterSpacing: "-0.025em" }}>
+              What buyers ask us first.
+            </h2>
+          </FadeIn>
+          <div className="grid lg:grid-cols-2 gap-x-16 gap-y-8">
+            {HOME_FAQS.map((faq, i) => (
+              <FadeIn key={i} delay={i * 0.04}>
+                <div style={{ borderTop: "1px solid rgba(15,42,74,0.1)", paddingTop: "1.25rem" }}>
+                  <h3 className="font-bold text-sm mb-2" style={{ color: NAVY }}>{faq.q}</h3>
+                  <p className="text-sm leading-relaxed" style={{ color: "rgba(15,42,74,0.6)" }}>{faq.a}</p>
                 </div>
               </FadeIn>
             ))}

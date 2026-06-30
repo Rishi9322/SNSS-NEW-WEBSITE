@@ -1,0 +1,112 @@
+{
+  "generatedAt": "2026-06-29T13:04:04.209Z",
+  "totalCases": 1014,
+  "categories": [
+    {
+      "category": "Labour Law",
+      "count": 39
+    },
+    {
+      "category": "Employment Law",
+      "count": 39
+    },
+    {
+      "category": "HR Compliance",
+      "count": 39
+    },
+    {
+      "category": "EPF",
+      "count": 39
+    },
+    {
+      "category": "ESIC",
+      "count": 39
+    },
+    {
+      "category": "Minimum Wages",
+      "count": 39
+    },
+    {
+      "category": "Bonus",
+      "count": 39
+    },
+    {
+      "category": "Gratuity",
+      "count": 39
+    },
+    {
+      "category": "POSH",
+      "count": 39
+    },
+    {
+      "category": "Contract Labour",
+      "count": 39
+    },
+    {
+      "category": "Industrial Relations",
+      "count": 39
+    },
+    {
+      "category": "GeM Procurement",
+      "count": 39
+    },
+    {
+      "category": "Government Contracts",
+      "count": 39
+    },
+    {
+      "category": "Tender Evaluation",
+      "count": 39
+    },
+    {
+      "category": "Criminal Law",
+      "count": 39
+    },
+    {
+      "category": "Civil Law",
+      "count": 39
+    },
+    {
+      "category": "Constitutional Law",
+      "count": 39
+    },
+    {
+      "category": "Logical Reasoning",
+      "count": 39
+    },
+    {
+      "category": "Mathematics",
+      "count": 39
+    },
+    {
+      "category": "Coding",
+      "count": 39
+    },
+    {
+      "category": "Scientific Reasoning",
+      "count": 39
+    },
+    {
+      "category": "Long Context",
+      "count": 39
+    },
+    {
+      "category": "Reading Comprehension",
+      "count": 39
+    },
+    {
+      "category": "Research",
+      "count": 39
+    },
+    {
+      "category": "Planning",
+      "count": 39
+    },
+    {
+      "category": "Decision Making",
+      "count": 39
+    }
+  ],
+  "publicFile": "output/cases.public.jsonl",
+  "hiddenFile": "output/keys.hidden.jsonl"
+}

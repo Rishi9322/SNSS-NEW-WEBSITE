@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { FadeIn } from "../components/FadeIn";
 import { NAVY, AMBER, EMPLOYEE_BENEFITS } from "../constants";
+import { useSEO } from "../hooks/useSEO";
 
 const ROLES = [
   "Housekeeping Supervisor", "Pantry / Cafeteria Staff", "Electrician (ITI Certified)",
@@ -18,7 +19,11 @@ export function Careers() {
   const [error, setError] = useState("");
   const [selectedRole, setSelectedRole] = useState("");
 
-  useEffect(() => { document.title = "Careers | SNSS Global Services"; }, []);
+  useSEO({
+    title: "Careers at SNSS Global Services — Join 700+ Professionals Across India",
+    description: "Join SNSS Global Services. We hire housekeeping supervisors, pantry staff, drivers, electricians, security personnel, and data entry operators across Mumbai, Pune, Ahmedabad, and Bhopal. PF, ESIC, and salary by the 7th guaranteed.",
+    path: "/careers",
+  });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
