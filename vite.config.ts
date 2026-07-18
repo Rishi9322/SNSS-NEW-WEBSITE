@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import path from 'path'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
@@ -93,7 +93,7 @@ async function tavilySearch(query: string, state: string, apiKey: string): Promi
 
 // Dev-only middleware — mirrors /api/labour-assist Vercel function locally.
 // Both GROQ_API_KEY and TAVILY_API_KEY are read from .env (never sent to browser).
-function labourAssistDevProxy(): Plugin {
+function labourAssistDevProxy(env: Record<string, string>): Plugin {
   return {
     name: 'labour-assist-dev-proxy',
     apply: 'serve',
@@ -118,7 +118,7 @@ function labourAssistDevProxy(): Plugin {
               res.end(JSON.stringify({ error: 'Query too long.' })); return
             }
 
-            const groqKey = process.env.GROQ_API_KEY
+            const groqKey = env.GROQ_API_KEY || process.env.GROQ_API_KEY
             if (!groqKey) {
               res.writeHead(503, { 'Content-Type': 'application/json' })
               res.end(JSON.stringify({ error: 'GROQ_API_KEY not set in .env' })); return
@@ -128,7 +128,7 @@ function labourAssistDevProxy(): Plugin {
             const wantsLiveData = /current|latest|2024|2025|2026|notif|notification|today|now|recent|rate/i.test(query)
             const needsWebSearch = !hasRag || (typeof ragScore === 'number' && ragScore < 2) || wantsLiveData
 
-            const tavilyKey = process.env.TAVILY_API_KEY
+            const tavilyKey = env.TAVILY_API_KEY || process.env.TAVILY_API_KEY
             const { snippets: webSnippets, urls: webUrls } =
               tavilyKey && needsWebSearch
                 ? await tavilySearch(query.trim(), profile?.state || '', tavilyKey)
@@ -192,10 +192,16 @@ function labourAssistDevProxy(): Plugin {
   }
 }
 
-export default defineConfig({
+export default defineConfig(({ mode }) => {
+  // Load ALL vars from .env (third arg '' lifts the VITE_ prefix filter) so the
+  // dev-only API middleware can read GROQ_API_KEY / TAVILY_API_KEY. These stay
+  // server-side — only VITE_* vars are ever exposed to the browser bundle.
+  const env = loadEnv(mode, process.cwd(), '')
+
+  return {
   plugins: [
     figmaAssetResolver(),
-    labourAssistDevProxy(),
+    labourAssistDevProxy(env),
     // The React and Tailwind plugins are both required for Make, even if
     // Tailwind is not being actively used – do not remove them
     react(),
@@ -209,4 +215,5 @@ export default defineConfig({
 
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
   assetsInclude: ['**/*.svg', '**/*.csv'],
+  }
 })

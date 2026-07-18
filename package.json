@@ -4,8 +4,9 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "build": "vite build",
+    "build": "tsc --noEmit && vite build",
     "dev": "vite",
+    "typecheck": "tsc --noEmit",
     "bench:generate": "node benchmark/generate.mjs",
     "bench:run": "node benchmark/run.mjs",
     "bench:evaluate": "node benchmark/evaluate.mjs"
@@ -74,6 +75,7 @@
     "@vercel/node": "^5.8.22",
     "@vitejs/plugin-react": "4.7.0",
     "tailwindcss": "4.1.12",
+    "typescript": "^7.0.2",
     "vite": "6.3.5"
   },
   "peerDependencies": {

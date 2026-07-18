@@ -53,6 +53,12 @@ function truncate(str: string, len = 48) {
   return str.length > len ? str.slice(0, len - 1) + "…" : str;
 }
 
+// LLM replies arrive with markdown-style **bold** — render it instead of showing raw asterisks
+function renderInlineMarkdown(text: string) {
+  const parts = text.split(/\*\*([^*]+)\*\*/g);
+  return parts.map((part, i) => (i % 2 === 1 ? <strong key={i}>{part}</strong> : part));
+}
+
 // Strong grounded response generator for MVP (no external dependency required)
 function generateGroundedResponse(
   userQuery: string,
@@ -149,6 +155,7 @@ export function LabourLawAssist() {
   const [profile, setProfile] = useState<Profile>(DEFAULT_PROFILE);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [inputError, setInputError] = useState<string | null>(null);
   const [showProfile, setShowProfile] = useState(false);
   const [showSidebar, setShowSidebar] = useState(true);
   const [isDesktop, setIsDesktop] = useState(true);
@@ -186,11 +193,14 @@ export function LabourLawAssist() {
     }
   }, []);
 
-  // Persist threads
+  // Persist threads (always — so deletions survive a reload too)
+  const threadsLoaded = useRef(false);
   useEffect(() => {
-    if (threads.length > 0) {
-      localStorage.setItem(STORAGE_KEYS.threads, JSON.stringify(threads));
+    if (!threadsLoaded.current) {
+      threadsLoaded.current = true;
+      return;
     }
+    localStorage.setItem(STORAGE_KEYS.threads, JSON.stringify(threads));
   }, [threads]);
 
   // Persist current thread id
@@ -236,45 +246,28 @@ export function LabourLawAssist() {
 
   // Delete thread
   function deleteThread(id: string) {
-    setThreads((prev) => prev.filter((t) => t.id !== id));
-    if (currentThreadId === id) {
-      const remaining = threads.filter((t) => t.id !== id);
-      setCurrentThreadId(remaining.length > 0 ? remaining[0].id : null);
-    }
+    setThreads((prev) => {
+      const remaining = prev.filter((t) => t.id !== id);
+      if (currentThreadId === id) {
+        setCurrentThreadId(remaining.length > 0 ? remaining[0].id : null);
+        if (remaining.length === 0) {
+          localStorage.removeItem(STORAGE_KEYS.currentThreadId);
+        }
+      }
+      return remaining;
+    });
   }
 
-  // Update thread title
-  function updateThreadTitle(id: string, title: string) {
-    setThreads((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, title: truncate(title), updatedAt: new Date().toISOString() } : t))
-    );
-  }
-
-  // Add message to current thread
-  function addMessage(msg: Message) {
-    if (!currentThreadId) {
-      const newId = createNewThread(msg.role === "user" ? msg.content : undefined);
-      setTimeout(() => {
-        setThreads((prev) =>
-          prev.map((t) =>
-            t.id === newId
-              ? {
-                  ...t,
-                  messages: [...t.messages, msg],
-                  updatedAt: new Date().toISOString(),
-                }
-              : t
-          )
-        );
-      }, 0);
-      return;
-    }
-
+  // Add message to a specific thread. The thread id is passed explicitly so a
+  // message never lands in the wrong thread when state updates are still in flight.
+  function addMessage(threadId: string, msg: Message) {
     setThreads((prev) =>
       prev.map((t) =>
-        t.id === currentThreadId
+        t.id === threadId
           ? {
               ...t,
+              // First user message names a thread that was created empty via "New Chat"
+              title: t.title === "New conversation" && msg.role === "user" ? truncate(msg.content) : t.title,
               messages: [...t.messages, msg],
               updatedAt: new Date().toISOString(),
             }
@@ -304,28 +297,28 @@ export function LabourLawAssist() {
   // Main send handler
   async function sendMessage(customQuery?: string) {
     const query = (customQuery || input).trim();
-    if (!query) return;
+    if (!query || isTyping) return;
 
     // Token-budget: query length guard
     const lenCheck = checkQueryLength(query);
     if (!lenCheck.allowed) {
       setInput(query); // keep text so user can edit
-      alert(lenCheck.reason);
+      setInputError(lenCheck.reason || "Please refine your question.");
       return;
     }
 
     // Rate limit guard
     const rateCheck = checkRateLimit();
     if (!rateCheck.allowed) {
-      alert(rateCheck.reason);
+      setInputError(rateCheck.reason || "Too many requests. Please try again later.");
       return;
     }
 
-    // Ensure we have a thread
-    let threadId = currentThreadId;
-    if (!threadId) {
-      threadId = createNewThread(query);
-    }
+    setInputError(null);
+
+    // Ensure we have a thread; keep the id locally so every message in this
+    // send lands in the same thread even before React state settles.
+    const threadId = currentThreadId ?? createNewThread(query);
 
     const userMsg: Message = {
       id: generateId(),
@@ -334,14 +327,14 @@ export function LabourLawAssist() {
       timestamp: new Date().toISOString(),
     };
 
-    addMessage(userMsg);
+    addMessage(threadId, userMsg);
     setInput("");
     setIsTyping(true);
 
     // Scope / content guardrails
     const guard = checkQueryGuardrails(query);
     if (!guard.allowed) {
-      addMessage({
+      addMessage(threadId, {
         id: generateId(),
         role: "assistant",
         content: guard.suggestedNote || "I can only assist with Indian labour law questions.",
@@ -362,7 +355,7 @@ export function LabourLawAssist() {
       messages.length < 3;
 
     if (needsClarify) {
-      addMessage({
+      addMessage(threadId, {
         id: generateId(),
         role: "assistant",
         content: `To give you an accurate answer, could you confirm:\n• Your state\n• Whether you are an employee or employer/HR\n• Type of employment (permanent, contract, probation, etc.)\n\nYou can update your profile using the button above, or just reply with the details.`,
@@ -416,7 +409,7 @@ export function LabourLawAssist() {
       finalContent = response;
     }
 
-    addMessage({
+    addMessage(threadId, {
       id: generateId(),
       role: "assistant",
       content: finalContent,
@@ -426,11 +419,8 @@ export function LabourLawAssist() {
       timestamp: new Date().toISOString(),
     });
 
-    if (currentThread && currentThread.title === "New conversation") {
-      updateThreadTitle(currentThreadId!, query);
-    }
-
     setIsTyping(false);
+    textareaRef.current?.focus();
   }
 
   // Handle Enter key
@@ -441,13 +431,9 @@ export function LabourLawAssist() {
     }
   }
 
-  // Quick start
+  // Quick start — sendMessage creates the thread itself when needed
   function useQuickStart(q: string) {
-    if (!currentThreadId) {
-      createNewThread(q);
-    }
-    // slight delay so thread exists
-    setTimeout(() => sendMessage(q), 30);
+    sendMessage(q);
   }
 
   // Update profile
@@ -485,7 +471,7 @@ export function LabourLawAssist() {
             border: isUser ? "none" : "1px solid rgba(15,42,74,0.08)",
           }}
         >
-          <div className="whitespace-pre-wrap">{msg.content}</div>
+          <div className="whitespace-pre-wrap">{renderInlineMarkdown(msg.content)}</div>
 
           {/* RAG citations */}
           {msg.citations && msg.citations.length > 0 && (
@@ -716,16 +702,27 @@ export function LabourLawAssist() {
 
             {/* Input */}
             <div className="p-4 border-t bg-white" style={{ borderColor: "rgba(15,42,74,0.08)" }}>
+              {inputError && (
+                <div
+                  role="alert"
+                  className="mb-2 px-3 py-2 text-xs rounded-lg border"
+                  style={{ background: "rgba(220,38,38,0.05)", borderColor: "rgba(220,38,38,0.25)", color: "#b91c1c" }}
+                >
+                  {inputError}
+                </div>
+              )}
               <div className="flex gap-2">
                 <textarea
                   ref={textareaRef}
                   value={input}
-                  onChange={(e) => setInput(e.target.value)}
+                  onChange={(e) => {
+                    setInput(e.target.value);
+                    if (inputError) setInputError(null);
+                  }}
                   onKeyDown={handleKeyDown}
                   placeholder="Describe your situation (e.g. 'I was terminated without notice after 3 years in Mumbai')"
                   className="flex-1 resize-y min-h-[52px] max-h-32 rounded-2xl border px-4 py-3 text-sm focus:outline-none"
                   style={{ borderColor: "rgba(15,42,74,0.15)" }}
-                  disabled={isTyping}
                 />
                 <button
                   onClick={() => sendMessage()}
@@ -733,7 +730,7 @@ export function LabourLawAssist() {
                   className="self-end px-6 py-3 rounded-2xl text-sm font-bold transition disabled:opacity-50"
                   style={{ background: AMBER, color: "#fff" }}
                 >
-                  Send
+                  {isTyping ? "…" : "Send"}
                 </button>
               </div>
               <div className="mt-2 text-[10px] text-center" style={{ color: "rgba(15,42,74,0.4)" }}>

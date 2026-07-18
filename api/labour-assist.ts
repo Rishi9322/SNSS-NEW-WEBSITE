@@ -217,7 +217,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (!response.ok) {
       const err = await response.text();
-      console.error("OpenRouter error:", response.status, err);
+      console.error("Groq error:", response.status, err);
       return res.status(502).json({ error: "AI service unavailable." });
     }
 
