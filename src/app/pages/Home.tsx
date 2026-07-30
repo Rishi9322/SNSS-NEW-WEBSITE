@@ -94,7 +94,7 @@ export function Home() {
                 {/* Amber accent line */}
                 <div className="absolute left-0 top-[15%] bottom-[15%] w-1" style={{ background: AMBER }} />
                 <img
-                  src="https://picsum.photos/seed/office-facility-1/700/1000"
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuQxWocEVN2SjausHsgUBZ1oTsx0oTpPtQPCmAGTI6yQ&s=10"
                   alt="Professional facility management — clean corporate office environment"
                   className="w-full h-full object-cover"
                   style={{ marginLeft: "1rem" }}
