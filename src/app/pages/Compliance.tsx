@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { FadeIn } from "../components/FadeIn";
 import { NAVY, AMBER, REGISTRATIONS, LABOUR_COMPLIANCE, GEM_CONTRACTS, ISO_CERTS } from "../constants";
 import { useSEO } from "../hooks/useSEO";
+import complianceHeroImage from "../../assets/images/compliance-hero.png";
 
 type Tab = "registrations" | "labour" | "iso" | "gem" | "financial";
 
@@ -42,19 +43,19 @@ export function Compliance() {
 
   return (
     <>
-      <div className="py-16 lg:py-20" style={{ background: NAVY }}>
+      <div className="py-24 lg:py-32 bg-cover bg-center" style={{ background: NAVY, backgroundImage: `url(${complianceHeroImage})` }}>
         <div className="max-w-7xl mx-auto px-5 lg:px-8">
-          <div className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER }}>
+          <div className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER, textShadow: "0 2px 8px rgba(0,0,0,0.6)" }}>
             <Link to="/" className="transition-opacity hover:opacity-70">Home</Link>
             <span className="mx-2 opacity-30">/</span>Compliance
           </div>
-          <h1 className="text-white mb-4" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-0.025em" }}>
+          <h1 className="text-white mb-4" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-0.025em", textShadow: "0 2px 8px rgba(0,0,0,0.6)" }}>
             Every credential.<br />One place.
           </h1>
-          <p className="max-w-2xl text-sm mb-5" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.8 }}>
+          <p className="max-w-2xl text-sm mb-5" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.8, textShadow: "0 2px 8px rgba(0,0,0,0.6)" }}>
             For procurement officers: all registration numbers, ISO certifications, GeM contracts, and financial standing — verified and ready.
           </p>
-          <p className="text-xs font-bold tracking-widest uppercase" style={{ color: "rgba(255,255,255,0.3)" }}>
+          <p className="text-xs font-bold tracking-widest uppercase" style={{ color: "rgba(255,255,255,0.3)", textShadow: "0 2px 8px rgba(0,0,0,0.6)" }}>
             Last verified: 12 June 2026
           </p>
         </div>

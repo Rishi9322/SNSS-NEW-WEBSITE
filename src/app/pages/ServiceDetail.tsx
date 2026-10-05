@@ -62,24 +62,56 @@ export function ServiceDetail() {
   return (
     <>
       {/* Page header */}
-      <div className="relative overflow-hidden" style={{ background: NAVY }}>
-        {/* Subtle geometric pattern overlay */}
-        <div className="absolute inset-0 opacity-5" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)", backgroundSize: "32px 32px" }} />
-        <div className="relative max-w-7xl mx-auto px-5 lg:px-8 py-24 lg:py-32">
-          <div className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER }}>
-            <Link to="/" className="transition-opacity hover:opacity-70">Home</Link>
-            <span className="mx-2 opacity-30">/</span>
-            <Link to="/services" className="transition-opacity hover:opacity-70">Services</Link>
-            <span className="mx-2 opacity-30">/</span>{svc.shortTitle}
-          </div>
-          <div className="max-w-2xl">
-            <h1 className="text-white mb-4" style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.025em" }}>
+      {svc.heroFull && svc.image ? (
+        <div className="relative overflow-hidden bg-cover bg-center" style={{ background: NAVY, backgroundImage: `url(${svc.image})` }}>
+          <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(20,35,70,0.75) 0%, rgba(20,35,70,0.85) 100%)" }} />
+          <div className="relative max-w-7xl mx-auto px-5 lg:px-8 py-24 lg:py-32">
+            <div className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER }}>
+              <Link to="/" className="transition-opacity hover:opacity-70">Home</Link>
+              <span className="mx-2 opacity-30">/</span>
+              <Link to="/services" className="transition-opacity hover:opacity-70">Services</Link>
+              <span className="mx-2 opacity-30">/</span>{svc.shortTitle}
+            </div>
+            <h1 className="text-white mb-5 max-w-2xl" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-0.025em" }}>
               {svc.h1}
             </h1>
-            <p className="text-sm" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.8 }}>{svc.subhead}</p>
+            <p className="text-sm" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.8, maxWidth: "650px" }}>{svc.subhead}</p>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="relative overflow-hidden" style={{ background: NAVY }}>
+          {/* Subtle geometric pattern overlay */}
+          <div className="absolute inset-0 opacity-5" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)", backgroundSize: "32px 32px" }} />
+          <div className="relative max-w-7xl mx-auto px-5 lg:px-8 py-24 lg:py-32">
+            <div className={`grid ${svc.image ? "lg:grid-cols-2 lg:gap-12 items-center" : ""}`}>
+              <div>
+                <div className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER }}>
+                  <Link to="/" className="transition-opacity hover:opacity-70">Home</Link>
+                  <span className="mx-2 opacity-30">/</span>
+                  <Link to="/services" className="transition-opacity hover:opacity-70">Services</Link>
+                  <span className="mx-2 opacity-30">/</span>{svc.shortTitle}
+                </div>
+                <div className="max-w-2xl">
+                  <h1 className="text-white mb-4" style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.025em" }}>
+                    {svc.h1}
+                  </h1>
+                  <p className="text-sm" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.8, maxWidth: "600px" }}>{svc.subhead}</p>
+                </div>
+              </div>
+              {svc.image && (
+                <div className="mt-10 lg:mt-0">
+                  <img
+                    src={svc.image}
+                    alt={svc.h1}
+                    className="w-full h-64 sm:h-80 lg:h-[420px] object-cover"
+                    style={{ borderRadius: "6px", border: "1px solid rgba(255,255,255,0.15)" }}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main content */}
       <section className="py-20 lg:py-28 bg-white">

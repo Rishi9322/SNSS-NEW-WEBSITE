@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { NAVY, AMBER, SERVICES } from "../constants";
-import logo from "../../assets/snss-logo.png";
+import logo from "../../assets/images/sentinel-logo.png";
 
 const NAV = [
   { label: "Services", to: "/services" },
@@ -47,11 +47,11 @@ export function Layout() {
       </div>
 
       {/* Header */}
-      <header className="sticky top-0 z-50 transition-all duration-200" style={{ background: scrolled ? "rgba(15,42,74,0.96)" : NAVY, backdropFilter: scrolled ? "blur(16px)" : "none", borderBottom: scrolled ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(255,255,255,0.06)" }}>
-        <div className="max-w-7xl mx-auto px-5 lg:px-8 flex items-center justify-between h-[64px]">
+      <header className="sticky top-0 z-50 transition-all duration-200" style={{ background: scrolled ? "rgba(184,203,216,0.96)" : "#B8CBD8", backdropFilter: scrolled ? "blur(16px)" : "none", borderBottom: "1px solid rgba(15,42,74,0.12)", boxShadow: "0 2px 8px rgba(15,42,74,0.1)" }}>
+        <div className="max-w-7xl mx-auto px-5 lg:px-8 flex items-stretch justify-between h-[64px]">
 
-          <Link to="/" className="flex items-center flex-shrink-0 focus:outline-none">
-            <img src={logo} alt="SNSS Global Services" className="h-9 lg:h-11 w-auto" />
+          <Link to="/" className="flex items-center flex-shrink-0 focus:outline-none" style={{ background: "#B8CBD8", padding: "0 20px" }}>
+            <img src={logo} alt="Sentinel Security Services & Integrated Facility Management" className="h-9 lg:h-11 w-auto" />
           </Link>
 
           {/* Desktop nav */}
@@ -69,7 +69,7 @@ export function Layout() {
                 aria-haspopup="true"
                 aria-expanded={servicesOpen}
                 className="flex items-center gap-1 text-sm px-3 py-2 rounded transition-colors focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-1 focus-visible:outline-none"
-                style={{ color: location.pathname.startsWith("/services") ? "#fff" : "rgba(255,255,255,0.6)" }}
+                style={{ color: location.pathname.startsWith("/services") ? NAVY : "rgba(15,42,74,0.6)" }}
               >
                 Services
                 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth={2} className={`w-3 h-3 transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`}><path d="M2 4l4 4 4-4" /></svg>
@@ -91,7 +91,7 @@ export function Layout() {
             </div>
 
             {NAV.filter(l => l.label !== "Services").map((l) => (
-              <NavLink key={l.to} to={l.to} className={({ isActive }) => `text-sm px-3 py-2 rounded transition-colors ${isActive ? "text-white" : "text-white/60 hover:text-white"}`}>
+              <NavLink key={l.to} to={l.to} className={({ isActive }) => `text-sm px-3 py-2 rounded transition-colors ${isActive ? "text-[#0F2A4A]" : "text-[#0F2A4A]/60 hover:text-[#0F2A4A]"}`}>
                 {l.label}
               </NavLink>
             ))}
@@ -101,11 +101,11 @@ export function Layout() {
           </nav>
 
           {/* Mobile hamburger */}
-          <button type="button" className="lg:hidden text-white p-2" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu" >
+          <button type="button" className="lg:hidden p-2 flex items-center justify-center flex-shrink-0" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu" >
             <div className="w-5 flex flex-col gap-1.5">
-              <span className={`h-0.5 bg-white rounded-full transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
-              <span className={`h-0.5 bg-white rounded-full transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
-              <span className={`h-0.5 bg-white rounded-full transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+              <span className={`h-0.5 bg-[#0F2A4A] rounded-full transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
+              <span className={`h-0.5 bg-[#0F2A4A] rounded-full transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
+              <span className={`h-0.5 bg-[#0F2A4A] rounded-full transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
             </div>
           </button>
         </div>
@@ -113,13 +113,13 @@ export function Layout() {
         <AnimatePresence>
           {menuOpen && (
             <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }}
-              className="lg:hidden overflow-hidden" style={{ background: "#08192e", borderTop: "1px solid rgba(255,255,255,0.07)" }}>
+              className="lg:hidden overflow-hidden" style={{ background: "#B8CBD8", borderTop: "1px solid rgba(15,42,74,0.12)" }}>
               <div className="px-5 py-4 flex flex-col">
                 {/* Services accordion */}
                 <button
                   type="button"
                   onClick={() => setServicesOpen(!servicesOpen)}
-                  className="flex items-center justify-between text-white/70 hover:text-white text-sm py-3 border-b border-white/5 w-full text-left"
+                  className="flex items-center justify-between text-[#0F2A4A]/70 hover:text-[#0F2A4A] text-sm py-3 border-b border-[#0F2A4A]/10 w-full text-left"
                 >
                   Services
                   <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth={2} className={`w-3 h-3 transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`}><path d="M2 4l4 4 4-4" /></svg>
@@ -127,15 +127,15 @@ export function Layout() {
                 <AnimatePresence>
                   {servicesOpen && (
                     <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.15 }} className="overflow-hidden">
-                      <Link to="/services" className="block pl-4 py-2.5 text-xs border-b border-white/5 font-medium" style={{ color: "rgba(255,255,255,0.6)" }}>All Services</Link>
+                      <Link to="/services" className="block pl-4 py-2.5 text-xs border-b border-[#0F2A4A]/10 font-medium" style={{ color: "rgba(15,42,74,0.6)" }}>All Services</Link>
                       {SERVICES.map((s) => (
-                        <Link key={s.slug} to={`/services/${s.slug}`} className="block pl-4 py-2.5 text-xs border-b border-white/5 last:border-0" style={{ color: "rgba(255,255,255,0.45)" }}>{s.title}</Link>
+                        <Link key={s.slug} to={`/services/${s.slug}`} className="block pl-4 py-2.5 text-xs border-b border-[#0F2A4A]/10 last:border-0" style={{ color: "rgba(15,42,74,0.55)" }}>{s.title}</Link>
                       ))}
                     </motion.div>
                   )}
                 </AnimatePresence>
                 {NAV.filter(l => l.label !== "Services").map((l) => (
-                  <Link key={l.to} to={l.to} className="text-white/70 hover:text-white text-sm py-3 border-b border-white/5">{l.label}</Link>
+                  <Link key={l.to} to={l.to} className="text-[#0F2A4A]/70 hover:text-[#0F2A4A] text-sm py-3 border-b border-[#0F2A4A]/10">{l.label}</Link>
                 ))}
                 <Link to="/contact" className="mt-4 w-full py-3 rounded text-sm font-bold text-center" style={{ background: AMBER, color: "#fff" }}>Get a Quote</Link>
               </div>
@@ -153,7 +153,7 @@ export function Layout() {
 
             <div className="sm:col-span-2 lg:col-span-1">
               <div className="mb-5">
-                <img src={logo} alt="SNSS Global Services" className="h-10 w-auto" />
+                <img src={logo} alt="Sentinel Security Services & Integrated Facility Management" className="h-10 w-auto" />
                 <div className="text-[10px] tracking-widest uppercase mt-2" style={{ color: "rgba(255,255,255,0.3)" }}>Pvt. Ltd. · Est. 1999</div>
               </div>
               <p className="text-sm mb-6 leading-relaxed" style={{ color: "rgba(255,255,255,0.45)" }}>

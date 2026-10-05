@@ -2,6 +2,14 @@ import { Link } from "react-router";
 import { FadeIn } from "../components/FadeIn";
 import { NAVY, AMBER, TIMELINE, INDUSTRIES_SERVED, TESTIMONIALS } from "../constants";
 import { useSEO } from "../hooks/useSEO";
+import iso9001Badge from "../../assets/images/iso-9001-badge.png";
+import iso14001Badge from "../../assets/images/iso-14001-badge.png";
+import iso45001Badge from "../../assets/images/iso-45001-badge.png";
+import iso27001Badge from "../../assets/images/iso-27001-badge.png";
+import msmeUdyamBadge from "../../assets/images/msme-udyam-badge.png";
+import startupIndiaBadge from "../../assets/images/startup-india-badge.png";
+import aboutHeroImage from "../../assets/images/about-hero.png";
+import missionImage from "../../assets/images/mission-image.png";
 
 export function About() {
   useSEO({
@@ -13,17 +21,9 @@ export function About() {
   return (
     <>
       {/* Page header with background image */}
-      <div className="relative py-24 lg:py-32 overflow-hidden" style={{ background: NAVY }}>
-        <img
-          src="https://picsum.photos/seed/snss-about-hero/1400/600"
-          alt="SNSS corporate facilities management operations"
-          className="absolute inset-0 w-full h-full object-cover opacity-20"
-          style={{ mixBlendMode: "luminosity" }}
-          width={1400}
-          height={600}
-          loading="lazy"
-        />
-        <div className="relative max-w-7xl mx-auto px-5 lg:px-8">
+      <div className="relative overflow-hidden bg-cover bg-center" style={{ background: NAVY, backgroundImage: `url(${aboutHeroImage})` }}>
+        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(20,35,70,0.75) 0%, rgba(20,35,70,0.85) 100%)" }} />
+        <div className="relative max-w-7xl mx-auto px-5 lg:px-8 py-24 lg:py-32">
           <div className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER }}>
             <Link to="/" className="transition-opacity hover:opacity-70">Home</Link>
             <span className="mx-2 opacity-30">/</span>About
@@ -31,7 +31,7 @@ export function About() {
           <h1 className="text-white mb-5 max-w-2xl" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-0.025em" }}>
             25 years of doing<br />one thing well.
           </h1>
-          <p className="max-w-xl text-sm" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.8 }}>
+          <p className="text-sm" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.8, maxWidth: "650px" }}>
             Founded in 1999, SNSS Global Services has built a reputation for operational reliability, statutory compliance, and genuine partnership with corporate clients across India.
           </p>
         </div>
@@ -82,7 +82,7 @@ export function About() {
                 {/* Office image */}
                 <div className="mb-10 overflow-hidden" style={{ borderRadius: "4px" }}>
                   <img
-                    src="https://picsum.photos/seed/snss-office-mumbai/700/380"
+                    src={missionImage}
                     alt="SNSS Global Services office — Mumbai headquarters"
                     className="w-full object-cover"
                     style={{ display: "block" }}
@@ -119,13 +119,19 @@ export function About() {
             <p className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER }}>Industries Served</p>
             <h2 className="text-white mb-10" style={{ fontSize: "clamp(1.6rem, 3vw, 2.4rem)", fontWeight: 800, letterSpacing: "-0.02em" }}>One partner across every sector</h2>
           </FadeIn>
-          <div className="flex flex-wrap gap-2">
-            {INDUSTRIES_SERVED.map((ind, i) => (
-              <FadeIn key={ind} delay={i * 0.03}>
-                <span className="px-4 py-2 text-sm font-medium" style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.7)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "3px" }}>{ind}</span>
-              </FadeIn>
-            ))}
-          </div>
+          <FadeIn>
+            <div className="flex flex-wrap" style={{ gap: "14px" }}>
+              {INDUSTRIES_SERVED.map((ind) => (
+                <span
+                  key={ind}
+                  className="inline-flex items-center text-sm font-medium"
+                  style={{ width: "fit-content", padding: "10px 20px", background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.7)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "3px" }}
+                >
+                  {ind}
+                </span>
+              ))}
+            </div>
+          </FadeIn>
         </div>
       </section>
 
@@ -138,15 +144,23 @@ export function About() {
           </FadeIn>
           <div className="grid grid-cols-3 lg:grid-cols-6 gap-4">
             {[
-              { code: "ISO\n9001", bg: NAVY },
-              { code: "ISO\n14001", bg: "#1a3d5c" },
-              { code: "ISO\n45001", bg: "#2a5470" },
-              { code: "ISO\n27001", bg: "#0d2240" },
-              { code: "MSME\nUdyam", bg: AMBER },
-              { code: "Startup\nIndia", bg: "#c5751a" },
+              { code: "ISO\n9001", image: iso9001Badge },
+              { code: "ISO\n14001", image: iso14001Badge },
+              { code: "ISO\n45001", image: iso45001Badge },
+              { code: "ISO\n27001", image: iso27001Badge },
+              { code: "MSME\nUdyam", image: msmeUdyamBadge },
+              { code: "Startup\nIndia", image: startupIndiaBadge },
             ].map((cert, i) => (
               <FadeIn key={cert.code} delay={i * 0.06}>
-                <div className="aspect-square rounded flex items-center justify-center font-bold text-white text-center text-xs leading-snug whitespace-pre-line" style={{ background: cert.bg }}>{cert.code}</div>
+                <div
+                  className="aspect-square rounded flex flex-col items-center justify-center gap-2 p-3 font-bold text-center text-xs leading-snug whitespace-pre-line transition-all duration-200 shadow-[0_2px_8px_rgba(0,0,0,0.06)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.1)] hover:-translate-y-0.5"
+                  style={{ background: "#F8F9FA", border: "1px solid #E5E7EB", color: NAVY }}
+                >
+                  {cert.image && (
+                    <img src={cert.image} alt={cert.code.replace("\n", " ")} className="object-contain" style={{ maxWidth: "60%", maxHeight: "50%" }} />
+                  )}
+                  {cert.code}
+                </div>
               </FadeIn>
             ))}
           </div>
