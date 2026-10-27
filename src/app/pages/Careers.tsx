@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { FadeIn } from "../components/FadeIn";
 import { NAVY, AMBER, EMPLOYEE_BENEFITS } from "../constants";
 import { useSEO } from "../hooks/useSEO";
+import careersHeroImage from "../../assets/images/careers-hero.png";
 
 const ROLES = [
   "Housekeeping Supervisor", "Pantry / Cafeteria Staff", "Electrician (ITI Certified)",
@@ -61,16 +62,16 @@ export function Careers() {
 
   return (
     <>
-      <div className="py-16 lg:py-20" style={{ background: NAVY }}>
+      <div className="py-24 lg:py-32 bg-cover bg-center" style={{ background: NAVY, backgroundImage: `url(${careersHeroImage})` }}>
         <div className="max-w-7xl mx-auto px-5 lg:px-8">
-          <div className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER }}>
+          <div className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER, textShadow: "0 2px 8px rgba(0,0,0,0.6)" }}>
             <Link to="/" className="transition-opacity hover:opacity-70">Home</Link>
             <span className="mx-2 opacity-30">/</span>Careers
           </div>
-          <h1 className="text-white mb-4" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-0.025em" }}>
+          <h1 className="text-white mb-4" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-0.025em", textShadow: "0 2px 8px rgba(0,0,0,0.6)" }}>
             Join 700+ professionals<br />across India.
           </h1>
-          <p className="max-w-xl text-sm" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.8 }}>
+          <p className="max-w-xl text-sm" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.8, textShadow: "0 2px 8px rgba(0,0,0,0.6)" }}>
             Every employee receives a complete benefits package from day one — appointment letter, PF, ESIC, salary by the 7th. No delays, no exceptions.
           </p>
         </div>

@@ -1,3 +1,10 @@
+import housekeepingImage from "../assets/images/service-housekeeping.png";
+import pantryImage from "../assets/images/service-pantry.png";
+import technicalImage from "../assets/images/service-technical.png";
+import dataEntryImage from "../assets/images/service-data-entry.png";
+import staffingImage from "../assets/images/service-staffing.png";
+import payrollImage from "../assets/images/service-payroll.png";
+
 export const NAVY = "#0F2A4A";
 export const AMBER = "#E8871A";
 
@@ -46,6 +53,8 @@ export interface Service {
   title: string;
   shortTitle: string;
   icon: React.ReactNode;
+  image?: string;
+  heroFull?: boolean;
   desc: string;
   industries: string;
   outcome: string;
@@ -68,6 +77,8 @@ export const SERVICES: Service[] = [
         <polyline points="9 22 9 12 15 12 15 22" />
       </svg>
     ),
+    image: housekeepingImage,
+    heroFull: true,
     desc: "Trained, uniformed housekeeping staff for corporate offices, commercial spaces, and institutions. Daily cleaning, deep cleaning, and specialised sanitation.",
     industries: "Offices · Malls · Hospitals · Schools",
     outcome: "Your space stays clean. Your team never notices staff gaps.",
@@ -104,6 +115,8 @@ export const SERVICES: Service[] = [
         <line x1="14" y1="1" x2="14" y2="4" />
       </svg>
     ),
+    image: pantryImage,
+    heroFull: true,
     desc: "Courteous, well-groomed pantry attendants and cafeteria staff. Tea/coffee service, pantry upkeep, and cafeteria operations managed end-to-end.",
     industries: "Corporate Offices · Call Centres · Hospitals",
     outcome: "Guests and employees are served well. You don't think about it.",
@@ -134,6 +147,8 @@ export const SERVICES: Service[] = [
         <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
       </svg>
     ),
+    image: technicalImage,
+    heroFull: true,
     desc: "Certified electricians and skilled plumbers for installation, preventive maintenance, and emergency repair of all facility systems.",
     industries: "Offices · Factories · Warehouses · Malls",
     outcome: "Breakdowns get fixed before they become complaints.",
@@ -166,6 +181,8 @@ export const SERVICES: Service[] = [
         <path d="M7 8h2M11 8h6M7 11h6M15 11h2" />
       </svg>
     ),
+    image: dataEntryImage,
+    heroFull: true,
     desc: "Accurate data entry operators and back-office support staff. Documentation, record-keeping, and administrative support for corporate clients.",
     industries: "Finance · Healthcare · Government Bodies",
     outcome: "Backlogs clear. Records stay accurate. Audits don't surprise you.",
@@ -197,6 +214,8 @@ export const SERVICES: Service[] = [
         <line x1="1" y1="10" x2="23" y2="10" />
       </svg>
     ),
+    image: payrollImage,
+    heroFull: true,
     desc: "End-to-end payroll processing with EPFO, ESIC, Professional Tax, and MLWF compliance. Salary credited by the 7th of every month. Zero liability for clients.",
     industries: "All Sectors · Contract Labour",
     outcome: "Staff paid on time, every month. Zero compliance exposure for you.",
@@ -231,11 +250,13 @@ export const SERVICES: Service[] = [
         <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
       </svg>
     ),
+    image: staffingImage,
+    heroFull: true,
     desc: "Background-verified drivers for corporate fleets, security personnel, and flexible contract labour for operational scaling needs.",
     industries: "Corporate · Logistics · Manufacturing",
     outcome: "Verified people, on site when you need them — not when it's convenient.",
-    h1: "Facility Staffing: Drivers, Security & Contract Labour",
-    subhead: "Background-verified, licensed drivers and security staff for corporate clients across Mumbai, Pune, Ahmedabad and Bhopal.",
+    h1: "Verified drivers. Zero compromise.",
+    subhead: "Background-verified, licensed drivers and security staff for corporate clients — deployed with the same discipline and accountability as every SNSS service, across Mumbai, Pune, Ahmedabad and Bhopal.",
     whatIncluded: [
       "Corporate chauffeur and executive driver deployment",
       "Office and site security personnel",
@@ -278,6 +299,7 @@ export const TIMELINE = [
   { year: "2015", event: "ISO certification programme initiated — quality management systems formalised." },
   { year: "2019", event: "Incorporated as SNSS Global Services Pvt. Ltd. Expanded to Pune and Ahmedabad." },
   { year: "2022", event: "GeM vendor empanelled — first central government contracts awarded. Bhopal operations launched." },
+  { year: "2026", event: "Incorporated as Sentinel IFM Expanded operations further." },
 ];
 
 export const EMPLOYEE_BENEFITS = [

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router";
+import { useSearchParams } from "react-router";
 import { useSEO } from "../hooks/useSEO";
 import { AnimatePresence, motion } from "motion/react";
 import { FadeIn } from "../components/FadeIn";
 import { NAVY, AMBER, SERVICES } from "../constants";
+import contactHeroImage from "../../assets/images/contact-hero.png";
 
 const CITIES = [
   {
@@ -115,19 +116,13 @@ export function Contact() {
   return (
     <>
       {/* Page header */}
-      <div className="py-16 lg:py-20" style={{ background: NAVY }}>
-        <div className="max-w-7xl mx-auto px-5 lg:px-8">
-          <div className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER }}>
-            <Link to="/" className="transition-opacity hover:opacity-70">Home</Link>
-            <span className="mx-2 opacity-30">/</span>Contact
-          </div>
-          <h1 className="text-white mb-4" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-0.025em" }}>
-            Request a free quote.
-          </h1>
-          <p className="max-w-xl text-sm" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.8 }}>
-            Every enquiry is reviewed by a real person and responded to within 4 business hours. No chatbots, no templates.
-          </p>
-        </div>
+      <div className="relative overflow-hidden" style={{ background: NAVY }}>
+        <img
+          src={contactHeroImage}
+          alt="Request a free quote — SNSS Global Services: cleaning, compliance, management support, security, and maintenance. Every enquiry reviewed by a real person, response within 4 business hours."
+          className="w-full h-auto block"
+        />
+        <h1 className="sr-only">Request a free quote.</h1>
       </div>
 
       {/* Form + contact info */}

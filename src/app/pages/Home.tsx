@@ -3,6 +3,8 @@ import { Link } from "react-router";
 import { FadeIn } from "../components/FadeIn";
 import { NAVY, AMBER, WA_PATH, SERVICES, PROOF_POINTS, CORP_VALUE_PROPS, TESTIMONIALS } from "../constants";
 import { useSEO } from "../hooks/useSEO";
+import heroImage from "../../assets/images/snss-hero-glass-cleaning.png";
+import testimonialsImage from "../../assets/images/testimonials-image.png";
 
 const HOME_FAQS = [
   { q: "What services does SNSS Global Services provide?", a: "SNSS provides six integrated facilities management services: housekeeping and janitorial, pantry management, electrical and technical maintenance, data entry and office support, payroll management and labour compliance, and contract staffing including drivers and security personnel." },
@@ -94,8 +96,8 @@ export function Home() {
                 {/* Amber accent line */}
                 <div className="absolute left-0 top-[15%] bottom-[15%] w-1" style={{ background: AMBER }} />
                 <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuQxWocEVN2SjausHsgUBZ1oTsx0oTpPtQPCmAGTI6yQ&s=10"
-                  alt="Professional facility management — clean corporate office environment"
+                  src={heroImage}
+                  alt="SNSS staff cleaning office glass partitions"
                   className="w-full h-full object-cover"
                   style={{ marginLeft: "1rem" }}
                   width={700}
@@ -235,10 +237,10 @@ export function Home() {
               </div>
               <div className="hidden lg:block lg:col-span-2">
                 <img
-                  src="https://picsum.photos/seed/corporate-office-team/600/340"
+                  src={testimonialsImage}
                   alt="Corporate facility management team"
                   className="w-full object-cover"
-                  style={{ borderRadius: "2px", filter: "brightness(0.75) saturate(0.8)" }}
+                  style={{ borderRadius: "2px" }}
                   width={600}
                   height={340}
                   loading="lazy"
