@@ -54,9 +54,9 @@ export function Layout() {
       </div>
 
       <header className="sticky top-0 z-50 bg-mist shadow-[0_2px_0_0_var(--color-ink)]">
-        <Container className="flex h-[68px] items-stretch justify-between">
+        <Container className="flex h-[76px] items-stretch justify-between lg:h-[96px]">
           <Link to="/" className="flex items-center" aria-label="Sentinel IFM home">
-            <img src={logo} alt="Sentinel Security Services & Integrated Facility Management" className="h-9 w-auto lg:h-11" width={200} height={66} decoding="async" />
+            <img src={logo} alt="Sentinel Security Services & Integrated Facility Management" className="h-[52px] w-auto lg:h-[72px]" width={218} height={72} decoding="async" fetchPriority="high" />
           </Link>
 
           <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
@@ -152,7 +152,7 @@ export function Layout() {
           <div className="grid gap-12 border-b border-white/20 pb-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1.2fr_1.2fr]">
             <div>
               <div className="inline-block bg-mist px-4 py-3">
-                <img src={logo} alt="Sentinel Security Services & Integrated Facility Management" className="h-10 w-auto" width={200} height={66} loading="lazy" decoding="async" />
+                <img src={logo} alt="Sentinel Security Services & Integrated Facility Management" className="h-14 w-auto" width={170} height={56} loading="lazy" decoding="async" />
               </div>
               <p className="mt-5 max-w-[34ch] text-[15px] leading-relaxed text-white/80">
                 Integrated facilities management for corporate India. Since 1999. 700+ staff. ISO certified.
