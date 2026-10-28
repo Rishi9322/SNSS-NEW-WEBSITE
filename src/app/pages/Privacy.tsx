@@ -3,7 +3,7 @@ import { NAVY, AMBER } from "../constants";
 import { useSEO } from "../hooks/useSEO";
 
 export function Privacy() {
-  useSEO({ title: "Privacy Policy | SNSS Global Services", description: "Privacy policy for SNSS Global Services Pvt. Ltd.", path: "/privacy" });
+  useSEO({ title: "Privacy Policy | Sentinel IFM", description: "Privacy policy for Sentinel IFM Pvt. Ltd.", path: "/privacy" });
   return (
     <>
       <div className="py-14" style={{ background: NAVY }}>
@@ -22,7 +22,7 @@ export function Privacy() {
             {[
               {
                 title: "1. Who We Are",
-                body: "SNSS Global Services Pvt. Ltd. (CIN: U74999MH2019PTC323363) is the data controller for information collected through www.snssgroup.com. Our registered office is at 409, Sej Plaza, Marve Road, Malad (W), Mumbai – 400064, Maharashtra, India.",
+                body: "Sentinel IFM Pvt. Ltd. (CIN: U74999MH2019PTC323363) is the data controller for information collected through sentinelifm.com. Our registered office is at 409, Sej Plaza, Marve Road, Malad (W), Mumbai – 400064, Maharashtra, India.",
               },
               {
                 title: "2. Information We Collect",

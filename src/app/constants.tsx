@@ -1,9 +1,9 @@
-import housekeepingImage from "../assets/images/service-housekeeping.png";
-import pantryImage from "../assets/images/service-pantry.png";
-import technicalImage from "../assets/images/service-technical.png";
-import dataEntryImage from "../assets/images/service-data-entry.png";
-import staffingImage from "../assets/images/service-staffing.png";
-import payrollImage from "../assets/images/service-payroll.png";
+import housekeepingImage from "../assets/images/service-housekeeping.webp";
+import pantryImage from "../assets/images/service-pantry.webp";
+import technicalImage from "../assets/images/service-technical.webp";
+import dataEntryImage from "../assets/images/service-data-entry.webp";
+import staffingImage from "../assets/images/service-staffing.webp";
+import payrollImage from "../assets/images/service-payroll.webp";
 
 export const NAVY = "#0F2A4A";
 export const AMBER = "#E8871A";
@@ -234,7 +234,7 @@ export const SERVICES: Service[] = [
       "Zero compliance liability transferred to your organisation",
       "EPFO, ESIC, PT, MLWF handled — one less vendor to manage",
       "Audit-ready documentation always available on request",
-      "Staff disputes absorbed entirely by SNSS",
+      "Staff disputes absorbed entirely by Sentinel",
     ],
     relatedSlugs: ["staffing", "data-entry"],
   },
@@ -256,13 +256,13 @@ export const SERVICES: Service[] = [
     industries: "Corporate · Logistics · Manufacturing",
     outcome: "Verified people, on site when you need them — not when it's convenient.",
     h1: "Verified drivers. Zero compromise.",
-    subhead: "Background-verified, licensed drivers and security staff for corporate clients — deployed with the same discipline and accountability as every SNSS service, across Mumbai, Pune, Ahmedabad and Bhopal.",
+    subhead: "Background-verified, licensed drivers and security staff for corporate clients — deployed with the same discipline and accountability as every Sentinel service, across Mumbai, Pune, Ahmedabad and Bhopal.",
     whatIncluded: [
       "Corporate chauffeur and executive driver deployment",
       "Office and site security personnel",
       "Contract labour for warehouses, factories, and logistics",
       "Seasonal and event-based staffing at short notice",
-      "Police verification and background checks handled by SNSS",
+      "Police verification and background checks handled by Sentinel",
     ],
     benefits: [
       "Police-verified, licensed staff only — no exceptions",
@@ -276,7 +276,7 @@ export const SERVICES: Service[] = [
 
 export const PROOF_POINTS = [
   { stat: "25+", label: "Years of unbroken operation", detail: "Founded 1999. Survived economic cycles, sector shifts, and a full corporate transformation." },
-  { stat: "₹2.04 Cr+", label: "Active government GeM contracts", detail: "Multiple central government audit teams have cleared SNSS — harder to fake than any certification." },
+  { stat: "₹2.04 Cr+", label: "Active government GeM contracts", detail: "Multiple central government audit teams have cleared Sentinel — harder to fake than any certification." },
   { stat: "700+", label: "Staff deployed across India", detail: "Appointment letter, ID card, uniform, EPFO, ESIC, and police verification — before reaching your site." },
   { stat: "1", label: "Point of contact for everything", detail: "No multi-vendor coordination. One account manager handles every request and escalation." },
   { stat: "6", label: "ISO certifications active", detail: "ISO 9001 · 14001 · 45001 · 27001 · 22000 · 21001. Covers quality, safety, environment, and food." },
@@ -286,20 +286,20 @@ export const PROOF_POINTS = [
 export const CORP_VALUE_PROPS = [
   { problem: "Staff absent without notice — daily in large facilities", solution: "Replacement from bench strength — same day, no calls needed from your team" },
   { problem: "Multiple vendors, multiple invoices, multiple compliance risks", solution: "Single integrated partner — one invoice, one SLA, zero coordination overhead" },
-  { problem: "Labour law compliance (PF, ESIC, PT) managed by client's HR", solution: "Fully handled by SNSS — PF, ESIC, PT, MLWF — client has zero liability" },
+  { problem: "Labour law compliance (PF, ESIC, PT) managed by client's HR", solution: "Fully handled by Sentinel — PF, ESIC, PT, MLWF — client has zero liability" },
   { problem: "New site needs staff immediately for fit-out or expansion", solution: "Ready talent pool with verified, trained staff deployable at short notice" },
-  { problem: "Payroll errors, late payments, unhappy contract staff", solution: "SNSS payroll team — salary credited by the 7th of every month, every month" },
+  { problem: "Payroll errors, late payments, unhappy contract staff", solution: "Sentinel payroll team — salary credited by the 7th of every month, every month" },
   { problem: "Seasonal scaling for events, audits, new facilities", solution: "Flexible deployment — scale up or down without penalty or delay" },
 ];
 
 export const TIMELINE = [
-  { year: "1999", event: "SNSS founded in Mumbai — housekeeping and facility staffing for local corporates." },
+  { year: "1999", event: "Founded in Mumbai as SNSS Global Services — housekeeping and facility staffing for local corporates." },
   { year: "2000", event: "Expanded into pantry management and technical maintenance services." },
   { year: "2014", event: "Secured first institutional contracts — residential complexes and hospitals." },
   { year: "2015", event: "ISO certification programme initiated — quality management systems formalised." },
-  { year: "2019", event: "Incorporated as SNSS Global Services Pvt. Ltd. Expanded to Pune and Ahmedabad." },
+  { year: "2019", event: "Incorporated as a private limited company. Expanded to Pune and Ahmedabad." },
   { year: "2022", event: "GeM vendor empanelled — first central government contracts awarded. Bhopal operations launched." },
-  { year: "2026", event: "Incorporated as Sentinel IFM Expanded operations further." },
+  { year: "2026", event: "Rebranded as Sentinel IFM (formerly SNSS Global Services). Expanded operations further." },
 ];
 
 export const EMPLOYEE_BENEFITS = [
@@ -313,7 +313,7 @@ export const EMPLOYEE_BENEFITS = [
   "Professional Tax handled",
   "Form 16 annually",
   "ITR filing assistance",
-  "Police verification handled by SNSS",
+  "Police verification handled by Sentinel",
 ];
 
 export const INDUSTRIES_SERVED = [
@@ -324,21 +324,21 @@ export const INDUSTRIES_SERVED = [
 
 export const TESTIMONIALS = [
   {
-    quote: "We've had SNSS managing our 800-seat office for three years. In that time I've escalated maybe four times — and each time it was resolved before I had to follow up. That's the actual metric that matters.",
+    quote: "We've had Sentinel managing our 800-seat office for three years. In that time I've escalated maybe four times — and each time it was resolved before I had to follow up. That's the actual metric that matters.",
     author: "Rajesh Kulkarni",
     role: "Facility Manager",
     company: "IT Services Firm, Pune",
     tenure: "3 years",
   },
   {
-    quote: "Our auditors asked for compliance documentation mid-review, no notice. I forwarded to my SNSS account manager and had everything in 20 minutes. That's not something you get from a typical vendor.",
+    quote: "Our auditors asked for compliance documentation mid-review, no notice. I forwarded to my Sentinel account manager and had everything in 20 minutes. That's not something you get from a typical vendor.",
     author: "Priya Sharma",
     role: "Head of Administration",
     company: "NBFC, Mumbai",
     tenure: "2+ years",
   },
   {
-    quote: "We needed four verified drivers for an executive fleet expansion in under 48 hours. Background checks, appointment letters, uniforms — SNSS had people on site before we'd even sorted the access cards.",
+    quote: "We needed four verified drivers for an executive fleet expansion in under 48 hours. Background checks, appointment letters, uniforms — Sentinel had people on site before we'd even sorted the access cards.",
     author: "Anil Desai",
     role: "Corporate Services Manager",
     company: "Pharmaceutical Company, Ahmedabad",
@@ -396,4 +396,4 @@ export const ISSUE_QUICKSTARTS = [
 ];
 
 export const ESCALATION_MESSAGE =
-  "Your situation involves potential litigation, termination disputes, or POSH issues. This tool cannot represent you or draft documents. Please consult a qualified labour lawyer or reach out to SNSS for compliance support.";
+  "Your situation involves potential litigation, termination disputes, or POSH issues. This tool cannot represent you or draft documents. Please consult a qualified labour lawyer or reach out to Sentinel for compliance support.";

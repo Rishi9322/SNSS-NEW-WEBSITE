@@ -6,7 +6,7 @@ import { useSEO } from "../hooks/useSEO";
 export function Services() {
   useSEO({
     title: "Facilities Management Services — Housekeeping, Pantry, Technical, Payroll & Staffing",
-    description: "SNSS offers six integrated facilities management services: housekeeping, pantry management, electrical & technical maintenance, data entry, payroll compliance, and contract staffing across India.",
+    description: "Sentinel offers six integrated facilities management services: housekeeping, pantry management, electrical & technical maintenance, data entry, payroll compliance, and contract staffing across India.",
     path: "/services",
   });
 
@@ -22,7 +22,7 @@ export function Services() {
             Six services.<br />Zero coordination overhead.
           </h1>
           <p className="max-w-2xl text-sm" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.8 }}>
-            Most facilities teams manage three to five vendors for the same building. SNSS consolidates all of it — housekeeping, pantry, technical, payroll, staffing — under a single contract and a single point of accountability. That is the actual value: not any individual service, but the fact that you stop chasing vendors.
+            Most facilities teams manage three to five vendors for the same building. Sentinel consolidates all of it — housekeeping, pantry, technical, payroll, staffing — under a single contract and a single point of accountability. That is the actual value: not any individual service, but the fact that you stop chasing vendors.
           </p>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-const BASE_URL = "https://www.snssgroup.com";
+import { SITE_URL as BASE_URL } from "../site";
 const DEFAULT_IMAGE = `${BASE_URL}/og-image.png`;
 
 interface SEOOptions {

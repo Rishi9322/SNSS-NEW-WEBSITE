@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.snssgroup.com/sitemap.xml
+Sitemap: https://sentinelifm.com/sitemap.xml
