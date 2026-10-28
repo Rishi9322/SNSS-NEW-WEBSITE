@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "motion/react";
 import { NAVY, AMBER, LABOUR_ASSIST_DISCLAIMER, LABOUR_ASSIST_SHORT_DISCLAIMER, DEFAULT_PROFILE, COMMON_STATES, ISSUE_QUICKSTARTS, ESCALATION_MESSAGE } from "../constants";
 import { useSEO } from "../hooks/useSEO";
 import { retrieveRelevantChunks, type DatasetEntry, getDatasetLastUpdated } from "../../lib/rag";
-import { buildRagContext } from "../../lib/prompts";
 import { checkQueryGuardrails, applyResponseGuardrails, checkRateLimit, checkQueryLength } from "../../lib/guardrails";
 
 interface Message {
@@ -365,12 +364,6 @@ export function LabourLawAssist() {
       return;
     }
 
-    // Build RAG context string for the API
-    const ragContext = buildRagContext(chunks);
-
-    // Max relevance score — tells the server whether to trigger web search
-    const ragScore = chunks.length > 0 ? Math.max(...chunks.map((c) => c.relevance)) : 0;
-
     // Serialize recent history for the API (last 6 messages = 3 turns)
     const historyForApi = messages.slice(-6).map((m) => ({
       role: m.role,
@@ -391,7 +384,7 @@ export function LabourLawAssist() {
       const res = await fetch("/api/labour-assist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query, profile, history: historyForApi, ragContext, ragScore }),
+        body: JSON.stringify({ query, profile, history: historyForApi }),
       });
 
       if (res.ok) {
@@ -449,6 +442,13 @@ export function LabourLawAssist() {
         )
       );
     }
+  }
+
+  function clearAllChats() {
+    if (!window.confirm("Delete all saved conversations on this device?")) return;
+    setThreads([]);
+    setCurrentThreadId(null);
+    try { Object.values(STORAGE_KEYS).forEach((k) => localStorage.removeItem(k)); } catch { /* storage blocked */ }
   }
 
   // New chat button
@@ -559,7 +559,7 @@ export function LabourLawAssist() {
       <div className="border-b" style={{ borderColor: "rgba(15,42,74,0.08)" }}>
         <div className="max-w-7xl mx-auto px-5 lg:px-8 py-4 flex items-center justify-between">
           <div>
-            <div className="text-xs tracking-[2px] uppercase" style={{ color: AMBER }}>SNSS Global Services</div>
+            <div className="text-xs tracking-[2px] uppercase" style={{ color: AMBER }}>Sentinel IFM</div>
             <h1 className="text-2xl font-bold tracking-tight">Labour Law Assist</h1>
           </div>
 
@@ -632,7 +632,11 @@ export function LabourLawAssist() {
 
                 <div className="mt-6 pt-4 border-t text-[11px] leading-relaxed" style={{ color: "rgba(15,42,74,0.45)", borderColor: "rgba(15,42,74,0.08)" }}>
                   Dataset last updated: {datasetUpdated}<br />
-                  All information is for reference only.
+                  All information is for reference only.<br />
+                  Chats are saved only in this browser. Questions are sent to an AI service to generate answers.
+                  {threads.length > 0 && (
+                    <button onClick={clearAllChats} className="block mt-2 underline hover:opacity-80">Clear all chats</button>
+                  )}
                 </div>
               </motion.aside>
             )}
@@ -697,7 +701,7 @@ export function LabourLawAssist() {
             {/* Disclaimer bar */}
             <div className="px-4 py-2 text-[11px] border-t" style={{ background: "rgba(15,42,74,0.015)", borderColor: "rgba(15,42,74,0.06)", color: "rgba(15,42,74,0.6)" }}>
               {LABOUR_ASSIST_SHORT_DISCLAIMER} Dataset: {datasetUpdated}. 
-              <Link to="/contact" className="ml-1 underline">Talk to an SNSS expert</Link> for complex matters.
+              <Link to="/contact" className="ml-1 underline">Talk to an Sentinel expert</Link> for complex matters.
             </div>
 
             {/* Input */}

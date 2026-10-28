@@ -1,4 +1,8 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import { retrieve, type DatasetEntry } from "../src/lib/retrieve.js";
+import { buildRagContext } from "../src/lib/prompts.js";
 
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
 // Groq free tier: 14,400 req/day, 6,000 tokens/min — no credit card required
@@ -11,19 +15,81 @@ const MAX_OUTPUT_TOKENS = 750;
 
 // ─── Guardrails ───────────────────────────────────────────────────────────────
 
-const OVERCONFIDENT = [
-  [/\byou will win\b/gi, "you may have grounds to argue"],
-  [/\byou are guaranteed\b/gi, "you may be entitled"],
-  [/\bthe court will order\b/gi, "a court may consider ordering"],
-  [/\byou will get\b/gi, "you may be entitled to claim"],
-  [/\bthey must pay you\b/gi, "they may be required to pay"],
-] as const;
+const OVERCONFIDENT: Array<[RegExp, string]> = [
+  [/\byou(?:'ll| will)(?: definitely| certainly| surely| absolutely)? (?:win|prevail)\b/gi, "you may have grounds to argue"],
+  [/\byou(?:'re| are)(?: definitely| certainly| surely)? (?:guaranteed|certain to (?:win|succeed))\b/gi, "you may be entitled"],
+  [/\b(?:the )?(?:court|tribunal|labour court) will (?:definitely |certainly )?(?:order|rule|side)\b/gi, "a court may consider ordering"],
+  [/\byou(?:'ll| will)(?: definitely| certainly)? (?:get|receive)\b/gi, "you may be entitled to claim"],
+  [/\bthey (?:must|have to|will have to) pay you\b/gi, "they may be required to pay"],
+  [/\b(?:100% (?:sure|certain|guaranteed)|without (?:a )?doubt)\b/gi, "subject to facts"],
+];
 
-function applyGuardrails(text: string, hasRag: boolean, hasWeb: boolean, escalation: boolean): string {
+const ESCALATION_RE = /termination|terminated|fired|retrench|dismiss|sacked|posh|sexual harass|labour court|conciliation|wrongful/i;
+
+// ─── Abuse protection ─────────────────────────────────────────────────────────
+// ponytail: per-instance memory — a determined caller spread across cold instances
+// gets more; move to Upstash/Vercel KV rate limiting if abuse shows up in Groq usage.
+
+const RATE_WINDOW_MS = 3_600_000;
+const RATE_MAX_PER_WINDOW = 15;
+const hits = new Map<string, number[]>();
+
+export function rateLimited(ip: string, now = Date.now()): boolean {
+  const recent = (hits.get(ip) ?? []).filter((t) => now - t < RATE_WINDOW_MS);
+  if (recent.length >= RATE_MAX_PER_WINDOW) {
+    hits.set(ip, recent);
+    return true;
+  }
+  recent.push(now);
+  hits.set(ip, recent);
+  if (hits.size > 5000) { // keep the map from growing without bound
+    for (const [k, v] of hits) if (v.every((t) => now - t >= RATE_WINDOW_MS)) hits.delete(k);
+  }
+  return false;
+}
+
+function clientIp(req: VercelRequest): string {
+  const real = req.headers["x-real-ip"];
+  if (typeof real === "string" && real) return real;
+  const xff = req.headers["x-forwarded-for"];
+  return (typeof xff === "string" ? xff.split(",")[0].trim() : "") || "unknown";
+}
+
+/** Only genuine user/assistant turns survive; clients can't inject system messages. */
+export function sanitizeHistory(raw: unknown): Array<{ role: "user" | "assistant"; content: string }> {
+  if (!Array.isArray(raw)) return [];
+  const out: Array<{ role: "user" | "assistant"; content: string }> = [];
+  for (const m of raw.slice(-MAX_HISTORY_TURNS * 2)) {
+    if (!m || typeof m !== "object") continue;
+    const { role, content } = m as { role?: unknown; content?: unknown };
+    if ((role === "user" || role === "assistant") && typeof content === "string" && content.trim()) {
+      out.push({ role, content: content.slice(0, 1500) });
+    }
+  }
+  return out;
+}
+
+function cleanField(v: unknown): string {
+  return typeof v === "string" ? v.replace(/[^A-Za-z0-9 &,.()/-]/g, " ").replace(/\s+/g, " ").trim().slice(0, 40) : "";
+}
+
+// ─── Knowledge base (server-side retrieval; the client is not trusted) ───────
+
+let kb: DatasetEntry[] | null = null;
+function loadKb(): DatasetEntry[] {
+  if (!kb) {
+    // vercel.json functions.includeFiles ships this file with the function
+    const raw = JSON.parse(readFileSync(join(process.cwd(), "src/data/labour-law-dataset.json"), "utf8"));
+    kb = raw.entries ?? [];
+  }
+  return kb!;
+}
+
+export function applyGuardrails(text: string, hasRag: boolean, hasWeb: boolean, escalation: boolean): string {
   let out = text.trim();
 
   for (const [pat, fix] of OVERCONFIDENT) {
-    out = out.replace(pat as RegExp, fix as string);
+    out = out.replace(pat, fix);
   }
 
   if (escalation && !out.toLowerCase().includes("consult a qualified")) {
@@ -141,12 +207,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
+  if (rateLimited(clientIp(req))) {
+    res.setHeader("Retry-After", "3600");
+    return res.status(429).json({ error: "Too many requests. Please try again later." });
+  }
+
   const contentLength = parseInt(req.headers["content-length"] || "0", 10);
   if (contentLength > MAX_BODY_BYTES) {
     return res.status(413).json({ error: "Request too large." });
   }
 
-  const { query, profile, history, ragContext, ragScore } = req.body || {};
+  const { query, profile: rawProfile, history: rawHistory } = req.body || {};
+  const profile = { role: cleanField(rawProfile?.role), state: cleanField(rawProfile?.state), sector: cleanField(rawProfile?.sector) };
+  const history = sanitizeHistory(rawHistory);
 
   if (!query || typeof query !== "string" || query.trim().length < 5) {
     return res.status(400).json({ error: "Query is too short." });
@@ -160,26 +233,29 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(503).json({ error: "AI service not configured." });
   }
 
-  const hasRag = typeof ragScore === "number" ? ragScore > 0 : !!ragContext;
-  const isEscalation = /termination|fired|retrenched|dismissed|sacked|posh|sexual harassment|labour court|conciliation/i.test(query);
+  // Retrieval runs here, never from client-supplied "context".
+  const chunks = retrieve(loadKb(), query.trim(), 4);
+  const ragContext = chunks.length ? buildRagContext(chunks) : "";
+  const ragScore = chunks.length ? Math.max(...chunks.map((c) => c.relevance)) : 0;
+  const hasRag = ragScore > 0;
 
   // Search when RAG has low relevance OR user is asking for current/live data
   const wantsLiveData = /current|latest|2024|2025|2026|notif|notification|today|now|recent|rate/i.test(query);
-  const needsWebSearch = !hasRag || (typeof ragScore === "number" && ragScore < 2) || wantsLiveData;
+  const needsWebSearch = !hasRag || ragScore < 2 || wantsLiveData;
 
   const tavilyKey = process.env.TAVILY_API_KEY;
   const { snippets: webSnippets, urls: webUrls } =
     tavilyKey && needsWebSearch
-      ? await tavilySearch(query.trim(), profile?.state || "", tavilyKey)
+      ? await tavilySearch(query.trim(), profile.state, tavilyKey)
       : { snippets: "", urls: [] };
 
   const hasWeb = webSnippets.length > 0;
 
   // Build system message
   const profileContext = `USER PROFILE:
-- Role: ${profile?.role || "not specified"}
-- State: ${profile?.state || "not specified"}
-- Sector: ${profile?.sector || "not specified"}`;
+- Role: ${profile.role || "not specified"}
+- State: ${profile.state || "not specified"}
+- Sector: ${profile.sector || "not specified"}`;
 
   const ragSection = ragContext
     ? `RETRIEVED LEGAL CONTEXT (cite only from this — do not invent section numbers):\n${ragContext}`
@@ -195,7 +271,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const messages = [
     { role: "system", content: systemContent },
-    ...(history || []).slice(-(MAX_HISTORY_TURNS * 2)),
+    ...history,
     { role: "user", content: query.trim() },
   ];
 
@@ -228,9 +304,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(502).json({ error: "Empty response from AI." });
     }
 
-    const content = applyGuardrails(raw, hasRag, hasWeb, isEscalation);
+    const content = applyGuardrails(raw, hasRag, hasWeb, ESCALATION_RE.test(query) || ESCALATION_RE.test(raw));
 
-    return res.status(200).json({ content, usedWebSearch: hasWeb, webSources: webUrls });
+    return res.status(200).json({
+      content,
+      usedWebSearch: hasWeb,
+      webSources: webUrls,
+      citations: chunks.slice(0, 3).map((c) => ({ act: c.entry.act, section: c.entry.section, source: c.entry.source })),
+    });
   } catch (err) {
     console.error("Labour assist error:", err);
     return res.status(502).json({ error: "AI service unavailable." });
