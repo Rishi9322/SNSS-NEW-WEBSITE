@@ -15,7 +15,7 @@ const CITIES = [
   },
   {
     name: "Pune",
-    tag: "Branch Office",
+    tag: "Service area",
     address: "Serving Pune metropolitan region\nand PCMC industrial corridor",
     mapEmbed: "https://maps.google.com/maps?q=Pune+Maharashtra+India&output=embed&z=12",
     mapsLink: "https://maps.google.com/?q=Pune+Maharashtra+India",
@@ -23,7 +23,7 @@ const CITIES = [
   },
   {
     name: "Ahmedabad",
-    tag: "Branch Office",
+    tag: "Service area",
     address: "Serving Ahmedabad and the\nGujarat industrial belt",
     mapEmbed: "https://maps.google.com/maps?q=Ahmedabad+Gujarat+India&output=embed&z=12",
     mapsLink: "https://maps.google.com/?q=Ahmedabad+Gujarat+India",
@@ -31,7 +31,7 @@ const CITIES = [
   },
   {
     name: "Bhopal",
-    tag: "Branch Office",
+    tag: "Service area",
     address: "Serving Bhopal and central\nIndia corporate clusters",
     mapEmbed: "https://maps.google.com/maps?q=Bhopal+Madhya+Pradesh+India&output=embed&z=12",
     mapsLink: "https://maps.google.com/?q=Bhopal+Madhya+Pradesh+India",
@@ -165,8 +165,8 @@ export function Contact() {
               <div className="hidden" aria-hidden="true"><input type="text" name="_honey" tabIndex={-1} autoComplete="off" /></div>
 
               {submitted && (
-                <div role="alert" aria-live="polite" className="mb-4 rounded-[4px] border-2 border-go bg-white px-4 py-3 text-[16px] font-semibold text-ink">
-                  Enquiry received. We'll respond within 4 business hours.
+                <div role="status" aria-live="polite" className="mb-4 rounded-[4px] border-2 border-go bg-white px-4 py-3 text-[16px] font-semibold text-ink">
+                  Quote request received. We'll respond within 4 business hours.
                 </div>
               )}
 
@@ -177,7 +177,7 @@ export function Contact() {
               )}
 
               <button type="submit" disabled={submitting} className="inline-flex min-h-[52px] w-full items-center justify-center rounded-[4px] bg-hivis px-6 text-[16px] font-bold text-ink transition-colors hover:bg-ink hover:text-white focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ink disabled:cursor-not-allowed disabled:opacity-60">
-                {submitting ? "Sending…" : "Submit Enquiry"}
+                {submitting ? "Sending…" : "Send quote request"}
               </button>
             </form>
 

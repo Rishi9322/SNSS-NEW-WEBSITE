@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import { Container, CtaBand, PageHeader, SectionTitle } from "../components/kit";
 import { TIMELINE, INDUSTRIES_SERVED, TESTIMONIALS } from "../constants";
 import { useSEO } from "../hooks/useSEO";
+import { LEGAL_NAME } from "../site";
 import iso9001Badge from "../../assets/images/iso-9001-badge.webp";
 import iso14001Badge from "../../assets/images/iso-14001-badge.webp";
 import iso45001Badge from "../../assets/images/iso-45001-badge.webp";
@@ -60,7 +61,7 @@ export function About() {
           <div className="mt-14 grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
             <div className="max-w-[60ch] space-y-5 text-[17px] leading-relaxed text-steel">
               <p>
-                Sentinel IFM Pvt. Ltd. is a Mumbai-headquartered MSME with 25+ years of unbroken operation in Integrated Facilities Management. Founded in 1999, we have served corporate offices, hospitals, malls, schools, factories, and central government institutions across 7+ states.
+                Sentinel IFM (registered as {LEGAL_NAME}) is a Mumbai-headquartered MSME with 25+ years of unbroken operation in Integrated Facilities Management. Founded in 1999, we have served corporate offices, hospitals, malls, schools, factories, and central government institutions across 7+ states.
               </p>
               <p>
                 A sophisticated buyer will ask: if you do everything, are you expert at anything? The answer is integration expertise, not category expertise. Our value is not being the best housekeeping company in India — it is being the company that a facility manager can call for any staffing or maintenance problem at any time, with one contract and one SLA.
@@ -158,7 +159,7 @@ export function About() {
       <CtaBand
         title="Ready to simplify your facility operations?"
         text="Tailored proposal within 4 business hours."
-        primary={{ label: "Get a Free Quote", to: "/contact" }}
+        primary={{ label: "Request a quote", to: "/contact" }}
       />
     </>
   );

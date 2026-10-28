@@ -45,8 +45,8 @@ export function Services() {
       <CtaBand
         title="Not sure what you need?"
         text="Most clients come to us with a problem, not a service name. Tell us what's causing friction — we'll recommend the right combination and quote within 4 business hours."
-        primary={{ label: "Talk to our team", to: "/contact" }}
-        secondary={{ label: "WhatsApp Us", href: "https://wa.me/919819301704" }}
+        primary={{ label: "Request a quote", to: "/contact" }}
+        secondary={{ label: "WhatsApp us", href: "https://wa.me/919819301704" }}
       />
     </>
   );

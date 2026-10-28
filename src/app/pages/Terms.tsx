@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { Container, PageHeader } from "../components/kit";
 import { useSEO } from "../hooks/useSEO";
+import { LEGAL_NAME } from "../site";
 
 const SECTIONS = [
               {
@@ -9,7 +10,7 @@ const SECTIONS = [
               },
               {
                 title: "2. Nature of This Website",
-                body: "This website is a corporate information and lead-generation website for Sentinel IFM Pvt. Ltd. Submitting a quote request or career application does not constitute a binding contract. Services are provided under separately executed service agreements.",
+                body: `This website is a corporate information and lead-generation website for Sentinel IFM (registered as ${LEGAL_NAME}, CIN U74999MH2019PTC323363). Submitting a quote request or career application does not constitute a binding contract. Services are provided under separately executed service agreements.`,
               },
               {
                 title: "3. Accuracy of Information",
@@ -17,7 +18,7 @@ const SECTIONS = [
               },
               {
                 title: "4. Intellectual Property",
-                body: "All content on this website — including text, layout, service descriptions, and company data — is the intellectual property of Sentinel IFM Pvt. Ltd. Reproduction, redistribution, or commercial use of any content without written permission is prohibited.",
+                body: `All content on this website — including text, layout, service descriptions, and company data — is the intellectual property of Sentinel IFM (registered as ${LEGAL_NAME}, CIN U74999MH2019PTC323363). Reproduction, redistribution, or commercial use of any content without written permission is prohibited.`,
               },
               {
                 title: "5. Form Submissions",
@@ -29,7 +30,7 @@ const SECTIONS = [
               },
               {
                 title: "7. Limitation of Liability",
-                body: "To the maximum extent permitted by applicable law, Sentinel IFM Pvt. Ltd. shall not be liable for any indirect, incidental, or consequential damages arising from your use of this website or reliance on its content.",
+                body: `To the maximum extent permitted by applicable law, Sentinel IFM (registered as ${LEGAL_NAME}, CIN U74999MH2019PTC323363) shall not be liable for any indirect, incidental, or consequential damages arising from your use of this website or reliance on its content.`,
               },
               {
                 title: "8. Governing Law",
@@ -46,10 +47,10 @@ const SECTIONS = [
 ];
 
 export function Terms() {
-  useSEO({ title: "Terms of Service | Sentinel IFM", description: "Terms of service for Sentinel IFM Pvt. Ltd.", path: "/terms" });
+  useSEO({ title: "Terms of Service | Sentinel IFM", description: "Terms of service for Sentinel IFM.", path: "/terms" });
   return (
     <>
-      <PageHeader path={[{ label: "Home", to: "/" }, { label: "Terms of Service" }]} title="Terms of Service" lede="Last updated: 12 June 2026" />
+      <PageHeader path={[{ label: "Home", to: "/" }, { label: "Terms of Service" }]} title="Terms of Service" lede="Last updated: 28 October 2026" />
       <section className="bg-white py-14 lg:py-20">
         <Container className="grid gap-12 lg:grid-cols-[240px_minmax(0,1fr)]">
           <nav aria-label="Contents" className="hidden self-start lg:sticky lg:top-24 lg:block">

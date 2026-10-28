@@ -143,8 +143,8 @@ export function ServiceDetail() {
                 <h2 className="display text-2xl text-ink">Get a quote for {svc.shortTitle}</h2>
                 <p className="mt-2 text-[16px] text-steel">Response within 4 business hours.</p>
                 <div className="mt-5 flex flex-col gap-3">
-                  <Btn to={`/contact?service=${svc.id}`}>Request this Service</Btn>
-                  <Btn href="https://wa.me/919819301704" variant="ghost" external>WhatsApp Us</Btn>
+                  <Btn to={`/contact?service=${svc.id}`}>Request a quote</Btn>
+                  <Btn href="https://wa.me/919819301704" variant="ghost" external>WhatsApp us</Btn>
                 </div>
                 <ul className="mt-6 border-t border-ink/25">
                   {["Background-verified, trained staff", "Full PF/ESIC compliance — zero liability", "Same-day replacement guarantee"].map((pt) => (
@@ -184,8 +184,8 @@ export function ServiceDetail() {
       <CtaBand
         title={`Need ${svc.shortTitle}?`}
         text="Tell us about your site. We reply with a quote within 4 business hours."
-        primary={{ label: "Request this Service", to: `/contact?service=${svc.id}` }}
-        secondary={{ label: "WhatsApp Us", href: "https://wa.me/919819301704" }}
+        primary={{ label: "Request a quote", to: `/contact?service=${svc.id}` }}
+        secondary={{ label: "WhatsApp us", href: "https://wa.me/919819301704" }}
       />
     </>
   );

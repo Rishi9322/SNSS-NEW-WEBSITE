@@ -167,7 +167,7 @@ export function Careers() {
                 disabled={submitting}
                 className="mt-6 inline-flex min-h-[52px] w-full items-center justify-center rounded-[4px] bg-hivis px-6 text-[16px] font-bold text-ink transition-colors hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {submitting ? "Sending…" : "Submit Application"}
+                {submitting ? "Sending…" : "Submit application"}
               </button>
               <p className="mt-4 text-[15px] text-steel">
                 Or email your resume to{" "}

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router";
 import { SERVICES } from "../constants";
 
@@ -16,6 +17,7 @@ type Props = { active: string | null; onActive: (slug: string | null) => void };
 /** A single floor drawn in ink: every room is a service Sentinel runs. Draws in once on load (see .plan-draw in globals.css). */
 export function CoveragePlan({ active, onActive }: Props) {
   const navigate = useNavigate();
+  const [focused, setFocused] = useState<string | null>(null); // keyboard focus ring (the g element cannot show an outline)
   return (
     <svg viewBox="0 0 520 420" role="group" aria-label="Floor plan showing the six services Sentinel runs in one building. Each room links to its service." className="h-auto w-full">
       {ZONES.map((z, i) => {
@@ -30,8 +32,8 @@ export function CoveragePlan({ active, onActive }: Props) {
             aria-label={svc?.title ?? z.slug}
             onMouseEnter={() => onActive(z.slug)}
             onMouseLeave={() => onActive(null)}
-            onFocus={() => onActive(z.slug)}
-            onBlur={() => onActive(null)}
+            onFocus={(e) => { onActive(z.slug); if (e.currentTarget.matches(":focus-visible")) setFocused(z.slug); }}
+            onBlur={() => { onActive(null); setFocused(null); }}
             onClick={go}
             onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } }}
             className="cursor-pointer outline-none"
@@ -41,8 +43,14 @@ export function CoveragePlan({ active, onActive }: Props) {
               x={z.x} y={z.y} width={z.w} height={z.h} fill="none" stroke="var(--color-ink)" strokeWidth={3} pathLength={1}
               className="plan-draw" style={{ animationDelay: `${i * 120}ms` }}
             />
+            {focused === z.slug && (
+              <>
+                <rect x={z.x + 3} y={z.y + 3} width={z.w - 6} height={z.h - 6} fill="none" stroke="var(--color-ink)" strokeWidth={8} />
+                <rect x={z.x + 3} y={z.y + 3} width={z.w - 6} height={z.h - 6} fill="none" stroke="var(--color-hivis)" strokeWidth={4} />
+              </>
+            )}
             <text x={z.x + 16} y={z.y + 46} className="display" fontSize={z.w > 250 ? 50 : 40} fill="var(--color-ink)" style={{ fontStretch: "82%" }}>{z.code}</text>
-            <text x={z.x + 16} y={z.y + (z.w > 250 ? 74 : 68)} fontSize={17} fontWeight={600} fill="var(--color-ink)">{svc?.shortTitle}</text>
+            <text x={z.x + 16} y={z.y + (z.w > 250 ? 76 : 72)} fontSize={21} fontWeight={600} fill="var(--color-ink)">{svc?.shortTitle}</text>
           </g>
         );
       })}

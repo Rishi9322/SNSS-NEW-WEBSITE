@@ -80,7 +80,7 @@ export function PageHeader({
         {image && (
           <div className="relative">
             <div className="overflow-hidden rounded-[10px] border-2 border-white/20 bg-concrete" style={{ aspectRatio: imageRatio / (1 - cropTop) }}>
-              <img src={image} alt={imageAlt} width={1200} height={Math.round(1200 / imageRatio)} decoding="async" className="h-full w-full object-cover" style={{ objectPosition: cropTop ? "bottom" : "center" }} />
+              <img src={image} alt={imageAlt} width={1200} height={Math.round(1200 / imageRatio)} decoding="async" fetchPriority="high" className="h-full w-full object-cover" style={{ objectPosition: cropTop ? "bottom" : "center" }} />
             </div>
           </div>
         )}

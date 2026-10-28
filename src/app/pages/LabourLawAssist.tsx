@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
-import { motion, AnimatePresence } from "motion/react";
 import { Container, PageHeader, Btn } from "../components/kit";
 import { LABOUR_ASSIST_DISCLAIMER, LABOUR_ASSIST_SHORT_DISCLAIMER, DEFAULT_PROFILE, COMMON_STATES, ISSUE_QUICKSTARTS, ESCALATION_MESSAGE } from "../constants";
 import { useSEO } from "../hooks/useSEO";
@@ -541,6 +540,9 @@ export function LabourLawAssist() {
       />
 
       <Container className="py-8">
+        <p role="note" className="mb-6 border-2 border-ink bg-concrete p-4 text-[16px] leading-relaxed text-ink">
+          Answers can cite older Acts that India's four Labour Codes may have replaced or changed. Check the current provision with the Labour Department or a qualified lawyer before you act.
+        </p>
         <div className="mb-6 flex flex-wrap items-center gap-3">
           <Btn onClick={handleNewChat}>New Chat</Btn>
           <button onClick={() => setShowProfile(true)} className={outlineBtn}>
@@ -553,14 +555,8 @@ export function LabourLawAssist() {
 
         <div className="grid gap-6 lg:grid-cols-[280px,1fr]">
           {/* Sidebar */}
-          <AnimatePresence>
-            {(showSidebar || isDesktop) && (
-              <motion.aside
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0 }}
-                className="self-start lg:block"
-              >
+          {(showSidebar || isDesktop) && (
+              <aside className="self-start lg:block">
                 <div className="border-b-2 border-ink pb-2 text-lg font-bold">Your conversations</div>
 
                 {threads.length === 0 && (
@@ -595,9 +591,8 @@ export function LabourLawAssist() {
                     <button onClick={clearAllChats} className="mt-2 block min-h-[44px] font-bold text-ink underline underline-offset-4">Clear all chats</button>
                   )}
                 </div>
-              </motion.aside>
-            )}
-          </AnimatePresence>
+              </aside>
+          )}
 
           {/* Main Chat Area */}
           <div className="flex min-h-[620px] flex-col overflow-hidden rounded-[10px] border-2 border-ink bg-white">
@@ -696,13 +691,9 @@ export function LabourLawAssist() {
       </Container>
 
       {/* Profile Modal */}
-      <AnimatePresence>
-        {showProfile && (
+      {showProfile && (
           <div className="fixed inset-0 z-[70] flex items-center justify-center bg-ink/60 p-4" onClick={() => setShowProfile(false)}>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96 }}
+            <div
               className="w-full max-w-md overflow-hidden rounded-[10px] border-2 border-ink bg-white"
               onClick={(e) => e.stopPropagation()}
             >
@@ -774,10 +765,9 @@ export function LabourLawAssist() {
                   Reset
                 </button>
               </div>
-            </motion.div>
+            </div>
           </div>
         )}
-      </AnimatePresence>
     </div>
   );
 }

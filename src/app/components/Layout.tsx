@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router";
 import { SERVICES, WA_PATH } from "../constants";
 import { Btn, Container } from "./kit";
+import { LEGAL_NAME } from "../site";
 import { ZONES } from "./CoveragePlan";
 import logo from "../../assets/images/sentinel-logo.webp";
 
@@ -26,16 +27,27 @@ export function Layout() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [fabOpen, setFabOpen] = useState(false);
   const fabRef = useRef<HTMLDivElement>(null);
+  const menuBtnRef = useRef<HTMLButtonElement>(null);
   const location = useLocation();
+  // The floating contact button would sit on top of form fields on phones, so these pages go without it.
+  const showFab = !["/contact", "/careers", "/assist"].includes(location.pathname);
 
   useEffect(() => { setMenuOpen(false); setServicesOpen(false); setFabOpen(false); window.scrollTo(0, 0); }, [location.pathname]);
   useEffect(() => {
     const away = (e: MouseEvent) => { if (fabRef.current && !fabRef.current.contains(e.target as Node)) setFabOpen(false); };
-    const esc = (e: KeyboardEvent) => { if (e.key === "Escape") { setFabOpen(false); setServicesOpen(false); } };
+    const esc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") { setFabOpen(false); setServicesOpen(false); setMenuOpen((open) => { if (open) menuBtnRef.current?.focus(); return false; }); }
+    };
     document.addEventListener("mousedown", away);
     document.addEventListener("keydown", esc);
     return () => { document.removeEventListener("mousedown", away); document.removeEventListener("keydown", esc); };
   }, []);
+
+  // Stop the page scrolling behind the open mobile menu.
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
 
   const navLink = ({ isActive }: { isActive: boolean }) =>
     `relative px-3 py-2 text-[15px] font-semibold text-ink transition-colors hover:bg-ink/10 ${isActive ? "after:absolute after:inset-x-3 after:-bottom-[2px] after:h-[3px] after:bg-hivis after:content-['']" : ""}`;
@@ -96,6 +108,7 @@ export function Layout() {
           </nav>
 
           <button
+            ref={menuBtnRef}
             type="button"
             className="-mr-3 flex min-w-[48px] items-center justify-center lg:hidden"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -203,13 +216,13 @@ export function Layout() {
           </div>
 
           <div className="flex flex-col gap-3 pt-8 text-[13px] text-white/75 sm:flex-row sm:items-center sm:justify-between">
-            <p>© {new Date().getFullYear()} Sentinel IFM Pvt. Ltd. An ISO certified company.</p>
-            <p>Formerly SNSS Global Services.</p>
+            <p>© {new Date().getFullYear()} Sentinel IFM. An ISO certified company.</p>
+            <p>Registered as {LEGAL_NAME}</p>
           </div>
         </Container>
       </footer>
 
-      <div ref={fabRef} className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3">
+      {showFab && <div ref={fabRef} className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3">
         {fabOpen && (
           <>
             <Link to="/assist" className="flex min-h-[48px] items-center gap-2 rounded-full bg-hivis px-5 text-sm font-bold text-ink shadow-[0_0_0_2px_var(--color-ink)]">
@@ -233,7 +246,7 @@ export function Layout() {
             ? <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="h-5 w-5"><path d="M18 6L6 18M6 6l12 12" /></svg>
             : <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="h-6 w-6"><path d="M21 12c0 4.4-4 8-9 8a9.9 9.9 0 01-4.3-.9L3 20l1.4-3.7C3.5 15 3 13.6 3 12c0-4.4 4-8 9-8s9 3.6 9 8z" /></svg>}
         </button>
-      </div>
+      </div>}
     </div>
   );
 }

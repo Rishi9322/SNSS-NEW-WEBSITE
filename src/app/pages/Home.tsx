@@ -70,7 +70,7 @@ export function Home() {
               Sentinel takes staffing, compliance, and day-to-day coordination completely off your plate: one vendor, one point of contact, full accountability. No chasing. No gaps.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
-              <Btn to="/contact">Get a free quote</Btn>
+              <Btn to="/contact">Request a quote</Btn>
               <Btn to="/compliance" variant="ghost">View credentials</Btn>
             </div>
             <p className="mt-9 max-w-[46ch] text-[15px] text-steel">
@@ -104,8 +104,6 @@ export function Home() {
                 <li key={svc.id} className="border-t border-white/25">
                   <Link
                     to={`/services/${svc.slug}`}
-                    onMouseEnter={() => setActive(svc.slug)}
-                    onMouseLeave={() => setActive(null)}
                     className="group grid grid-cols-[auto_1fr] items-center gap-x-5 gap-y-2 py-6 transition-colors hover:bg-white/5 md:grid-cols-[auto_1.1fr_1.5fr_auto] md:gap-x-8"
                   >
                     <Code>{code}</Code>
@@ -203,8 +201,8 @@ export function Home() {
       <CtaBand
         title="Every enquiry gets a reply within 4 business hours."
         text="A real person calls or WhatsApps you. No auto-responders."
-        primary={{ label: "Get a quote", to: "/contact" }}
-        secondary={{ label: "WhatsApp now", href: "https://wa.me/919819301704" }}
+        primary={{ label: "Request a quote", to: "/contact" }}
+        secondary={{ label: "WhatsApp us", href: "https://wa.me/919819301704" }}
       />
 
       {/* Presence */}

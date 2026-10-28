@@ -51,21 +51,32 @@ export function Compliance() {
         <p className="mt-6 text-[15px] font-bold text-white">Last verified: 12 June 2026</p>
       </PageHeader>
 
-      <section className="bg-white py-16 lg:py-20">
+      <nav aria-label="On this page" className="border-b-2 border-ink bg-white">
+        <Container>
+          <div className="flex items-center gap-3 overflow-x-auto py-3">
+            <span className="shrink-0 text-[15px] font-bold text-ink">On this page</span>
+            {[["registrations", "Company registrations"], ["labour", "Labour compliance"], ["iso", "ISO certifications"], ["gem", "GeM contracts"], ["financial", "Financial standing"]].map(([id, label]) => (
+              <a key={id} href={`#${id}`} className="inline-flex min-h-[44px] shrink-0 items-center border-2 border-ink px-4 text-[15px] font-bold text-ink hover:bg-hivis">{label}</a>
+            ))}
+          </div>
+        </Container>
+      </nav>
+
+      <section id="registrations" className="bg-white py-16 lg:py-20 scroll-mt-28">
         <Container className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <SectionTitle title="Company registrations" />
           <KeyValue rows={REGISTRATIONS} head={["Registration", "Number"]} />
         </Container>
       </section>
 
-      <section className="bg-concrete py-16 lg:py-20">
+      <section id="labour" className="bg-concrete py-16 lg:py-20 scroll-mt-28">
         <Container className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <SectionTitle title="Labour compliance" />
           <KeyValue rows={LABOUR_COMPLIANCE} head={["Registration", "Number"]} />
         </Container>
       </section>
 
-      <section className="bg-white py-16 lg:py-20">
+      <section id="iso" className="bg-white py-16 lg:py-20 scroll-mt-28">
         <Container className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <SectionTitle title="ISO certifications" />
           <ul className="border-t-2 border-ink">
@@ -83,7 +94,7 @@ export function Compliance() {
         </Container>
       </section>
 
-      <section className="bg-concrete py-16 lg:py-20">
+      <section id="gem" className="bg-concrete py-16 lg:py-20 scroll-mt-28">
         <Container>
           <SectionTitle title="GeM contracts" />
           <div className="mt-10 overflow-x-auto border-y-2 border-ink bg-white">
@@ -127,7 +138,7 @@ export function Compliance() {
         </Container>
       </section>
 
-      <section className="bg-white py-16 lg:py-20">
+      <section id="financial" className="bg-white py-16 lg:py-20 scroll-mt-28">
         <Container>
           <SectionTitle title="Financial standing" />
           <dl className="mt-10 border-t-2 border-ink">
@@ -149,7 +160,7 @@ export function Compliance() {
         title="Need a document package for a tender?"
         text="We'll prepare a compliance pack with ISO certificates, registration extracts, and GeM contract references — tailored to your tender requirements."
         primary={{ label: "Request Document Pack", to: "/contact" }}
-        secondary={{ label: "WhatsApp Us", href: "https://wa.me/919819301704" }}
+        secondary={{ label: "WhatsApp us", href: "https://wa.me/919819301704" }}
       />
     </>
   );
