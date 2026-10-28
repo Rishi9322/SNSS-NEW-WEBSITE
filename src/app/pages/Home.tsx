@@ -3,26 +3,26 @@ import { Link } from "react-router";
 import { FadeIn } from "../components/FadeIn";
 import { NAVY, AMBER, WA_PATH, SERVICES, PROOF_POINTS, CORP_VALUE_PROPS, TESTIMONIALS } from "../constants";
 import { useSEO } from "../hooks/useSEO";
-import heroImage from "../../assets/images/snss-hero-glass-cleaning.png";
-import testimonialsImage from "../../assets/images/testimonials-image.png";
+import heroImage from "../../assets/images/snss-hero-glass-cleaning.webp";
+import testimonialsImage from "../../assets/images/testimonials-image.webp";
 
 const HOME_FAQS = [
-  { q: "What services does SNSS Global Services provide?", a: "SNSS provides six integrated facilities management services: housekeeping and janitorial, pantry management, electrical and technical maintenance, data entry and office support, payroll management and labour compliance, and contract staffing including drivers and security personnel." },
-  { q: "Which cities does SNSS operate in?", a: "SNSS has offices in Mumbai (corporate HQ), Pune, Ahmedabad, and Bhopal, and deploys staff across 7+ states in India." },
-  { q: "Is SNSS ISO certified?", a: "Yes. SNSS holds six ISO certifications: ISO 9001:2015 (Quality), ISO 14001:2015 (Environment), ISO 45001:2018 (Health & Safety), ISO 27001:2013 (Information Security), ISO 22000:2018 (Food Safety), and ISO 21001:2018 (Educational Organisations)." },
-  { q: "Does SNSS handle PF and ESIC compliance for deployed staff?", a: "Yes. SNSS manages all statutory compliance for its staff — EPFO (PF), ESIC, Professional Tax, and MLWF — at zero liability to the client organisation. Salaries are credited by the 7th of every month." },
-  { q: "How quickly can SNSS deploy staff for a new facility?", a: "SNSS maintains a ready bench of trained, background-verified staff and can deploy drivers, housekeeping, and pantry personnel within 48 hours for urgent requirements." },
-  { q: "Does SNSS work with government organisations?", a: "Yes. SNSS is empanelled on the Government e-Marketplace (GeM) and holds active contracts with central government bodies including EPFO, Sports Authority of India, and Kendriya Vidyalaya Sangathan." },
-  { q: "What is SNSS's replacement policy for absent staff?", a: "SNSS guarantees same-day replacement from its bench strength if any deployed staff member is absent. The client does not need to make any calls — the replacement is arranged automatically." },
-  { q: "How long has SNSS been operating?", a: "SNSS was founded in Mumbai in 1999 and has been providing integrated facilities management services for over 25 years, with operations across Maharashtra, Gujarat, and central India." },
-  { q: "Can SNSS manage multiple services under a single contract?", a: "Yes. This is SNSS's core offering — all six services (housekeeping, pantry, technical, data entry, payroll, staffing) are managed under a single contract, single SLA, and single account manager." },
-  { q: "How do I get a quote from SNSS?", a: "You can request a quote via the contact form at snssgroup.com/contact, by emailing info@snssgroup.com, or by calling/WhatsApp at +91 86553 62161. SNSS responds to all enquiries within 4 business hours." },
+  { q: "What services does Sentinel IFM provide?", a: "Sentinel provides six integrated facilities management services: housekeeping and janitorial, pantry management, electrical and technical maintenance, data entry and office support, payroll management and labour compliance, and contract staffing including drivers and security personnel." },
+  { q: "Which cities does Sentinel operate in?", a: "Sentinel has offices in Mumbai (corporate HQ), Pune, Ahmedabad, and Bhopal, and deploys staff across 7+ states in India." },
+  { q: "Is Sentinel ISO certified?", a: "Yes. Sentinel holds six ISO certifications: ISO 9001:2015 (Quality), ISO 14001:2015 (Environment), ISO 45001:2018 (Health & Safety), ISO 27001:2013 (Information Security), ISO 22000:2018 (Food Safety), and ISO 21001:2018 (Educational Organisations)." },
+  { q: "Does Sentinel handle PF and ESIC compliance for deployed staff?", a: "Yes. Sentinel manages all statutory compliance for its staff — EPFO (PF), ESIC, Professional Tax, and MLWF — at zero liability to the client organisation. Salaries are credited by the 7th of every month." },
+  { q: "How quickly can Sentinel deploy staff for a new facility?", a: "Sentinel maintains a ready bench of trained, background-verified staff and can deploy drivers, housekeeping, and pantry personnel within 48 hours for urgent requirements." },
+  { q: "Does Sentinel work with government organisations?", a: "Yes. Sentinel is empanelled on the Government e-Marketplace (GeM) and holds active contracts with central government bodies including EPFO, Sports Authority of India, and Kendriya Vidyalaya Sangathan." },
+  { q: "What is Sentinel's replacement policy for absent staff?", a: "Sentinel guarantees same-day replacement from its bench strength if any deployed staff member is absent. The client does not need to make any calls — the replacement is arranged automatically." },
+  { q: "How long has Sentinel been operating?", a: "Sentinel was founded in Mumbai in 1999 and has been providing integrated facilities management services for over 25 years, with operations across Maharashtra, Gujarat, and central India." },
+  { q: "Can Sentinel manage multiple services under a single contract?", a: "Yes. This is Sentinel's core offering — all six services (housekeeping, pantry, technical, data entry, payroll, staffing) are managed under a single contract, single SLA, and single account manager." },
+  { q: "How do I get a quote from Sentinel?", a: "You can request a quote via the contact form at sentinelifm.com/contact, by emailing info@snssgroup.com, or by calling/WhatsApp at +91 86553 62161. Sentinel responds to all enquiries within 4 business hours." },
 ];
 
 export function Home() {
   useSEO({
-    title: "SNSS Global Services | Integrated Facilities Management — Mumbai, Pune, Ahmedabad, Bhopal",
-    description: "SNSS provides integrated facilities management — housekeeping, pantry, technical maintenance, payroll compliance, and staffing — for corporate India. ISO certified. 700+ staff. Est. 1999.",
+    title: "Sentinel IFM | Integrated Facilities Management — Mumbai, Pune, Ahmedabad, Bhopal",
+    description: "Sentinel provides integrated facilities management — housekeeping, pantry, technical maintenance, payroll compliance, and staffing — for corporate India. ISO certified. 700+ staff. Est. 1999.",
     path: "/",
   });
 
@@ -48,12 +48,12 @@ export function Home() {
   return (
     <>
       {/* ── HERO — split layout ── */}
-      <section style={{ background: NAVY, minHeight: "92vh" }} className="flex flex-col justify-center overflow-hidden">
-        <div className="max-w-7xl mx-auto px-5 lg:px-8 w-full py-16 lg:py-0" style={{ minHeight: "92vh", display: "flex", alignItems: "center" }}>
-          <div className="grid lg:grid-cols-5 gap-0 w-full items-center" style={{ minHeight: "92vh" }}>
+      <section style={{ background: NAVY }} className="flex flex-col justify-center overflow-hidden lg:min-h-[92vh]">
+        <div className="max-w-7xl mx-auto px-5 lg:px-8 w-full py-8 lg:py-0 flex items-center lg:min-h-[92vh]">
+          <div className="grid lg:grid-cols-5 gap-0 w-full items-center lg:min-h-[92vh]">
 
             {/* Left: copy */}
-            <div className="lg:col-span-3 py-20">
+            <div className="lg:col-span-3 py-10 lg:py-20">
               <p className="text-xs font-bold tracking-[0.2em] uppercase mb-8" style={{ color: AMBER }}>
                 Trusted by corporate India since 1999
               </p>
@@ -62,7 +62,7 @@ export function Home() {
                 <span style={{ color: AMBER }}>Your team focuses.</span>
               </h1>
               <p className="mb-10 max-w-xl" style={{ color: "rgba(255,255,255,0.6)", fontSize: "clamp(1rem, 1.4vw, 1.1rem)", lineHeight: 1.8 }}>
-                SNSS takes staffing, compliance, and day-to-day coordination completely off your plate — one vendor, one point of contact, full accountability. No chasing. No gaps.
+                Sentinel takes staffing, compliance, and day-to-day coordination completely off your plate — one vendor, one point of contact, full accountability. No chasing. No gaps.
               </p>
               <div className="flex flex-wrap gap-3 mb-16">
                 <Link to="/contact" className="px-7 py-3.5 rounded font-bold text-sm transition-all hover:brightness-110 active:scale-95" style={{ background: AMBER, color: "#fff" }}>
@@ -90,6 +90,16 @@ export function Home() {
               </div>
             </div>
 
+            {/* Mobile/tablet: hero image */}
+            <img
+              src={heroImage}
+              alt="Sentinel staff cleaning office glass partitions"
+              className="lg:hidden w-full h-64 sm:h-80 object-cover mb-16 -mt-8 rounded"
+              width={700}
+              height={560}
+              decoding="async"
+            />
+
             {/* Right: image */}
             <div className="hidden lg:block lg:col-span-2 self-stretch relative" style={{ minHeight: "92vh" }}>
               <div className="absolute inset-0" style={{ marginLeft: "3rem" }}>
@@ -97,7 +107,7 @@ export function Home() {
                 <div className="absolute left-0 top-[15%] bottom-[15%] w-1" style={{ background: AMBER }} />
                 <img
                   src={heroImage}
-                  alt="SNSS staff cleaning office glass partitions"
+                  alt="Sentinel staff cleaning office glass partitions"
                   className="w-full h-full object-cover"
                   style={{ marginLeft: "1rem" }}
                   width={700}
@@ -122,7 +132,7 @@ export function Home() {
         <div className="max-w-7xl mx-auto px-5 lg:px-8">
           <FadeIn>
             <p className="text-xs font-bold tracking-[0.18em] uppercase mb-14" style={{ color: AMBER }}>
-              Why organisations choose SNSS
+              Why organisations choose Sentinel
             </p>
           </FadeIn>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-12">
@@ -189,19 +199,19 @@ export function Home() {
       <section className="py-20 lg:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-5 lg:px-8">
           <FadeIn>
-            <p className="text-xs font-bold tracking-[0.18em] uppercase mb-4" style={{ color: AMBER }}>Before &amp; after SNSS</p>
+            <p className="text-xs font-bold tracking-[0.18em] uppercase mb-4" style={{ color: AMBER }}>Before &amp; after Sentinel</p>
             <h2 className="mb-3" style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 800, color: NAVY, lineHeight: 1.1, letterSpacing: "-0.025em" }}>
               What changes when you hand it over.
             </h2>
             <p className="mb-12 max-w-xl text-sm" style={{ color: "rgba(15,42,74,0.6)", lineHeight: 1.75 }}>
-              These are real operational headaches we've heard from facility managers and HR leads. Every row on the right is something SNSS absorbs completely.
+              These are real operational headaches we've heard from facility managers and HR leads. Every row on the right is something Sentinel absorbs completely.
             </p>
           </FadeIn>
           <FadeIn delay={0.06}>
             <div className="rounded overflow-hidden" style={{ border: "1px solid rgba(15,42,74,0.12)" }}>
               <div className="grid grid-cols-2 text-xs font-bold py-3 px-6 tracking-wider uppercase" style={{ background: NAVY, color: "white" }}>
                 <div>What you deal with today</div>
-                <div style={{ color: AMBER }}>What you deal with after SNSS</div>
+                <div style={{ color: AMBER }}>What you deal with after Sentinel</div>
               </div>
               {CORP_VALUE_PROPS.map((row, i) => (
                 <div key={i} className="grid grid-cols-2 text-sm py-4 px-6" style={{ borderTop: "1px solid rgba(15,42,74,0.07)", background: i % 2 === 1 ? "rgba(15,42,74,0.02)" : "#fff" }}>
@@ -235,7 +245,7 @@ export function Home() {
                   Operational reliability you notice from the first week.
                 </h2>
               </div>
-              <div className="hidden lg:block lg:col-span-2">
+              <div className="lg:col-span-2">
                 <img
                   src={testimonialsImage}
                   alt="Corporate facility management team"

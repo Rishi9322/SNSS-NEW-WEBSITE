@@ -15,7 +15,7 @@ const LabourLawAssist = lazy(() => import("./pages/LabourLawAssist").then(m => (
 const NotFound = lazy(() => import("./pages/NotFound").then(m => ({ default: m.NotFound })));
 
 function Wrap({ children }: { children: React.ReactNode }) {
-  return <Suspense fallback={null}>{children}</Suspense>;
+  return <Suspense fallback={<div className="min-h-[60vh]" role="status" aria-label="Loading" />}>{children}</Suspense>;
 }
 
 export const router = createBrowserRouter([

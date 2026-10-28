@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { FadeIn } from "../components/FadeIn";
 import { NAVY, AMBER, REGISTRATIONS, LABOUR_COMPLIANCE, GEM_CONTRACTS, ISO_CERTS } from "../constants";
 import { useSEO } from "../hooks/useSEO";
-import complianceHeroImage from "../../assets/images/compliance-hero.png";
+import complianceHeroImage from "../../assets/images/compliance-hero.webp";
 
 type Tab = "registrations" | "labour" | "iso" | "gem" | "financial";
 
@@ -37,13 +37,13 @@ export function Compliance() {
 
   useSEO({
     title: "Compliance Resource Centre — ISO Certs, GeM Contracts & Registrations",
-    description: "View SNSS Global Services' full compliance credentials: ISO 9001/14001/45001/27001 certifications, EPFO/ESIC registrations, GeM contract history, GST, MSME Udyam, and DIPP Startup India.",
+    description: "View Sentinel IFM' full compliance credentials: ISO 9001/14001/45001/27001 certifications, EPFO/ESIC registrations, GeM contract history, GST, MSME Udyam, and DIPP Startup India.",
     path: "/compliance",
   });
 
   return (
     <>
-      <div className="py-24 lg:py-32 bg-cover bg-center" style={{ background: NAVY, backgroundImage: `url(${complianceHeroImage})` }}>
+      <div className="py-24 lg:py-32 bg-cover bg-center" style={{ backgroundColor: NAVY, backgroundImage: `linear-gradient(rgba(15,42,74,0.55), rgba(15,42,74,0.8)), url(${complianceHeroImage})` }}>
         <div className="max-w-7xl mx-auto px-5 lg:px-8">
           <div className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER, textShadow: "0 2px 8px rgba(0,0,0,0.6)" }}>
             <Link to="/" className="transition-opacity hover:opacity-70">Home</Link>
@@ -165,7 +165,7 @@ export function Compliance() {
                   ))}
                 </div>
                 <p className="text-sm p-4" style={{ background: "rgba(232,135,26,0.07)", border: "1px solid rgba(232,135,26,0.2)", color: "#5a4010", borderRadius: "4px" }}>
-                  <strong>Note:</strong> Verify against current SNSS Accounts records before publishing. Replace with updated FY25-26 turnover when available.
+                  <strong>Note:</strong> Verify against current Sentinel Accounts records before publishing. Replace with updated FY25-26 turnover when available.
                 </p>
               </motion.div>
             )}

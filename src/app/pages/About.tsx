@@ -2,27 +2,27 @@ import { Link } from "react-router";
 import { FadeIn } from "../components/FadeIn";
 import { NAVY, AMBER, TIMELINE, INDUSTRIES_SERVED, TESTIMONIALS } from "../constants";
 import { useSEO } from "../hooks/useSEO";
-import iso9001Badge from "../../assets/images/iso-9001-badge.png";
-import iso14001Badge from "../../assets/images/iso-14001-badge.png";
-import iso45001Badge from "../../assets/images/iso-45001-badge.png";
-import iso27001Badge from "../../assets/images/iso-27001-badge.png";
-import msmeUdyamBadge from "../../assets/images/msme-udyam-badge.png";
-import startupIndiaBadge from "../../assets/images/startup-india-badge.png";
-import aboutHeroImage from "../../assets/images/about-hero.png";
-import missionImage from "../../assets/images/mission-image.png";
+import iso9001Badge from "../../assets/images/iso-9001-badge.webp";
+import iso14001Badge from "../../assets/images/iso-14001-badge.webp";
+import iso45001Badge from "../../assets/images/iso-45001-badge.webp";
+import iso27001Badge from "../../assets/images/iso-27001-badge.webp";
+import msmeUdyamBadge from "../../assets/images/msme-udyam-badge.webp";
+import startupIndiaBadge from "../../assets/images/startup-india-badge.webp";
+import aboutHeroImage from "../../assets/images/about-hero.webp";
+import missionImage from "../../assets/images/mission-image.webp";
 
 export function About() {
   useSEO({
-    title: "About SNSS Global Services — 25 Years of Facilities Management in India",
-    description: "Founded in Mumbai in 1999, SNSS Global Services is an ISO-certified integrated facilities management company serving corporate, government, and institutional clients across 7+ states.",
+    title: "About Sentinel IFM — 25 Years of Facilities Management in India",
+    description: "Founded in Mumbai in 1999, Sentinel IFM is an ISO-certified integrated facilities management company serving corporate, government, and institutional clients across 7+ states.",
     path: "/about",
   });
 
   return (
     <>
       {/* Page header with background image */}
-      <div className="relative overflow-hidden bg-cover bg-center" style={{ background: NAVY, backgroundImage: `url(${aboutHeroImage})` }}>
-        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(20,35,70,0.75) 0%, rgba(20,35,70,0.85) 100%)" }} />
+      <div className="relative overflow-hidden bg-cover bg-center" style={{ backgroundColor: NAVY, backgroundImage: `url(${aboutHeroImage})` }}>
+        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(20,35,70,0.55) 0%, rgba(20,35,70,0.8) 100%)" }} />
         <div className="relative max-w-7xl mx-auto px-5 lg:px-8 py-24 lg:py-32">
           <div className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER }}>
             <Link to="/" className="transition-opacity hover:opacity-70">Home</Link>
@@ -32,7 +32,7 @@ export function About() {
             25 years of doing<br />one thing well.
           </h1>
           <p className="text-sm" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.8, maxWidth: "650px" }}>
-            Founded in 1999, SNSS Global Services has built a reputation for operational reliability, statutory compliance, and genuine partnership with corporate clients across India.
+            Founded in 1999 as SNSS Global Services and now Sentinel IFM, the company has built a reputation for operational reliability, statutory compliance, and genuine partnership with corporate clients across India.
           </p>
         </div>
       </div>
@@ -46,11 +46,11 @@ export function About() {
                 <p className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER }}>Mission</p>
                 <blockquote className="mb-8 pl-5 italic leading-relaxed text-base" style={{ borderLeft: `3px solid ${AMBER}`, color: "rgba(15,42,74,0.75)" }}>
                   "To empower businesses with competent and versatile workforce solutions through cost-effective and reliable staffing services."
-                  <cite className="block mt-3 not-italic text-sm font-bold" style={{ color: NAVY }}>— SNSS Mission Statement</cite>
+                  <cite className="block mt-3 not-italic text-sm font-bold" style={{ color: NAVY }}>— Sentinel Mission Statement</cite>
                 </blockquote>
                 <div className="space-y-4 text-sm leading-relaxed mb-10" style={{ color: "rgba(15,42,74,0.65)" }}>
                   <p>
-                    SNSS Global Services Pvt. Ltd. is a Mumbai-headquartered MSME with 25+ years of unbroken operation in Integrated Facilities Management. Founded in 1999, we have served corporate offices, hospitals, malls, schools, factories, and central government institutions across 7+ states.
+                    Sentinel IFM Pvt. Ltd. is a Mumbai-headquartered MSME with 25+ years of unbroken operation in Integrated Facilities Management. Founded in 1999, we have served corporate offices, hospitals, malls, schools, factories, and central government institutions across 7+ states.
                   </p>
                   <p>
                     A sophisticated buyer will ask: if you do everything, are you expert at anything? The answer is integration expertise, not category expertise. Our value is not being the best housekeeping company in India — it is being the company that a facility manager can call for any staffing or maintenance problem at any time, with one contract and one SLA.
@@ -83,7 +83,7 @@ export function About() {
                 <div className="mb-10 overflow-hidden" style={{ borderRadius: "4px" }}>
                   <img
                     src={missionImage}
-                    alt="SNSS Global Services office — Mumbai headquarters"
+                    alt="Sentinel IFM office — Mumbai headquarters"
                     className="w-full object-cover"
                     style={{ display: "block" }}
                   />
@@ -142,12 +142,14 @@ export function About() {
             <p className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER }}>Certifications</p>
             <h2 className="mb-10" style={{ fontSize: "clamp(1.6rem, 3vw, 2.4rem)", fontWeight: 800, color: NAVY, letterSpacing: "-0.02em" }}>Recognised. Certified. Audited.</h2>
           </FadeIn>
-          <div className="grid grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-8 gap-4">
             {[
               { code: "ISO\n9001", image: iso9001Badge },
               { code: "ISO\n14001", image: iso14001Badge },
               { code: "ISO\n45001", image: iso45001Badge },
               { code: "ISO\n27001", image: iso27001Badge },
+              { code: "ISO\n22000", image: undefined },
+              { code: "ISO\n21001", image: undefined },
               { code: "MSME\nUdyam", image: msmeUdyamBadge },
               { code: "Startup\nIndia", image: startupIndiaBadge },
             ].map((cert, i) => (

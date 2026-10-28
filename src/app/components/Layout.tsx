@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { NAVY, AMBER, SERVICES } from "../constants";
-import logo from "../../assets/images/sentinel-logo.png";
+import logo from "../../assets/images/sentinel-logo.webp";
 
 const NAV = [
   { label: "Services", to: "/services" },
@@ -47,11 +47,12 @@ export function Layout() {
       </div>
 
       {/* Header */}
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:rounded focus:bg-white focus:text-[#0F2A4A] focus:font-bold">Skip to content</a>
       <header className="sticky top-0 z-50 transition-all duration-200" style={{ background: scrolled ? "rgba(184,203,216,0.96)" : "#B8CBD8", backdropFilter: scrolled ? "blur(16px)" : "none", borderBottom: "1px solid rgba(15,42,74,0.12)", boxShadow: "0 2px 8px rgba(15,42,74,0.1)" }}>
         <div className="max-w-7xl mx-auto px-5 lg:px-8 flex items-stretch justify-between h-[64px]">
 
           <Link to="/" className="flex items-center flex-shrink-0 focus:outline-none" style={{ background: "#B8CBD8", padding: "0 20px" }}>
-            <img src={logo} alt="Sentinel Security Services & Integrated Facility Management" className="h-9 lg:h-11 w-auto" />
+            <img src={logo} alt="Sentinel Security Services & Integrated Facility Management" className="h-9 lg:h-11 w-auto" width={200} height={66} decoding="async" />
           </Link>
 
           {/* Desktop nav */}
@@ -101,7 +102,7 @@ export function Layout() {
           </nav>
 
           {/* Mobile hamburger */}
-          <button type="button" className="lg:hidden p-2 flex items-center justify-center flex-shrink-0" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu" >
+          <button type="button" className="lg:hidden p-3 -mr-1 flex items-center justify-center flex-shrink-0" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu" aria-expanded={menuOpen} aria-controls="mobile-menu">
             <div className="w-5 flex flex-col gap-1.5">
               <span className={`h-0.5 bg-[#0F2A4A] rounded-full transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
               <span className={`h-0.5 bg-[#0F2A4A] rounded-full transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
@@ -113,12 +114,13 @@ export function Layout() {
         <AnimatePresence>
           {menuOpen && (
             <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }}
-              className="lg:hidden overflow-hidden" style={{ background: "#B8CBD8", borderTop: "1px solid rgba(15,42,74,0.12)" }}>
+              id="mobile-menu" className="lg:hidden overflow-hidden" style={{ background: "#B8CBD8", borderTop: "1px solid rgba(15,42,74,0.12)" }}>
               <div className="px-5 py-4 flex flex-col">
                 {/* Services accordion */}
                 <button
                   type="button"
                   onClick={() => setServicesOpen(!servicesOpen)}
+                  aria-expanded={servicesOpen}
                   className="flex items-center justify-between text-[#0F2A4A]/70 hover:text-[#0F2A4A] text-sm py-3 border-b border-[#0F2A4A]/10 w-full text-left"
                 >
                   Services
@@ -153,7 +155,7 @@ export function Layout() {
 
             <div className="sm:col-span-2 lg:col-span-1">
               <div className="mb-5">
-                <img src={logo} alt="Sentinel Security Services & Integrated Facility Management" className="h-10 w-auto" />
+                <img src={logo} alt="Sentinel Security Services & Integrated Facility Management" className="h-10 w-auto" width={200} height={66} loading="lazy" decoding="async" />
                 <div className="text-[10px] tracking-widest uppercase mt-2" style={{ color: "rgba(255,255,255,0.3)" }}>Pvt. Ltd. · Est. 1999</div>
               </div>
               <p className="text-sm mb-6 leading-relaxed" style={{ color: "rgba(255,255,255,0.45)" }}>
@@ -214,7 +216,7 @@ export function Layout() {
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
             <p className="text-xs" style={{ color: "rgba(255,255,255,0.25)" }}>
-              © {new Date().getFullYear()} SNSS Global Services Pvt. Ltd. · An ISO Certified Company
+              © {new Date().getFullYear()} Sentinel IFM Pvt. Ltd. · An ISO Certified Company
             </p>
             <div className="flex gap-5">
               <Link to="/privacy" className="text-xs transition-colors" style={{ color: "rgba(255,255,255,0.25)" }}>Privacy Policy</Link>

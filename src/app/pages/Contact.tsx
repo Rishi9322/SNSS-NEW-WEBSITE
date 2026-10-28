@@ -4,7 +4,7 @@ import { useSEO } from "../hooks/useSEO";
 import { AnimatePresence, motion } from "motion/react";
 import { FadeIn } from "../components/FadeIn";
 import { NAVY, AMBER, SERVICES } from "../constants";
-import contactHeroImage from "../../assets/images/contact-hero.png";
+import contactHeroImage from "../../assets/images/contact-hero.webp";
 
 const CITIES = [
   {
@@ -66,8 +66,8 @@ export function Contact() {
   const [activeCity, setActiveCity] = useState(0);
 
   useSEO({
-    title: "Contact SNSS Global Services — Get a Free Quote",
-    description: "Contact SNSS Global Services for a free quote on housekeeping, pantry, technical maintenance, payroll, or staffing. Offices in Mumbai, Pune, Ahmedabad, and Bhopal. Response within 4 business hours.",
+    title: "Contact Sentinel IFM — Get a Free Quote",
+    description: "Contact Sentinel IFM for a free quote on housekeeping, pantry, technical maintenance, payroll, or staffing. Offices in Mumbai, Pune, Ahmedabad, and Bhopal. Response within 4 business hours.",
     path: "/contact",
   });
 
@@ -85,8 +85,8 @@ export function Contact() {
     setSubmitting(true);
 
     data.append("access_key", WEB3FORMS_ACCESS_KEY);
-    data.append("subject", "New enquiry — SNSS Global Services website");
-    data.append("from_name", "SNSS Global Services Website");
+    data.append("subject", "New enquiry — Sentinel IFM website");
+    data.append("from_name", "Sentinel IFM Website");
 
     try {
       const res = await fetch("https://api.web3forms.com/submit", {
@@ -119,7 +119,7 @@ export function Contact() {
       <div className="relative overflow-hidden" style={{ background: NAVY }}>
         <img
           src={contactHeroImage}
-          alt="Request a free quote — SNSS Global Services: cleaning, compliance, management support, security, and maintenance. Every enquiry reviewed by a real person, response within 4 business hours."
+          alt="Request a free quote — Sentinel IFM: cleaning, compliance, management support, security, and maintenance. Every enquiry reviewed by a real person, response within 4 business hours."
           className="w-full h-auto block"
         />
         <h1 className="sr-only">Request a free quote.</h1>

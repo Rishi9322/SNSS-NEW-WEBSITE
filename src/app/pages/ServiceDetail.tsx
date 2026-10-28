@@ -4,7 +4,7 @@ import { FadeIn } from "../components/FadeIn";
 import { NAVY, AMBER, SERVICES } from "../constants";
 import { useSEO } from "../hooks/useSEO";
 
-const BASE = "https://www.snssgroup.com";
+import { SITE_URL as BASE } from "../site";
 
 export function ServiceDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -12,7 +12,7 @@ export function ServiceDetail() {
   const related = SERVICES.filter((s) => svc?.relatedSlugs.includes(s.slug));
 
   useSEO({
-    title: svc ? `${svc.title} | SNSS Global Services` : "Service | SNSS Global Services",
+    title: svc ? `${svc.title} | Sentinel IFM` : "Service | Sentinel IFM",
     description: svc ? svc.subhead : "Integrated facilities management services for corporate India.",
     path: svc ? `/services/${svc.slug}` : "/services",
   });
@@ -63,7 +63,7 @@ export function ServiceDetail() {
     <>
       {/* Page header */}
       {svc.heroFull && svc.image ? (
-        <div className="relative overflow-hidden bg-cover bg-center" style={{ background: NAVY, backgroundImage: `url(${svc.image})` }}>
+        <div className="relative overflow-hidden bg-cover bg-center" style={{ backgroundColor: NAVY, backgroundImage: `url(${svc.image})` }}>
           <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(20,35,70,0.75) 0%, rgba(20,35,70,0.85) 100%)" }} />
           <div className="relative max-w-7xl mx-auto px-5 lg:px-8 py-24 lg:py-32">
             <div className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER }}>

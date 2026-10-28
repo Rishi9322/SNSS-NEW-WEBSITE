@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { FadeIn } from "../components/FadeIn";
 import { NAVY, AMBER, EMPLOYEE_BENEFITS } from "../constants";
 import { useSEO } from "../hooks/useSEO";
-import careersHeroImage from "../../assets/images/careers-hero.png";
+import careersHeroImage from "../../assets/images/careers-hero.webp";
 
 const ROLES = [
   "Housekeeping Supervisor", "Pantry / Cafeteria Staff", "Electrician (ITI Certified)",
@@ -21,8 +21,8 @@ export function Careers() {
   const [selectedRole, setSelectedRole] = useState("");
 
   useSEO({
-    title: "Careers at SNSS Global Services — Join 700+ Professionals Across India",
-    description: "Join SNSS Global Services. We hire housekeeping supervisors, pantry staff, drivers, electricians, security personnel, and data entry operators across Mumbai, Pune, Ahmedabad, and Bhopal. PF, ESIC, and salary by the 7th guaranteed.",
+    title: "Careers at Sentinel IFM — Join 700+ Professionals Across India",
+    description: "Join Sentinel IFM. We hire housekeeping supervisors, pantry staff, drivers, electricians, security personnel, and data entry operators across Mumbai, Pune, Ahmedabad, and Bhopal. PF, ESIC, and salary by the 7th guaranteed.",
     path: "/careers",
   });
 
@@ -34,8 +34,8 @@ export function Careers() {
     if (data.get("_honey")) return;
     setSubmitting(true);
     data.append("access_key", WEB3FORMS_ACCESS_KEY);
-    data.append("subject", "New job application — SNSS Global Services website");
-    data.append("from_name", "SNSS Careers Form");
+    data.append("subject", "New job application — Sentinel IFM website");
+    data.append("from_name", "Sentinel Careers Form");
     try {
       const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
@@ -62,7 +62,7 @@ export function Careers() {
 
   return (
     <>
-      <div className="py-24 lg:py-32 bg-cover bg-center" style={{ background: NAVY, backgroundImage: `url(${careersHeroImage})` }}>
+      <div className="py-24 lg:py-32 bg-cover bg-center" style={{ backgroundColor: NAVY, backgroundImage: `linear-gradient(rgba(15,42,74,0.55), rgba(15,42,74,0.8)), url(${careersHeroImage})` }}>
         <div className="max-w-7xl mx-auto px-5 lg:px-8">
           <div className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER, textShadow: "0 2px 8px rgba(0,0,0,0.6)" }}>
             <Link to="/" className="transition-opacity hover:opacity-70">Home</Link>
@@ -84,7 +84,7 @@ export function Careers() {
             {/* Benefits */}
             <FadeIn>
               <div>
-                <p className="text-xs font-bold tracking-[0.18em] uppercase mb-8" style={{ color: AMBER }}>What every SNSS employee receives</p>
+                <p className="text-xs font-bold tracking-[0.18em] uppercase mb-8" style={{ color: AMBER }}>What every Sentinel employee receives</p>
                 <ul className="space-y-0">
                   {EMPLOYEE_BENEFITS.map((benefit, i) => (
                     <li key={i} className="flex items-center gap-4 py-4" style={{ borderBottom: "1px solid rgba(15,42,74,0.08)" }}>
@@ -143,7 +143,7 @@ export function Careers() {
                       <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: NAVY }}>How did you hear?</label>
                       <select name="source" className="w-full px-4 py-3 border text-sm focus:outline-none appearance-none" style={inputStyle}>
                         <option value="">Select source</option>
-                        {["Job board", "WhatsApp / Referral", "SNSS employee", "Walk-in", "Other"].map((s) => <option key={s}>{s}</option>)}
+                        {["Job board", "WhatsApp / Referral", "Sentinel employee", "Walk-in", "Other"].map((s) => <option key={s}>{s}</option>)}
                       </select>
                     </div>
                   </div>
@@ -184,7 +184,7 @@ export function Careers() {
       <section className="py-16" style={{ background: NAVY }}>
         <div className="max-w-7xl mx-auto px-5 lg:px-8">
           <FadeIn>
-            <p className="text-xs font-bold tracking-[0.18em] uppercase mb-12" style={{ color: AMBER }}>Why work at SNSS</p>
+            <p className="text-xs font-bold tracking-[0.18em] uppercase mb-12" style={{ color: AMBER }}>Why work at Sentinel</p>
           </FadeIn>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-0" style={{ border: "1px solid rgba(255,255,255,0.08)", borderRadius: "4px", overflow: "hidden" }}>
             {[
