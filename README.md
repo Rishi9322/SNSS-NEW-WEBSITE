@@ -1,113 +1,86 @@
-# SNSS Global Services — Website
+# Sentinel IFM — Website
 
-A responsive single-page marketing site for **SNSS Global Services Pvt. Ltd.**, an integrated facilities management company operating across Mumbai, Pune, Ahmedabad, and Bhopal. Built with React 18, Vite, and Tailwind CSS v4.
+Marketing site for **Sentinel IFM Pvt. Ltd.** (formerly SNSS Global Services), an integrated facilities management company serving Mumbai, Pune, Ahmedabad and Bhopal. React 18 + Vite + Tailwind CSS v4, deployed on Vercel.
 
-> Originally scaffolded from a Figma Make design export: https://www.figma.com/design/zDWtGHJfHPtGkYFjZN3d0s/Build-responsive-single-page-website
+> Originally scaffolded from a Figma Make export: https://www.figma.com/design/zDWtGHJfHPtGkYFjZN3d0s/Build-responsive-single-page-website
 
-## Tech stack
+## Stack
 
-- **Build tool:** Vite 6
-- **Framework:** React 18 + TypeScript
-- **Styling:** Tailwind CSS v4 (`@tailwindcss/vite`)
-- **UI primitives:** Radix UI + shadcn/ui-style components (`src/app/components/ui/`)
-- **Routing:** React Router v7 (hash-based, so it works on any static host with no server rewrite rules)
-- **Animation:** `motion` (Framer Motion's successor)
-- **Form backend:** [Web3Forms](https://web3forms.com) — no custom backend required
-- **Package manager:** pnpm (`pnpm-workspace.yaml` present)
+- **Build:** Vite 6, TypeScript, pnpm
+- **UI:** React 18, Tailwind CSS v4, `motion` for animation
+- **Routing:** React Router v7, browser history (`/about`, not `/#/about`). `vercel.json` rewrites unknown paths to `index.html`.
+- **Forms:** [Web3Forms](https://web3forms.com), called directly from the browser
+- **Labour Law Assist:** Vercel serverless function (`api/labour-assist.ts`) calling Groq, with optional Tavily web search
+- **Runtime dependencies:** only `react`, `react-dom`, `react-router`, `motion`
 
-Other notable libraries: `react-hook-form`, `recharts`, `embla-carousel-react`, `lucide-react`, `sonner`, `date-fns`. A few packages (`@mui/material`, `react-dnd`, `canvas-confetti`, `vaul`) are present from the original scaffold but not currently used by any page.
-
-## Getting started
+## Commands
 
 ```bash
 pnpm install
-pnpm dev      # starts the Vite dev server
-pnpm build    # production build to dist/
+pnpm dev          # Vite dev server (the /api function only runs under `vercel dev` or in production)
+pnpm typecheck    # tsc --noEmit
+pnpm test         # API tests (rate limit, history sanitising, guardrails, retrieval, handler)
+pnpm build        # typecheck + vite build + per-route meta pages (scripts/prerender-meta.mjs)
 ```
 
-### Environment variables
+## Environment variables
 
-Copy `.env.example` to `.env` and fill in the keys you need:
+Copy `.env.example` to `.env`; on Vercel set the same names in Project Settings.
 
-```
-VITE_WEB3FORMS_ACCESS_KEY=your-web3forms-access-key
-# Optional: for Labour Law Assist AI responses (MVP falls back to grounded mock responses)
-VITE_LLM_API_KEY=your-xai-or-openai-key
-```
+| Name | Where it runs | Purpose |
+|---|---|---|
+| `VITE_WEB3FORMS_ACCESS_KEY` | browser (public by design) | Contact and Careers forms. Restrict the key to your domain in the Web3Forms dashboard. |
+| `GROQ_API_KEY` | server only | LLM for Labour Law Assist. Without it `/api/labour-assist` returns 503 and the page falls back to a local answer. |
+| `TAVILY_API_KEY` | server only, optional | Live web search against Indian government sites. |
 
-- Web3Forms is required for the contact form.
-- `VITE_LLM_API_KEY` enables real LLM-powered answers in Labour Law Assist. Without it the feature still works using the curated dataset + deterministic grounded responses.
-- Never commit real keys. The `.env` file is gitignored.
+Never commit real keys; `.env` is gitignored.
+
+## Site URL and branding
+
+`src/app/site.ts` holds `SITE_URL` and `SITE_NAME`. They feed the canonical/OG tags and the build script. `public/sitemap.xml` and `public/robots.txt` are static, so update the domain there as well if it changes.
 
 ## Project structure
 
 ```
+api/labour-assist.ts      Serverless function: rate limit, input validation, retrieval, Groq call, guardrails
+scripts/prerender-meta.mjs  Post-build: dist/<route>/index.html with per-page title/OG/canonical + sitemap lastmod
+tests/api.test.mjs        node:test suite (bundled with esbuild)
 src/
   app/
-    routes.tsx          Route definitions (hash router)
-    constants.tsx        Shared data: colors, services list, certifications, testimonials, etc.
-    components/
-      Layout.tsx          Header, footer, nav — wraps every page
-      FadeIn.tsx           Scroll-triggered fade-in wrapper used throughout
-      ui/                  Radix/shadcn-style primitives (button, dialog, select, tabs, ...)
-      figma/                Figma-export image helper
-    pages/
-      Home.tsx              Landing page — hero, services, proof points, testimonials
-      About.tsx             Company timeline, industries served, testimonials
-      Services.tsx          Service catalog grid
-      ServiceDetail.tsx     Individual service page (housekeeping, pantry, technical, etc.)
-      Compliance.tsx        Registrations, labour compliance, ISO certs, GeM contracts
-      Careers.tsx           Open roles, employee benefits, application form
-      Contact.tsx           Quote request form (Web3Forms) + office locations/maps
-      Privacy.tsx / Terms.tsx   Static legal pages
-      NotFound.tsx          404 page
-  assets/                 Logo and other bundled images
-  styles/                 Tailwind entry, fonts, theme CSS
+    site.ts, routes.tsx, constants.tsx (colours, services, certifications, timeline)
+    components/Layout.tsx, FadeIn.tsx
+    pages/                Home, About, Services, ServiceDetail, Compliance, Careers, Contact,
+                          LabourLawAssist, Privacy, Terms, NotFound
+    hooks/useSEO.ts       Client-side title/meta updates on navigation
+  lib/
+    retrieve.ts           Pure keyword retrieval (stop words, whole-word match); used by browser and API
+    rag.ts, prompts.ts, guardrails.ts
+  data/labour-law-dataset.json   Curated legal entries (shipped with the function via vercel.json)
+  assets/images/          WebP images (see "Images")
+  imports/                Historical PRD/TRS/handover docs. Written for the old SNSS name and a Next.js plan; not current.
 ```
 
-## Routes
+## Labour Law Assist
 
-| Path | Page |
-|---|---|
-| `/` | Home |
-| `/about` | About Us |
-| `/services` | Services listing |
-| `/services/:slug` | Service detail (6 services) |
-| `/compliance` | Compliance & certifications |
-| `/careers` | Careers |
-| `/contact` | Contact & quote request |
-| `/privacy` | Privacy Policy |
-| `/terms` | Terms of Service |
-| `/assist` | Labour Law Assist (AI chatbot for Indian labour law) |
-| `*` | 404 |
+`/assist`. Answers Indian labour-law questions with a profile (state, role, sector).
 
-## Labour Law Assist (AI Chatbot)
+- The browser sends only `{ query, profile, history }`. The server does its own retrieval from the dataset and builds the prompt, so clients cannot supply "legal context".
+- Server limits: 15 requests/hour/IP (in-memory, per instance), 1,000-character queries, 12 KB bodies, history reduced to user/assistant turns.
+- Guardrails: scope-limited system prompt, overconfident phrasing rewritten, escalation and "not legal advice" notes appended.
+- Chats and profile live in `localStorage` only; the sidebar has "Clear all chats".
+- The dataset is 23 hand-curated entries (last updated June 2026). **Have it reviewed against current Labour Code notifications before relying on it.**
 
-**Integrated feature** (MVP) added to the site at `/assist`.
+## Images
 
-- **Purpose**: Situation-specific answers to Indian labour law questions (wages, termination, leave, PF/ESI, POSH, etc.) grounded in a curated dataset.
-- **Key requirements met**: Personalization via profile (state, role, sector), clarifying questions, structured responses with citations, strict guardrails (no drafting, escalate for litigation/POSH/termination, no false certainty).
-- **Tech (MVP)**: Client-side only. Curated JSON dataset + simple retrieval. Optional LLM API (xAI/OpenAI) via `VITE_LLM_API_KEY`. Chat history & profile stored in localStorage.
-- **Design**: Fully integrated — uses existing NAVY/AMBER palette, shadcn/ui components, Layout, motion, and typography.
-- **Access**: 
-  - Direct: `/#/assist`
-  - Floating "Ask AI" button appears on all pages (bottom-right, next to WhatsApp).
-  - Navigation link in header (after Compliance).
-
-**Disclaimers**: Every response and the page itself carry clear "This is not legal advice" language. Users are directed to consult qualified lawyers for their situations. Dataset last updated June 2026 (manual curation).
-
-**Development notes**:
-- Full implementation plan and decisions: `.kilo/plans/labour-law-assist-mvp.md`
-- Dataset lives at `src/data/labour-law-dataset.json`
-- To enable real LLM responses: add key to `.env` (see below). MVP works with mock/grounded responses even without key.
-- Future phases (documented in plan): real auth, vector DB (Supabase), admin dataset tools, Next.js migration.
+Source images in `src/assets/images/` are WebP, capped at 1600 px (heroes), 900 px (service cards) and 400 px (badges/logo). Add new images as WebP (or convert with `sharp`) rather than PNG; a 2 MB PNG hero costs a phone user a full second on 4G.
 
 ## Deployment
 
-The app builds to static files (`dist/`) and can be hosted anywhere — Vercel, Netlify, or any static file host. Since routing is hash-based (`/#/contact` rather than `/contact`), no server-side rewrite configuration is needed for deep links to work.
+Vercel builds with `pnpm build` and serves `dist/`. Static route pages written by `prerender-meta.mjs` take precedence over the SPA rewrite, so crawlers and link previews get the right metadata without running JavaScript. `vercel.json` also sets the security headers and CSP; if you add a third-party script, image host or iframe, add it there.
 
-## Other files
+## Known limitations
 
-- `src/imports/` — Original product requirement docs (PRD, TRS, handover notes) carried over from the design handoff.
-- `ATTRIBUTIONS.md` — Credits for shadcn/ui and stock photography used in the design.
-- `guidelines/` — Design/dev guidelines from the original Figma Make export.
+- Page body text is still rendered client-side (only metadata is prerendered).
+- The API rate limit is per server instance; use a shared store (e.g. Upstash Redis) if abuse appears.
+- The Careers form cannot attach a résumé on Web3Forms' free plan.
+- Some photos still show the old SNSS signage.

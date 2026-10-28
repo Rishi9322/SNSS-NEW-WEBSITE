@@ -732,7 +732,7 @@ export function LabourLawAssist() {
                   onClick={() => sendMessage()}
                   disabled={!input.trim() || isTyping}
                   className="self-end px-6 py-3 rounded-2xl text-sm font-bold transition disabled:opacity-50"
-                  style={{ background: AMBER, color: "#fff" }}
+                  style={{ background: AMBER, color: NAVY }}
                 >
                   {isTyping ? "…" : "Send"}
                 </button>

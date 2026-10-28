@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router";
 import { lazy, Suspense } from "react";
 import { Layout } from "./components/Layout";
+import { Home } from "./pages/Home"; // eager: the landing page must not swap in under an already-rendered footer
 
-const Home = lazy(() => import("./pages/Home").then(m => ({ default: m.Home })));
 const About = lazy(() => import("./pages/About").then(m => ({ default: m.About })));
 const Services = lazy(() => import("./pages/Services").then(m => ({ default: m.Services })));
 const ServiceDetail = lazy(() => import("./pages/ServiceDetail").then(m => ({ default: m.ServiceDetail })));

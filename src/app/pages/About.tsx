@@ -190,7 +190,7 @@ export function About() {
                   <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.65)" }}>"{t.quote}"</p>
                   <div>
                     <div className="font-bold text-sm text-white">{t.author}</div>
-                    <div className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>{t.role} · {t.company}</div>
+                    <div className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.6)" }}>{t.role} · {t.company}</div>
                   </div>
                 </div>
               </FadeIn>

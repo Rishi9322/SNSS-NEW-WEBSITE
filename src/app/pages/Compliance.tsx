@@ -55,7 +55,7 @@ export function Compliance() {
           <p className="max-w-2xl text-sm mb-5" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.8, textShadow: "0 2px 8px rgba(0,0,0,0.6)" }}>
             For procurement officers: all registration numbers, ISO certifications, GeM contracts, and financial standing — verified and ready.
           </p>
-          <p className="text-xs font-bold tracking-widest uppercase" style={{ color: "rgba(255,255,255,0.3)", textShadow: "0 2px 8px rgba(0,0,0,0.6)" }}>
+          <p className="text-xs font-bold tracking-widest uppercase" style={{ color: "rgba(255,255,255,0.6)", textShadow: "0 2px 8px rgba(0,0,0,0.6)" }}>
             Last verified: 12 June 2026
           </p>
         </div>
@@ -72,7 +72,7 @@ export function Compliance() {
                 </button>
               ))}
             </div>
-            <Link to="/contact" className="flex-shrink-0 px-5 py-2.5 text-sm font-bold text-white transition-all hover:brightness-110" style={{ background: AMBER, borderRadius: "4px" }}>
+            <Link to="/contact" className="flex-shrink-0 px-5 py-2.5 text-sm font-bold text-[#0F2A4A] transition-all hover:brightness-110" style={{ background: AMBER, borderRadius: "4px" }}>
               Request Documents
             </Link>
           </div>
@@ -185,7 +185,7 @@ export function Compliance() {
               </p>
             </div>
             <div className="flex flex-wrap gap-3 flex-shrink-0">
-              <Link to="/contact" className="px-6 py-3 text-sm font-bold text-white transition-all hover:brightness-110" style={{ background: AMBER, borderRadius: "4px" }}>Request Document Pack</Link>
+              <Link to="/contact" className="px-6 py-3 text-sm font-bold text-[#0F2A4A] transition-all hover:brightness-110" style={{ background: AMBER, borderRadius: "4px" }}>Request Document Pack</Link>
               <a href="https://wa.me/918655362161" target="_blank" rel="noopener noreferrer" className="px-6 py-3 text-sm font-bold transition-all hover:bg-white/10" style={{ color: "rgba(255,255,255,0.75)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "4px" }}>WhatsApp Us</a>
             </div>
           </div>

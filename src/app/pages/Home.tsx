@@ -65,7 +65,7 @@ export function Home() {
                 Sentinel takes staffing, compliance, and day-to-day coordination completely off your plate — one vendor, one point of contact, full accountability. No chasing. No gaps.
               </p>
               <div className="flex flex-wrap gap-3 mb-16">
-                <Link to="/contact" className="px-7 py-3.5 rounded font-bold text-sm transition-all hover:brightness-110 active:scale-95" style={{ background: AMBER, color: "#fff" }}>
+                <Link to="/contact" className="px-7 py-3.5 rounded font-bold text-sm transition-all hover:brightness-110 active:scale-95" style={{ background: AMBER, color: NAVY }}>
                   Get a Free Quote
                 </Link>
                 <Link to="/compliance" className="px-7 py-3.5 rounded font-bold text-sm transition-all hover:bg-white/10 flex items-center gap-2" style={{ background: "rgba(255,255,255,0.07)", color: "rgba(255,255,255,0.85)", border: "1px solid rgba(255,255,255,0.15)" }}>
@@ -94,7 +94,7 @@ export function Home() {
             <img
               src={heroImage}
               alt="Sentinel staff cleaning office glass partitions"
-              className="lg:hidden w-full h-64 sm:h-80 object-cover mb-16 -mt-8 rounded"
+              className="lg:hidden w-full h-64 sm:h-80 object-cover mt-10 mb-12 rounded"
               width={700}
               height={560}
               decoding="async"
@@ -118,7 +118,7 @@ export function Home() {
                 <div className="absolute bottom-12 left-4 right-8 p-5" style={{ background: NAVY, border: `1px solid rgba(255,255,255,0.1)` }}>
                   <div className="font-extrabold mb-1" style={{ color: AMBER, fontSize: "1.8rem", lineHeight: 1 }}>₹2.04 Cr+</div>
                   <div className="text-white text-sm font-bold">Active GeM contracts</div>
-                  <div className="text-xs mt-1" style={{ color: "rgba(255,255,255,0.45)" }}>Government-verified — 6 central institutions</div>
+                  <div className="text-xs mt-1" style={{ color: "rgba(255,255,255,0.6)" }}>Government-verified — 6 central institutions</div>
                 </div>
               </div>
             </div>
@@ -171,14 +171,14 @@ export function Home() {
             {SERVICES.map((svc, i) => (
               <FadeIn key={svc.id} delay={i * 0.05}>
                 <Link to={`/services/${svc.slug}`} className="group flex items-center gap-6 py-5 transition-all" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
-                  <span className="text-xs font-bold tabular-nums w-6 flex-shrink-0" style={{ color: "rgba(255,255,255,0.25)" }}>0{i + 1}</span>
+                  <span className="text-xs font-bold tabular-nums w-6 flex-shrink-0" style={{ color: "rgba(255,255,255,0.6)" }}>0{i + 1}</span>
                   <div className="flex-1 min-w-0">
                     <div className="font-bold mb-1 text-white/90 group-hover:text-amber-400 transition-colors" style={{ fontSize: "clamp(1rem, 1.8vw, 1.2rem)" }}>
                       {svc.title}
                     </div>
                     <p className="text-sm hidden lg:block text-white/55">{svc.outcome}</p>
                   </div>
-                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5 flex-shrink-0 transition-transform group-hover:translate-x-1" style={{ color: "rgba(255,255,255,0.2)" }}>
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5 flex-shrink-0 transition-transform group-hover:translate-x-1" style={{ color: "rgba(255,255,255,0.6)" }}>
                     <path d="M3 8h10M8 3l5 5-5 5" />
                   </svg>
                 </Link>
@@ -188,7 +188,7 @@ export function Home() {
           </div>
 
           <FadeIn delay={0.3}>
-            <p className="mt-10 text-sm" style={{ color: "rgba(255,255,255,0.4)" }}>
+            <p className="mt-10 text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>
               Each service is managed by the same team, under the same SLA, on the same invoice. That's the actual value.
             </p>
           </FadeIn>
@@ -269,10 +269,10 @@ export function Home() {
                   <div className="flex items-end justify-between gap-4">
                     <div>
                       <div className="font-bold text-sm text-white">{t.author}</div>
-                      <div className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>{t.role} · {t.company}</div>
+                      <div className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.6)" }}>{t.role} · {t.company}</div>
                     </div>
                     {"tenure" in t && (
-                      <div className="flex-shrink-0 text-xs font-bold px-2.5 py-1 rounded-full" style={{ background: "rgba(255,255,255,0.07)", color: "rgba(255,255,255,0.35)" }}>
+                      <div className="flex-shrink-0 text-xs font-bold px-2.5 py-1 rounded-full" style={{ background: "rgba(255,255,255,0.07)", color: "rgba(255,255,255,0.6)" }}>
                         {(t as { tenure: string }).tenure}
                       </div>
                     )}
@@ -393,7 +393,7 @@ export function Home() {
                 <h3 className="text-white font-bold mb-1" style={{ fontSize: "1.15rem", letterSpacing: "-0.01em" }}>Join 700+ professionals across India</h3>
                 <p className="text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>PF, ESIC, salary by the 7th — every employee, every month.</p>
               </div>
-              <Link to="/careers" className="flex-shrink-0 px-6 py-3 rounded text-sm font-bold transition-all hover:brightness-110" style={{ background: AMBER, color: "#fff" }}>
+              <Link to="/careers" className="flex-shrink-0 px-6 py-3 rounded text-sm font-bold transition-all hover:brightness-110" style={{ background: AMBER, color: NAVY }}>
                 View Careers
               </Link>
             </div>

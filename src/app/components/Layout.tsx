@@ -36,12 +36,12 @@ export function Layout() {
     <div className="min-h-screen flex flex-col" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: NAVY }}>
 
       {/* Skip navigation — screen readers + keyboard users */}
-      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:rounded" style={{ background: AMBER, color: "#fff" }}>
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:rounded" style={{ background: AMBER, color: NAVY }}>
         Skip to main content
       </a>
 
       {/* Top bar */}
-      <div className="hidden lg:flex items-center justify-end px-8 py-2 text-xs gap-6" style={{ background: "#08192e", color: "rgba(255,255,255,0.45)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+      <div className="hidden lg:flex items-center justify-end px-8 py-2 text-xs gap-6" style={{ background: "#08192e", color: "rgba(255,255,255,0.6)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
         <a href="mailto:info@snssgroup.com" className="hover:text-white transition-colors">info@snssgroup.com</a>
         <a href="https://wa.me/918655362161" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">+91 86553 62161</a>
       </div>
@@ -96,7 +96,7 @@ export function Layout() {
                 {l.label}
               </NavLink>
             ))}
-            <Link to="/contact" className="ml-2 px-5 py-2 rounded text-sm font-bold transition-all hover:brightness-110 active:scale-95" style={{ background: AMBER, color: "#fff" }}>
+            <Link to="/contact" className="ml-2 px-5 py-2 rounded text-sm font-bold transition-all hover:brightness-110 active:scale-95" style={{ background: AMBER, color: NAVY }}>
               Get a Quote
             </Link>
           </nav>
@@ -139,7 +139,7 @@ export function Layout() {
                 {NAV.filter(l => l.label !== "Services").map((l) => (
                   <Link key={l.to} to={l.to} className="text-[#0F2A4A]/70 hover:text-[#0F2A4A] text-sm py-3 border-b border-[#0F2A4A]/10">{l.label}</Link>
                 ))}
-                <Link to="/contact" className="mt-4 w-full py-3 rounded text-sm font-bold text-center" style={{ background: AMBER, color: "#fff" }}>Get a Quote</Link>
+                <Link to="/contact" className="mt-4 w-full py-3 rounded text-sm font-bold text-center" style={{ background: AMBER, color: NAVY }}>Get a Quote</Link>
               </div>
             </motion.div>
           )}
@@ -156,13 +156,13 @@ export function Layout() {
             <div className="sm:col-span-2 lg:col-span-1">
               <div className="mb-5">
                 <img src={logo} alt="Sentinel Security Services & Integrated Facility Management" className="h-10 w-auto" width={200} height={66} loading="lazy" decoding="async" />
-                <div className="text-[10px] tracking-widest uppercase mt-2" style={{ color: "rgba(255,255,255,0.3)" }}>Pvt. Ltd. · Est. 1999</div>
+                <div className="text-[10px] tracking-widest uppercase mt-2" style={{ color: "rgba(255,255,255,0.6)" }}>Pvt. Ltd. · Est. 1999</div>
               </div>
-              <p className="text-sm mb-6 leading-relaxed" style={{ color: "rgba(255,255,255,0.45)" }}>
+              <p className="text-sm mb-6 leading-relaxed" style={{ color: "rgba(255,255,255,0.6)" }}>
                 Integrated Facilities Management for corporate India. 25 years. 700+ staff. ISO certified.
               </p>
               <div>
-                <div className="text-[10px] font-bold tracking-widest uppercase mb-3" style={{ color: "rgba(255,255,255,0.25)" }}>Statutory Registrations</div>
+                <div className="text-[10px] font-bold tracking-widest uppercase mb-3" style={{ color: "rgba(255,255,255,0.6)" }}>Statutory Registrations</div>
                 {[
                   { k: "CIN", v: "U74999MH2019PTC323363" },
                   { k: "GST", v: "27ABBCS8372G1Z2" },
@@ -170,7 +170,7 @@ export function Layout() {
                   { k: "DIPP", v: "DIPP115148" },
                 ].map((r) => (
                   <div key={r.k} className="flex gap-3 text-[11px] mb-1.5">
-                    <span className="w-9 flex-shrink-0 font-semibold" style={{ color: "rgba(255,255,255,0.25)" }}>{r.k}</span>
+                    <span className="w-9 flex-shrink-0 font-semibold" style={{ color: "rgba(255,255,255,0.6)" }}>{r.k}</span>
                     <span className="font-mono" style={{ color: "rgba(255,255,255,0.5)" }}>{r.v}</span>
                   </div>
                 ))}
@@ -178,7 +178,7 @@ export function Layout() {
             </div>
 
             <div>
-              <div className="text-[10px] font-bold tracking-widest uppercase mb-5" style={{ color: "rgba(255,255,255,0.3)" }}>Company</div>
+              <div className="text-[10px] font-bold tracking-widest uppercase mb-5" style={{ color: "rgba(255,255,255,0.6)" }}>Company</div>
               <ul className="space-y-3">
                 {[
                   { label: "Home", to: "/" }, { label: "About Us", to: "/about" }, { label: "Services", to: "/services" },
@@ -189,25 +189,25 @@ export function Layout() {
             </div>
 
             <div>
-              <div className="text-[10px] font-bold tracking-widest uppercase mb-5" style={{ color: "rgba(255,255,255,0.3)" }}>Services</div>
+              <div className="text-[10px] font-bold tracking-widest uppercase mb-5" style={{ color: "rgba(255,255,255,0.6)" }}>Services</div>
               <ul className="space-y-3">
                 {SERVICES.map((s) => <li key={s.slug}><Link to={`/services/${s.slug}`} className="text-sm transition-colors" style={{ color: "rgba(255,255,255,0.5)" }} onMouseEnter={e => (e.currentTarget.style.color = "#fff")} onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.5)")}>{s.title}</Link></li>)}
               </ul>
             </div>
 
             <div>
-              <div className="text-[10px] font-bold tracking-widest uppercase mb-5" style={{ color: "rgba(255,255,255,0.3)" }}>Contact</div>
+              <div className="text-[10px] font-bold tracking-widest uppercase mb-5" style={{ color: "rgba(255,255,255,0.6)" }}>Contact</div>
               <ul className="space-y-5">
                 <li>
-                  <div className="text-[10px] uppercase tracking-widest mb-1.5" style={{ color: "rgba(255,255,255,0.25)" }}>Head Office</div>
+                  <div className="text-[10px] uppercase tracking-widest mb-1.5" style={{ color: "rgba(255,255,255,0.6)" }}>Head Office</div>
                   <address className="not-italic text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>409, Sej Plaza, Marve Road<br />Malad (W), Mumbai – 400064</address>
                 </li>
                 <li>
-                  <div className="text-[10px] uppercase tracking-widest mb-1.5" style={{ color: "rgba(255,255,255,0.25)" }}>Email</div>
+                  <div className="text-[10px] uppercase tracking-widest mb-1.5" style={{ color: "rgba(255,255,255,0.6)" }}>Email</div>
                   <a href="mailto:info@snssgroup.com" className="text-sm transition-colors" style={{ color: "rgba(255,255,255,0.5)" }}>info@snssgroup.com</a>
                 </li>
                 <li>
-                  <div className="text-[10px] uppercase tracking-widest mb-1.5" style={{ color: "rgba(255,255,255,0.25)" }}>WhatsApp</div>
+                  <div className="text-[10px] uppercase tracking-widest mb-1.5" style={{ color: "rgba(255,255,255,0.6)" }}>WhatsApp</div>
                   <a href="https://wa.me/918655362161" className="text-sm transition-colors" style={{ color: "rgba(255,255,255,0.5)" }}>+91 86553 62161</a>
                 </li>
               </ul>
@@ -215,12 +215,12 @@ export function Layout() {
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p className="text-xs" style={{ color: "rgba(255,255,255,0.25)" }}>
+            <p className="text-xs" style={{ color: "rgba(255,255,255,0.6)" }}>
               © {new Date().getFullYear()} Sentinel IFM Pvt. Ltd. · An ISO Certified Company
             </p>
             <div className="flex gap-5">
-              <Link to="/privacy" className="text-xs transition-colors" style={{ color: "rgba(255,255,255,0.25)" }}>Privacy Policy</Link>
-              <Link to="/terms" className="text-xs transition-colors" style={{ color: "rgba(255,255,255,0.25)" }}>Terms of Service</Link>
+              <Link to="/privacy" className="text-xs transition-colors" style={{ color: "rgba(255,255,255,0.6)" }}>Privacy Policy</Link>
+              <Link to="/terms" className="text-xs transition-colors" style={{ color: "rgba(255,255,255,0.6)" }}>Terms of Service</Link>
             </div>
           </div>
         </div>

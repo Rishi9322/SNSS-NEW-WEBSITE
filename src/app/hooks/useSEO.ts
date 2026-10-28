@@ -32,7 +32,7 @@ function setLink(rel: string, href: string) {
 
 export function useSEO({ title, description, path, image = DEFAULT_IMAGE }: SEOOptions) {
   useEffect(() => {
-    const fullTitle = title.includes("SNSS") ? title : `${title} | SNSS Global Services`;
+    const fullTitle = title.includes("Sentinel") ? title : `${title} | Sentinel IFM`;
     document.title = fullTitle;
     const canonical = `${BASE_URL}${path}`;
 

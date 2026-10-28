@@ -102,7 +102,7 @@ export function Careers() {
                 <p className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER }}>Actively hiring</p>
                 <div className="flex flex-wrap gap-2 mb-8">
                   {ROLES.map((role) => (
-                    <button key={role} onClick={() => setSelectedRole(role === selectedRole ? "" : role)} className="px-3 py-1.5 text-xs font-medium transition-all" style={{ background: selectedRole === role ? NAVY : "rgba(15,42,74,0.06)", color: selectedRole === role ? "#fff" : NAVY, border: selectedRole === role ? `1px solid ${NAVY}` : "1px solid rgba(15,42,74,0.1)", borderRadius: "3px" }}>
+                    <button type="button" key={role} onClick={() => setSelectedRole(role === selectedRole ? "" : role)} className="px-3.5 py-2.5 lg:py-1.5 text-xs font-medium transition-all" style={{ background: selectedRole === role ? NAVY : "rgba(15,42,74,0.06)", color: selectedRole === role ? "#fff" : NAVY, border: selectedRole === role ? `1px solid ${NAVY}` : "1px solid rgba(15,42,74,0.1)", borderRadius: "3px" }}>
                       {role}
                     </button>
                   ))}

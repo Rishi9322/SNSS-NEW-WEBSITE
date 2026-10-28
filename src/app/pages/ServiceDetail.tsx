@@ -180,7 +180,7 @@ export function ServiceDetail() {
                   <p className="text-sm mb-6" style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.65 }}>
                     Response within 4 business hours.
                   </p>
-                  <Link to={`/contact?service=${svc.id}`} className="block w-full text-center py-3.5 text-sm font-bold text-white transition-all hover:brightness-110 mb-3" style={{ background: AMBER, borderRadius: "4px" }}>
+                  <Link to={`/contact?service=${svc.id}`} className="block w-full text-center py-3.5 text-sm font-bold text-[#0F2A4A] transition-all hover:brightness-110 mb-3" style={{ background: AMBER, borderRadius: "4px" }}>
                     Request this Service
                   </Link>
                   <a href="https://wa.me/918655362161" target="_blank" rel="noopener noreferrer"
@@ -190,7 +190,7 @@ export function ServiceDetail() {
                   </a>
                   <div className="space-y-3 pt-6" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
                     {["Background-verified, trained staff", "Full PF/ESIC compliance — zero liability", "Same-day replacement guarantee"].map((pt, i) => (
-                      <div key={i} className="flex items-start gap-2 text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>
+                      <div key={i} className="flex items-start gap-2 text-xs" style={{ color: "rgba(255,255,255,0.6)" }}>
                         <svg viewBox="0 0 16 16" fill="none" stroke={AMBER} strokeWidth={2} className="w-3.5 h-3.5 flex-shrink-0 mt-0.5"><path d="M3 8l3.5 3.5L13 5" /></svg>
                         {pt}
                       </div>
@@ -218,7 +218,7 @@ export function ServiceDetail() {
                     </div>
                     <div>
                       <div className="font-bold text-sm mb-1 text-white">{rel.title}</div>
-                      <p className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>{rel.desc}</p>
+                      <p className="text-xs" style={{ color: "rgba(255,255,255,0.6)" }}>{rel.desc}</p>
                     </div>
                   </Link>
                 </FadeIn>

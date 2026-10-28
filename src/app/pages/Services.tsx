@@ -62,7 +62,7 @@ export function Services() {
               Most clients come to us with a problem, not a service name. Tell us what's causing friction — we'll recommend the right combination and quote within 4 business hours.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
-              <Link to="/contact" className="px-7 py-3 rounded text-sm font-bold text-white transition-all hover:brightness-110" style={{ background: AMBER }}>Talk to our team</Link>
+              <Link to="/contact" className="px-7 py-3 rounded text-sm font-bold text-[#0F2A4A] transition-all hover:brightness-110" style={{ background: AMBER }}>Talk to our team</Link>
               <a href="https://wa.me/918655362161" target="_blank" rel="noopener noreferrer" className="px-7 py-3 rounded text-sm font-bold transition-all hover:bg-white/10" style={{ color: "rgba(255,255,255,0.8)", border: "1px solid rgba(255,255,255,0.2)" }}>WhatsApp Us</a>
             </div>
           </FadeIn>
