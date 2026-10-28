@@ -6,12 +6,14 @@ import { buildRagContext } from "../src/lib/prompts.js";
 
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
 // Groq free tier: 14,400 req/day, 6,000 tokens/min — no credit card required
-const MODEL = "llama-3.1-8b-instant";
+// Override with GROQ_MODEL (e.g. openai/gpt-oss-120b for better accuracy, lower free-tier headroom).
+// Groq retires models without notice; a 404 model_not_found in the runtime logs means pick a new one.
+const MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-20b";
 
 const MAX_QUERY_CHARS = 1000;
 const MAX_BODY_BYTES = 12_000;
 const MAX_HISTORY_TURNS = 3;
-const MAX_OUTPUT_TOKENS = 750;
+const MAX_OUTPUT_TOKENS = 1500; // gpt-oss models spend part of this on reasoning before the answer
 
 // ─── Guardrails ───────────────────────────────────────────────────────────────
 
@@ -287,6 +289,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         messages,
         max_tokens: MAX_OUTPUT_TOKENS,
         temperature: 0.3,
+        reasoning_effort: "low",
         stream: false,
       }),
     });
