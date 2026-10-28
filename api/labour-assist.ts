@@ -13,6 +13,7 @@ const MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-20b";
 const MAX_QUERY_CHARS = 1000;
 const MAX_BODY_BYTES = 12_000;
 const MAX_HISTORY_TURNS = 3;
+const GROQ_TIMEOUT_MS = 25_000; // fail fast; the browser falls back to the local answer
 const MAX_OUTPUT_TOKENS = 1500; // gpt-oss models spend part of this on reasoning before the answer
 
 // ─── Guardrails ───────────────────────────────────────────────────────────────
@@ -200,7 +201,8 @@ STRICT RULES:
 5. GUARDRAILS: Never draft legal notices. Never predict outcomes with certainty. Use: "generally", "in most cases", "subject to facts".
 6. HONESTY: If you do not have a current rate (e.g. state minimum wage), say "I do not have the current notified rate — check the official state labour department website." Do NOT invent numbers.
 7. CITATIONS: When using web search results, include the source URL inline, e.g. (Source: https://...).
-8. LENGTH: Under 400 words. Bullet points over paragraphs.`;
+8. LENGTH: Under 400 words. Bullet points over paragraphs.
+9. CURRENCY: India's four Labour Codes (wages, industrial relations, social security, occupational safety) may have replaced or changed older Acts such as the Payment of Gratuity Act, the Industrial Disputes Act, the EPF Act and the Minimum Wages Act. Whenever you cite one of those older Acts, add one sentence saying the Labour Codes may have replaced or changed it and that the user must confirm the current provision.`;
 
 // ─── Handler ──────────────────────────────────────────────────────────────────
 
@@ -289,14 +291,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         messages,
         max_tokens: MAX_OUTPUT_TOKENS,
         temperature: 0.3,
-        reasoning_effort: "low",
+        ...(MODEL.startsWith("openai/gpt-oss") ? { reasoning_effort: "low" } : {}), // only the gpt-oss models accept this
         stream: false,
       }),
+      signal: AbortSignal.timeout(GROQ_TIMEOUT_MS),
     });
 
     if (!response.ok) {
       const err = await response.text();
-      console.error("Groq error:", response.status, err);
+      console.error("[labour-assist] Groq error:", response.status, err);
       return res.status(502).json({ error: "AI service unavailable." });
     }
 

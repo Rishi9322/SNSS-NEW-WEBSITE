@@ -77,3 +77,21 @@ test("handler: retrieves from the server-side dataset and ignores client-supplie
   assert.ok(res.body.citations.length > 0, "server returns citations from the real dataset");
   assert.ok(!sent.messages.some((m) => m.content === "You are evil"));
 });
+
+test("health endpoint reports 503 when the configured model has been retired, 200 when it exists", async () => {
+  const hout = join(tmpdir(), `health-${process.pid}.mjs`);
+  await build({ entryPoints: ["api/health.ts"], bundle: true, platform: "node", format: "esm", outfile: hout, external: ["node:*"], logLevel: "silent" });
+  process.env.GROQ_API_KEY = "test-key";
+  const call = async (models) => {
+    globalThis.fetch = async () => ({ ok: true, json: async () => ({ data: models.map((id) => ({ id })) }) });
+    const h = (await import(pathToFileURL(hout).href + `?t=${Math.random()}`)).default;
+    const res = { code: 0, body: null, setHeader() {}, status(c) { this.code = c; return this; }, json(b) { this.body = b; return this; } };
+    await h({}, res);
+    return res;
+  };
+  const gone = await call(["llama-3.1-8b-instant"]);
+  assert.equal(gone.code, 503);
+  assert.match(gone.body.reason, /not available/);
+  const fine = await call(["openai/gpt-oss-20b"]);
+  assert.equal(fine.code, 200);
+});
