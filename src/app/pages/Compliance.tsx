@@ -46,6 +46,7 @@ export function Compliance() {
         title="Every credential. One place."
         lede="For procurement officers: all registration numbers, ISO certifications, GeM contracts, and financial standing — verified and ready."
         image={complianceHeroImage}
+        imageRatio={1600 / 900}
       >
         <p className="mt-6 text-[15px] font-bold text-white">Last verified: 12 June 2026</p>
       </PageHeader>

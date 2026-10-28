@@ -48,14 +48,20 @@ export type Crumb = { label: string; to?: string };
 
 /** Page header: route path (real navigation), big condensed title, optional framed image. */
 export function PageHeader({
-  path, title, lede, image, imageAlt = "", imagePosition = "center", cropTop = false, children,
+  path, title, lede, image, imageAlt = "", imageRatio = 4 / 3, cropTop = 0, children,
 }: {
-  path: Crumb[]; title: ReactNode; lede?: ReactNode; image?: string; imageAlt?: string; imagePosition?: string; cropTop?: boolean; children?: ReactNode;
+  path: Crumb[]; title: ReactNode; lede?: ReactNode; image?: string; imageAlt?: string;
+  /** width / height of the image file. The frame uses it, so the picture is never cropped at the sides. */
+  imageRatio?: number;
+  /** Fraction (0-1) of the image height to trim from the top, e.g. to hide text baked into the picture. */
+  cropTop?: number;
+  children?: ReactNode;
 }) {
+  const wide = !!image && imageRatio >= 2.3; // panoramic banners go full-width under the title
   return (
     <header className="relative overflow-hidden bg-ink text-white">
       <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-2 bg-hivis" />
-      <Container className={`grid gap-10 pb-16 pt-10 sm:pt-14 ${image ? "lg:grid-cols-[1.15fr_0.85fr] lg:items-end lg:gap-14" : ""}`}>
+      <Container className={`grid gap-10 pb-16 pt-10 sm:pt-14 ${image && !wide ? "lg:grid-cols-[1.15fr_0.85fr] lg:items-end lg:gap-14" : ""}`}>
         <div>
           <nav aria-label="Breadcrumb" className="mb-8 text-sm text-white/75">
             <ol className="flex flex-wrap items-center gap-x-2">
@@ -73,8 +79,8 @@ export function PageHeader({
         </div>
         {image && (
           <div className="relative">
-            <div className="aspect-[4/3] overflow-hidden rounded-[10px] border-2 border-white/20 bg-concrete">
-              <img src={image} alt={imageAlt} width={1200} height={900} decoding="async" className={`h-full w-full object-cover ${cropTop ? "origin-bottom scale-[1.35]" : ""}`} style={{ objectPosition: imagePosition }} />
+            <div className="overflow-hidden rounded-[10px] border-2 border-white/20 bg-concrete" style={{ aspectRatio: imageRatio / (1 - cropTop) }}>
+              <img src={image} alt={imageAlt} width={1200} height={Math.round(1200 / imageRatio)} decoding="async" className="h-full w-full object-cover" style={{ objectPosition: cropTop ? "bottom" : "center" }} />
             </div>
           </div>
         )}

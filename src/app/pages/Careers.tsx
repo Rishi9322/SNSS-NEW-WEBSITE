@@ -73,6 +73,7 @@ export function Careers() {
         title="Join 700+ professionals across India."
         lede="Every employee receives a complete benefits package from day one — appointment letter, PF, ESIC, salary by the 7th. No delays, no exceptions."
         image={careersHeroImage}
+        imageRatio={1600 / 729}
       />
 
       <section className="bg-white py-16 lg:py-24">

@@ -43,8 +43,8 @@ export function About() {
         title="25 years of doing one thing well."
         lede="Founded in 1999 as SNSS Global Services and now Sentinel IFM, the company has built a reputation for operational reliability, statutory compliance, and genuine partnership with corporate clients across India."
         image={aboutHeroImage}
-        imagePosition="bottom"
-        cropTop
+        imageRatio={1600 / 514}
+        cropTop={0.2}
       />
 
       {/* Mission */}

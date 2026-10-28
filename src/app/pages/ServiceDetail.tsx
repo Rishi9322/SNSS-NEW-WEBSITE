@@ -11,6 +11,16 @@ const Tick = () => (
   <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={2.5} className="mt-1 h-5 w-5 shrink-0 text-go"><path d="M3 8l3.5 3.5L13 5" /></svg>
 );
 
+// width / height of each service image (src/assets/images/service-*.webp), so the header frame never crops the sides.
+const IMAGE_RATIO: Record<string, number> = {
+  housekeeping: 900 / 328,
+  pantry: 900 / 319,
+  technical: 900 / 345,
+  "data-entry": 900 / 600,
+  payroll: 800 / 480,
+  staffing: 900 / 600,
+};
+
 export function ServiceDetail() {
   const { slug } = useParams<{ slug: string }>();
   const svc = SERVICES.find((s) => s.slug === slug);
@@ -72,6 +82,7 @@ export function ServiceDetail() {
         title={svc.h1}
         lede={svc.subhead}
         image={svc.image}
+        imageRatio={IMAGE_RATIO[svc.slug] ?? 1.5}
         imageAlt={svc.h1}
       >
         <div className="mt-8 flex items-center gap-3">
