@@ -58,7 +58,7 @@ export function Terms() {
               },
               {
                 title: "10. Contact",
-                body: "For queries regarding these Terms, write to INFO@SNSSGROUP.COM with the subject line 'Terms Query'.",
+                body: "For queries regarding these Terms, write to info@sentinelifm.com with the subject line 'Terms Query'.",
               },
             ].map((section) => (
               <div key={section.title} className="mb-8">

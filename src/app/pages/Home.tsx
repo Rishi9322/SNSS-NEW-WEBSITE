@@ -16,7 +16,7 @@ const HOME_FAQS = [
   { q: "What is Sentinel's replacement policy for absent staff?", a: "Sentinel guarantees same-day replacement from its bench strength if any deployed staff member is absent. The client does not need to make any calls — the replacement is arranged automatically." },
   { q: "How long has Sentinel been operating?", a: "Sentinel was founded in Mumbai in 1999 and has been providing integrated facilities management services for over 25 years, with operations across Maharashtra, Gujarat, and central India." },
   { q: "Can Sentinel manage multiple services under a single contract?", a: "Yes. This is Sentinel's core offering — all six services (housekeeping, pantry, technical, data entry, payroll, staffing) are managed under a single contract, single SLA, and single account manager." },
-  { q: "How do I get a quote from Sentinel?", a: "You can request a quote via the contact form at sentinelifm.com/contact, by emailing info@snssgroup.com, or by calling/WhatsApp at +91 86553 62161. Sentinel responds to all enquiries within 4 business hours." },
+  { q: "How do I get a quote from Sentinel?", a: "You can request a quote via the contact form at sentinelifm.com/contact, by emailing info@sentinelifm.com, or by calling/WhatsApp at +91 86553 62161. Sentinel responds to all enquiries within 4 business hours." },
 ];
 
 export function Home() {

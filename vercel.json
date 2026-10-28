@@ -58,5 +58,40 @@
     "api/labour-assist.ts": {
       "includeFiles": "src/data/labour-law-dataset.json"
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "snssgroup.com"
+        }
+      ],
+      "destination": "https://sentinelifm.com/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.snssgroup.com"
+        }
+      ],
+      "destination": "https://sentinelifm.com/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.sentinelifm.com"
+        }
+      ],
+      "destination": "https://sentinelifm.com/$1",
+      "permanent": true
+    }
+  ]
 }

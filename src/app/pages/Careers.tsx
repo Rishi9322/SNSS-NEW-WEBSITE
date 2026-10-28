@@ -171,7 +171,7 @@ export function Careers() {
                   </button>
                   <p className="text-center text-xs mt-3" style={{ color: "rgba(15,42,74,0.4)" }}>
                     Or email your resume to{" "}
-                    <a href="mailto:INFO@SNSSGROUP.COM" className="underline">INFO@SNSSGROUP.COM</a>
+                    <a href="mailto:info@sentinelifm.com" className="underline">info@sentinelifm.com</a>
                   </p>
                 </form>
               </div>

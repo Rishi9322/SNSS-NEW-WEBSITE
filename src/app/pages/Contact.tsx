@@ -254,7 +254,7 @@ export function Contact() {
 
                 <div className="mt-6 p-5" style={{ border: "1px solid rgba(15,42,74,0.1)", borderRadius: "4px" }}>
                   <div className="text-[10px] uppercase tracking-widest mb-1.5" style={{ color: "rgba(15,42,74,0.4)" }}>Email</div>
-                  <a href="mailto:INFO@SNSSGROUP.COM" className="text-sm font-bold transition-opacity hover:opacity-70" style={{ color: NAVY }}>INFO@SNSSGROUP.COM</a>
+                  <a href="mailto:info@sentinelifm.com" className="text-sm font-bold transition-opacity hover:opacity-70" style={{ color: NAVY }}>info@sentinelifm.com</a>
                   <div className="text-[10px] uppercase tracking-widest mb-1.5 mt-4" style={{ color: "rgba(15,42,74,0.4)" }}>WhatsApp</div>
                   <a href="https://wa.me/918655362161" target="_blank" rel="noopener noreferrer" className="text-sm font-bold transition-opacity hover:opacity-70" style={{ color: NAVY }}>+91 86553 62161</a>
                 </div>

@@ -42,7 +42,7 @@ export function Layout() {
 
       {/* Top bar */}
       <div className="hidden lg:flex items-center justify-end px-8 py-2 text-xs gap-6" style={{ background: "#08192e", color: "rgba(255,255,255,0.6)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-        <a href="mailto:info@snssgroup.com" className="hover:text-white transition-colors">info@snssgroup.com</a>
+        <a href="mailto:info@sentinelifm.com" className="hover:text-white transition-colors">info@sentinelifm.com</a>
         <a href="https://wa.me/918655362161" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">+91 86553 62161</a>
       </div>
 
@@ -204,7 +204,7 @@ export function Layout() {
                 </li>
                 <li>
                   <div className="text-[10px] uppercase tracking-widest mb-1.5" style={{ color: "rgba(255,255,255,0.6)" }}>Email</div>
-                  <a href="mailto:info@snssgroup.com" className="text-sm transition-colors" style={{ color: "rgba(255,255,255,0.5)" }}>info@snssgroup.com</a>
+                  <a href="mailto:info@sentinelifm.com" className="text-sm transition-colors" style={{ color: "rgba(255,255,255,0.5)" }}>info@sentinelifm.com</a>
                 </li>
                 <li>
                   <div className="text-[10px] uppercase tracking-widest mb-1.5" style={{ color: "rgba(255,255,255,0.6)" }}>WhatsApp</div>

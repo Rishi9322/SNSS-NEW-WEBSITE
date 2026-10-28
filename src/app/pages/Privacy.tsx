@@ -42,7 +42,7 @@ export function Privacy() {
               },
               {
                 title: "6. Your Rights (DPDP Act 2023)",
-                body: "Under the Digital Personal Data Protection Act, 2023, you have the right to: (a) access your personal data held by us; (b) correct inaccurate data; (c) withdraw consent and request erasure of your data. To exercise any of these rights, contact us at INFO@SNSSGROUP.COM with the subject line 'Data Rights Request'.",
+                body: "Under the Digital Personal Data Protection Act, 2023, you have the right to: (a) access your personal data held by us; (b) correct inaccurate data; (c) withdraw consent and request erasure of your data. To exercise any of these rights, contact us at info@sentinelifm.com with the subject line 'Data Rights Request'.",
               },
               {
                 title: "7. Cookies",
@@ -54,7 +54,7 @@ export function Privacy() {
               },
               {
                 title: "9. Contact",
-                body: "For privacy-related queries, write to INFO@SNSSGROUP.COM with the subject line 'Privacy Query'. We will respond within 10 business days.",
+                body: "For privacy-related queries, write to info@sentinelifm.com with the subject line 'Privacy Query'. We will respond within 10 business days.",
               },
             ].map((section) => (
               <div key={section.title} className="mb-8">
