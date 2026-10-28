@@ -78,6 +78,8 @@ Source images in `src/assets/images/` are WebP, capped at 1600 px (heroes), 900 
 
 Vercel builds with `pnpm build` and serves `dist/`. Static route pages written by `prerender-meta.mjs` take precedence over the SPA rewrite, so crawlers and link previews get the right metadata without running JavaScript. `vercel.json` also sets the security headers and CSP; if you add a third-party script, image host or iframe, add it there.
 
+**Adding a page:** unknown URLs now get a real HTTP 404 (`dist/404.html`, noindex) because `vercel.json` no longer rewrites everything to `index.html`. A new route therefore needs a `useSEO({ title, description, path })` call in its page file (or a service entry in `constants.tsx`) so `scripts/prerender-meta.mjs` writes its static file; otherwise it 404s in production even though it works in `pnpm dev`.
+
 ## Known limitations
 
 - Page body text is still rendered client-side (only metadata is prerendered).

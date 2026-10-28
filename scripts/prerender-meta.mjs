@@ -46,6 +46,13 @@ for (const p of pages) {
   writeFileSync(join(dir, "index.html"), html);
 }
 
+// 404.html: Vercel serves this, with a real 404 status, for any path that has no file. The app shell
+// still loads, so React Router renders the NotFound screen. noindex keeps it out of search results.
+let notFound = shell;
+notFound = setTag(notFound, /<title>[^<]*<\/title>/, "<title>Page not found | Sentinel IFM</title>");
+notFound = setTag(notFound, /<link rel="canonical" href="[^"]*"\s*\/?>/, '<meta name="robots" content="noindex" />');
+writeFileSync(join(dist, "404.html"), notFound);
+
 // Sitemap: same URLs as public/sitemap.xml, with today's lastmod.
 const today = new Date().toISOString().slice(0, 10);
 const sitemap = readFileSync("public/sitemap.xml", "utf8").replace(/(<loc>[^<]*<\/loc>)/g, (m) => `${m}\n    <lastmod>${today}</lastmod>`);
