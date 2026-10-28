@@ -149,7 +149,7 @@ export function Compliance() {
         title="Need a document package for a tender?"
         text="We'll prepare a compliance pack with ISO certificates, registration extracts, and GeM contract references — tailored to your tender requirements."
         primary={{ label: "Request Document Pack", to: "/contact" }}
-        secondary={{ label: "WhatsApp Us", href: "https://wa.me/918655362161" }}
+        secondary={{ label: "WhatsApp Us", href: "https://wa.me/919819301704" }}
       />
     </>
   );

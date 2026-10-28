@@ -49,7 +49,7 @@ export function Layout() {
       <div className="hidden bg-ink text-[13px] text-white/80 lg:block">
         <Container className="flex justify-end gap-6 py-2">
           <a href="mailto:info@sentinelifm.com" className="hover:text-white hover:underline">info@sentinelifm.com</a>
-          <a href="tel:+918655362161" className="hover:text-white hover:underline">+91 86553 62161</a>
+          <a href="tel:+919819301704" className="hover:text-white hover:underline">+91 98193 01704</a>
         </Container>
       </div>
 
@@ -196,7 +196,7 @@ export function Layout() {
               </address>
               <ul className="mt-4 space-y-1 text-[15px]">
                 <li><a href="mailto:info@sentinelifm.com" className="inline-flex min-h-[36px] items-center text-white underline underline-offset-4 hover:text-hivis">info@sentinelifm.com</a></li>
-                <li><a href="tel:+918655362161" className="inline-flex min-h-[36px] items-center text-white underline underline-offset-4 hover:text-hivis">+91 86553 62161</a></li>
+                <li><a href="tel:+919819301704" className="inline-flex min-h-[36px] items-center text-white underline underline-offset-4 hover:text-hivis">+91 98193 01704</a></li>
               </ul>
               <p className="mt-4 text-[15px] text-white/80">Offices in Mumbai, Pune, Ahmedabad and Bhopal.</p>
             </div>
@@ -216,7 +216,7 @@ export function Layout() {
               <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} className="h-4 w-4"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
               Ask Labour Law Assist
             </Link>
-            <a href="https://wa.me/918655362161" target="_blank" rel="noopener noreferrer" className="flex min-h-[48px] items-center gap-2 rounded-full bg-[#25D366] px-5 text-sm font-bold text-ink shadow-[0_0_0_2px_var(--color-ink)]">
+            <a href="https://wa.me/919819301704" target="_blank" rel="noopener noreferrer" className="flex min-h-[48px] items-center gap-2 rounded-full bg-[#25D366] px-5 text-sm font-bold text-ink shadow-[0_0_0_2px_var(--color-ink)]">
               <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4"><path d={WA_PATH} /></svg>
               WhatsApp us
             </a>

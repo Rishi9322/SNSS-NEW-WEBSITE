@@ -183,7 +183,7 @@ export function Contact() {
 
             <div>
               <a href="mailto:info@sentinelifm.com" className="display block break-all text-[clamp(1.5rem,3.2vw,2.2rem)] text-ink underline decoration-2 underline-offset-4 hover:bg-hivis">info@sentinelifm.com</a>
-              <a href="https://wa.me/918655362161" target="_blank" rel="noopener noreferrer" className="display mt-2 block text-[clamp(1.5rem,3.2vw,2.2rem)] text-ink underline decoration-2 underline-offset-4 hover:bg-hivis">+91 86553 62161</a>
+              <a href="https://wa.me/919819301704" target="_blank" rel="noopener noreferrer" className="display mt-2 block text-[clamp(1.5rem,3.2vw,2.2rem)] text-ink underline decoration-2 underline-offset-4 hover:bg-hivis">+91 98193 01704</a>
               <p className="mt-1 text-[15px] text-steel">Email or WhatsApp</p>
 
               <h2 className="display mt-12 text-2xl text-ink">Our offices</h2>

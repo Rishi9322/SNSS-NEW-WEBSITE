@@ -299,7 +299,7 @@ Developer-edited. Vercel redeploys on push to `main`. All figures must match the
 
 On SMTP failure:
 → Return 500
-→ Show: "Could not send. Please WhatsApp us: +91 86553 62161"
+→ Show: "Could not send. Please WhatsApp us: +91 98193 01704"
 → Show email address as fallback
 ```
 
@@ -331,7 +331,7 @@ Thank you for contacting SNSS Global Services.
 We've received your enquiry and will respond within 4 business hours.
 
 If you need to reach us immediately:
-WhatsApp: +91 86553 62161
+WhatsApp: +91 98193 01704
 Email: info@snssgroup.com
 
 SNSS Global Services Pvt. Ltd.
