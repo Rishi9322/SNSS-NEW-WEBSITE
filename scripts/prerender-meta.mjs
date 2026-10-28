@@ -58,4 +58,21 @@ const today = new Date().toISOString().slice(0, 10);
 const sitemap = readFileSync("public/sitemap.xml", "utf8").replace(/(<loc>[^<]*<\/loc>)/g, (m) => `${m}\n    <lastmod>${today}</lastmod>`);
 writeFileSync(join(dist, "sitemap.xml"), sitemap);
 
-console.log(`prerender-meta: ${pages.length} pages, sitemap lastmod ${today}`);
+// Guard: with no catch-all rewrite, a route without a static file is a production 404. Fail the build
+// instead of finding out from a customer. Every router path (and every sitemap URL) must have a page.
+import { existsSync } from "node:fs";
+const routerSrc = readFileSync("src/app/routes.tsx", "utf8");
+const routePaths = [...routerSrc.matchAll(/path:\s*"([^"]+)"/g)].map((m) => m[1]).filter((p) => p !== "/" && p !== "*");
+const expected = new Set(["/"]);
+for (const p of routePaths) {
+  if (p.includes(":")) slugs.forEach((m) => expected.add("/" + p.replace(/:[a-zA-Z]+/, m[1])));
+  else expected.add("/" + p);
+}
+for (const m of readFileSync("public/sitemap.xml", "utf8").matchAll(/<loc>([^<]*)<\/loc>/g)) expected.add(new URL(m[1]).pathname.replace(/\/$/, "") || "/");
+const missing = [...expected].filter((p) => !existsSync(join(dist, p, "index.html")));
+if (missing.length) {
+  console.error(`prerender-meta: no static page for ${missing.join(", ")}. Add a useSEO({ title, description, path }) call to the page (or the service to constants.tsx).`);
+  process.exit(1);
+}
+
+console.log(`prerender-meta: ${pages.length} pages, ${expected.size} routes verified, sitemap lastmod ${today}`);
