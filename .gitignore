@@ -3,3 +3,6 @@ dist
 .env
 .env.local
 .vercel
+
+# benchmark answer key must never be public
+benchmark/output/keys.hidden.jsonl
