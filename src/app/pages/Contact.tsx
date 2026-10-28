@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 import { useSEO } from "../hooks/useSEO";
-import { AnimatePresence, motion } from "motion/react";
-import { FadeIn } from "../components/FadeIn";
-import { NAVY, AMBER, SERVICES } from "../constants";
-import contactHeroImage from "../../assets/images/contact-hero.webp";
+import { SERVICES } from "../constants";
+import { Container, PageHeader } from "../components/kit";
 
 const CITIES = [
   {
@@ -42,17 +40,12 @@ const CITIES = [
 ];
 
 const MapPinIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4 flex-shrink-0">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden="true" className="mt-1 h-5 w-5 shrink-0">
     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
     <circle cx="12" cy="10" r="3" />
   </svg>
 );
 
-const ExternalLinkIcon = () => (
-  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={2} className="w-3.5 h-3.5 flex-shrink-0">
-    <path d="M6 3H3v10h10v-3M9 3h4v4M13 3l-6 6" />
-  </svg>
-);
 
 const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
 
@@ -111,158 +104,127 @@ export function Contact() {
     }
   };
 
-  const inputStyle = { borderColor: "rgba(15,42,74,0.15)", background: "#fff", color: NAVY, borderRadius: "4px" };
+  const field = "block w-full min-h-[48px] rounded-[4px] border-2 border-ink/40 bg-white px-4 py-3 text-[16px] text-ink placeholder:text-steel/70 focus:border-ink focus:outline-none focus-visible:ring-4 focus-visible:ring-hivis";
+  const label = "mb-2 block text-[15px] font-bold text-ink";
+  const city = CITIES[activeCity];
 
   return (
     <>
-      {/* Page header */}
-      <div className="relative overflow-hidden" style={{ background: NAVY }}>
-        <img
-          src={contactHeroImage}
-          alt="Request a free quote — Sentinel IFM: cleaning, compliance, management support, security, and maintenance. Every enquiry reviewed by a real person, response within 4 business hours."
-          className="w-full h-auto block"
-        />
-        <h1 className="sr-only">Request a free quote.</h1>
-      </div>
+      <PageHeader
+        path={[{ label: "Home", to: "/" }, { label: "Contact" }]}
+        title="Request a free quote."
+        lede="Every enquiry is reviewed by a real person. We respond within 4 business hours."
+      />
 
-      {/* Form + contact info */}
-      <section className="py-20 lg:py-28 bg-white">
-        <div className="max-w-7xl mx-auto px-5 lg:px-8">
-          <div className="grid lg:grid-cols-5 gap-14 items-start">
-
-            {/* Form */}
-            <div className="lg:col-span-3">
-              <FadeIn>
-                <form onSubmit={handleSubmit} className="p-8" style={{ border: "1px solid rgba(15,42,74,0.1)", borderRadius: "4px" }} aria-label="Enquiry form" noValidate>
-                  <div className="grid sm:grid-cols-2 gap-4 mb-4">
-                    {[
-                      { name: "fullName", label: "Full Name", type: "text", placeholder: "Rajesh Kumar", required: true },
-                      { name: "company", label: "Company Name", type: "text", placeholder: "Acme Pvt. Ltd.", required: false },
-                      { name: "email", label: "Email Address", type: "email", placeholder: "rajesh@company.com", required: true },
-                      { name: "phone", label: "Phone Number", type: "tel", placeholder: "+91 98000 00000", required: true },
-                    ].map((f) => (
-                      <div key={f.name}>
-                        <label htmlFor={`field-${f.name}`} className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: NAVY }}>{f.label}{f.required && <span aria-hidden="true"> *</span>}{f.required && <span className="sr-only"> (required)</span>}</label>
-                        <input id={`field-${f.name}`} name={f.name} type={f.type} required={f.required} placeholder={f.placeholder} aria-required={f.required ? "true" : "false"} className="w-full px-4 py-3 border text-sm focus:outline-none" style={inputStyle} />
-                      </div>
-                    ))}
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: NAVY }}>City *</label>
-                      <select name="city" required className="w-full px-4 py-3 border text-sm focus:outline-none appearance-none" style={inputStyle}>
-                        <option value="">Select city</option>
-                        {["Mumbai", "Pune", "Ahmedabad", "Bhopal", "Other"].map((c) => <option key={c}>{c}</option>)}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: NAVY }}>Service Required *</label>
-                      <select name="service" required value={selectedService} onChange={(e) => setSelectedService(e.target.value)} className="w-full px-4 py-3 border text-sm focus:outline-none appearance-none" style={inputStyle}>
-                        <option value="">Select service</option>
-                        {SERVICES.map((s) => <option key={s.id} value={s.id}>{s.title}</option>)}
-                        <option value="other">Other</option>
-                      </select>
-                    </div>
+      <section className="bg-white py-14 lg:py-20">
+        <Container>
+          <div className="grid items-start gap-14 lg:grid-cols-[1.2fr_1fr]">
+            <form onSubmit={handleSubmit} className="rounded-[10px] border-2 border-ink p-6 sm:p-8" aria-label="Enquiry form" noValidate>
+              <div className="mb-5 grid gap-5 sm:grid-cols-2">
+                {[
+                  { name: "fullName", label: "Full name", type: "text", placeholder: "Rajesh Kumar", required: true },
+                  { name: "company", label: "Company name", type: "text", placeholder: "Acme Pvt. Ltd.", required: false },
+                  { name: "email", label: "Email address", type: "email", placeholder: "rajesh@company.com", required: true },
+                  { name: "phone", label: "Phone number", type: "tel", placeholder: "+91 98000 00000", required: true },
+                ].map((f) => (
+                  <div key={f.name}>
+                    <label htmlFor={`field-${f.name}`} className={label}>{f.label}{f.required && <span aria-hidden="true"> *</span>}{f.required && <span className="sr-only"> (required)</span>}</label>
+                    <input id={`field-${f.name}`} name={f.name} type={f.type} required={f.required} placeholder={f.placeholder} aria-required={f.required ? "true" : "false"} className={field} />
                   </div>
+                ))}
+                <div>
+                  <label htmlFor="field-city" className={label}>City <span aria-hidden="true">*</span></label>
+                  <select id="field-city" name="city" required className={field}>
+                    <option value="">Select city</option>
+                    {["Mumbai", "Pune", "Ahmedabad", "Bhopal", "Other"].map((c) => <option key={c}>{c}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="field-service" className={label}>Service required <span aria-hidden="true">*</span></label>
+                  <select id="field-service" name="service" required value={selectedService} onChange={(e) => setSelectedService(e.target.value)} className={field}>
+                    <option value="">Select service</option>
+                    {SERVICES.map((s) => <option key={s.id} value={s.id}>{s.title}</option>)}
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
 
-                  <div className="mb-4">
-                    <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: NAVY }}>How did you hear about us? *</label>
-                    <select name="source" required className="w-full px-4 py-3 border text-sm focus:outline-none appearance-none" style={inputStyle}>
-                      <option value="">Select source</option>
-                      {["Google Search", "Referral / Word of mouth", "GeM portal", "Tender document", "Other"].map((s) => <option key={s}>{s}</option>)}
-                    </select>
-                  </div>
+              <div className="mb-5">
+                <label htmlFor="field-source" className={label}>How did you hear about us? <span aria-hidden="true">*</span></label>
+                <select id="field-source" name="source" required className={field}>
+                  <option value="">Select source</option>
+                  {["Google Search", "Referral / Word of mouth", "GeM portal", "Tender document", "Other"].map((s) => <option key={s}>{s}</option>)}
+                </select>
+              </div>
 
-                  <div className="mb-6">
-                    <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: NAVY }}>Message</label>
-                    <textarea name="message" rows={4} placeholder="Briefly describe your facility, headcount, and specific requirements..." maxLength={1000} className="w-full px-4 py-3 border text-sm focus:outline-none resize-none" style={inputStyle} />
-                  </div>
+              <div className="mb-6">
+                <label htmlFor="field-message" className={label}>Message</label>
+                <textarea id="field-message" name="message" rows={4} placeholder="Briefly describe your facility, headcount, and specific requirements..." maxLength={1000} className={`${field} resize-y`} />
+              </div>
 
-                  <div className="hidden" aria-hidden="true"><input type="text" name="_honey" tabIndex={-1} autoComplete="off" /></div>
+              <div className="hidden" aria-hidden="true"><input type="text" name="_honey" tabIndex={-1} autoComplete="off" /></div>
 
-                  <AnimatePresence>
-                    {submitted && (
-                      <motion.div role="alert" aria-live="polite" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mb-4 px-4 py-3 text-sm font-medium" style={{ background: "rgba(34,197,94,0.08)", color: "#16a34a", border: "1px solid rgba(34,197,94,0.2)", borderRadius: "4px" }}>
-                        ✓ Enquiry received. We'll respond within 4 business hours.
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+              {submitted && (
+                <div role="alert" aria-live="polite" className="mb-4 rounded-[4px] border-2 border-go bg-white px-4 py-3 text-[16px] font-semibold text-ink">
+                  Enquiry received. We'll respond within 4 business hours.
+                </div>
+              )}
 
-                  <AnimatePresence>
-                    {error && (
-                      <motion.div role="alert" aria-live="assertive" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mb-4 px-4 py-3 text-sm font-medium" style={{ background: "rgba(220,38,38,0.08)", color: "#dc2626", border: "1px solid rgba(220,38,38,0.2)", borderRadius: "4px" }}>
-                        {error}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+              {error && (
+                <div role="alert" aria-live="assertive" className="mb-4 rounded-[4px] border-2 border-ink bg-hivis px-4 py-3 text-[16px] font-semibold text-ink">
+                  {error}
+                </div>
+              )}
 
-                  <button type="submit" disabled={submitting} className="w-full py-3.5 text-sm font-bold text-white transition-all hover:brightness-110 active:scale-[0.98] disabled:opacity-60" style={{ background: NAVY, borderRadius: "4px" }}>
-                    {submitting ? "Sending…" : "Submit Enquiry"}
-                  </button>
-                </form>
-              </FadeIn>
-            </div>
+              <button type="submit" disabled={submitting} className="inline-flex min-h-[52px] w-full items-center justify-center rounded-[4px] bg-hivis px-6 text-[16px] font-bold text-ink transition-colors hover:bg-ink hover:text-white focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ink disabled:cursor-not-allowed disabled:opacity-60">
+                {submitting ? "Sending…" : "Submit Enquiry"}
+              </button>
+            </form>
 
-            {/* Locations / contact info */}
-            <div className="lg:col-span-2">
-              <FadeIn delay={0.1}>
-                <div className="flex gap-2 mb-5 flex-wrap">
-                  {CITIES.map((city, i) => (
+            <div>
+              <a href="mailto:info@sentinelifm.com" className="display block break-all text-[clamp(1.5rem,3.2vw,2.2rem)] text-ink underline decoration-2 underline-offset-4 hover:bg-hivis">info@sentinelifm.com</a>
+              <a href="https://wa.me/918655362161" target="_blank" rel="noopener noreferrer" className="display mt-2 block text-[clamp(1.5rem,3.2vw,2.2rem)] text-ink underline decoration-2 underline-offset-4 hover:bg-hivis">+91 86553 62161</a>
+              <p className="mt-1 text-[15px] text-steel">Email or WhatsApp</p>
+
+              <h2 className="display mt-12 text-2xl text-ink">Our offices</h2>
+              <ul className="mt-3 border-t-2 border-ink">
+                {CITIES.map((c, i) => (
+                  <li key={c.name} className="border-b border-ink/25">
                     <button
-                      key={city.name}
+                      type="button"
                       onClick={() => setActiveCity(i)}
-                      className="px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors"
-                      style={{
-                        borderRadius: "4px",
-                        background: activeCity === i ? NAVY : "transparent",
-                        color: activeCity === i ? "#fff" : NAVY,
-                        border: `1px solid ${activeCity === i ? NAVY : "rgba(15,42,74,0.15)"}`,
-                      }}
+                      aria-pressed={activeCity === i}
+                      className={`flex min-h-[48px] w-full items-center justify-between gap-4 px-3 py-3 text-left transition-colors ${activeCity === i ? "bg-hivis text-ink" : "text-ink hover:bg-concrete"}`}
                     >
-                      {city.name}
+                      <span className="display text-xl">{c.name}</span>
+                      <span className="text-[15px] font-semibold">{c.tag}</span>
                     </button>
-                  ))}
-                </div>
+                  </li>
+                ))}
+              </ul>
 
-                <div style={{ border: "1px solid rgba(15,42,74,0.1)", borderRadius: "4px", overflow: "hidden" }}>
-                  <iframe
-                    key={CITIES[activeCity].name}
-                    title={`Map of ${CITIES[activeCity].name}`}
-                    src={CITIES[activeCity].mapEmbed}
-                    className="w-full h-64 border-0"
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  />
-                  <div className="p-5">
-                    <div className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: AMBER }}>
-                      {CITIES[activeCity].tag}
-                    </div>
-                    <div className="flex items-start gap-2 mb-3" style={{ color: NAVY }}>
-                      <MapPinIcon />
-                      <p className="text-sm leading-relaxed whitespace-pre-line">{CITIES[activeCity].address}</p>
-                    </div>
-                    <a
-                      href={CITIES[activeCity].mapsLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-bold transition-opacity hover:opacity-70"
-                      style={{ color: AMBER }}
-                    >
-                      Open in Google Maps
-                      <ExternalLinkIcon />
-                    </a>
+              <div className="mt-6 overflow-hidden rounded-[10px] border-2 border-ink">
+                <iframe
+                  key={city.name}
+                  title={`Map of ${city.name}`}
+                  src={city.mapEmbed}
+                  className="h-64 w-full border-0"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+                <div className="border-t-2 border-ink bg-concrete p-5">
+                  <div className="flex items-start gap-2 text-ink">
+                    <MapPinIcon />
+                    <p className="whitespace-pre-line text-[16px] leading-relaxed">{city.address}</p>
                   </div>
+                  <a href={city.mapsLink} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex min-h-[44px] items-center font-bold text-ink underline underline-offset-4 decoration-2">
+                    Open in Google Maps
+                  </a>
                 </div>
-
-                <div className="mt-6 p-5" style={{ border: "1px solid rgba(15,42,74,0.1)", borderRadius: "4px" }}>
-                  <div className="text-[10px] uppercase tracking-widest mb-1.5" style={{ color: "rgba(15,42,74,0.4)" }}>Email</div>
-                  <a href="mailto:info@sentinelifm.com" className="text-sm font-bold transition-opacity hover:opacity-70" style={{ color: NAVY }}>info@sentinelifm.com</a>
-                  <div className="text-[10px] uppercase tracking-widest mb-1.5 mt-4" style={{ color: "rgba(15,42,74,0.4)" }}>WhatsApp</div>
-                  <a href="https://wa.me/918655362161" target="_blank" rel="noopener noreferrer" className="text-sm font-bold transition-opacity hover:opacity-70" style={{ color: NAVY }}>+91 86553 62161</a>
-                </div>
-              </FadeIn>
+              </div>
             </div>
-
           </div>
-        </div>
+        </Container>
       </section>
     </>
   );

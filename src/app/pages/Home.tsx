@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { FadeIn } from "../components/FadeIn";
-import { NAVY, AMBER, WA_PATH, SERVICES, PROOF_POINTS, CORP_VALUE_PROPS, TESTIMONIALS } from "../constants";
+import { SERVICES, PROOF_POINTS, CORP_VALUE_PROPS, TESTIMONIALS } from "../constants";
 import { useSEO } from "../hooks/useSEO";
-import heroImage from "../../assets/images/snss-hero-glass-cleaning.webp";
+import { Btn, Code, Container, CtaBand, SectionTitle } from "../components/kit";
+import { CoveragePlan, ZONES } from "../components/CoveragePlan";
 import testimonialsImage from "../../assets/images/testimonials-image.webp";
 
 const HOME_FAQS = [
@@ -19,10 +19,19 @@ const HOME_FAQS = [
   { q: "How do I get a quote from Sentinel?", a: "You can request a quote via the contact form at sentinelifm.com/contact, by emailing info@sentinelifm.com, or by calling/WhatsApp at +91 86553 62161. Sentinel responds to all enquiries within 4 business hours." },
 ];
 
+const CITIES = [
+  { name: "Mumbai", tag: "Corporate office", addr: "409, Sej Plaza, Marve Road, Malad (W), Mumbai 400064", hq: true, mapsLink: "https://maps.google.com/?q=409+Sej+Plaza+Marve+Road+Malad+West+Mumbai+400064" },
+  { name: "Pune", tag: "Branch office", addr: "Serving Pune metropolitan region and PCMC industrial corridor", hq: false, mapsLink: "https://maps.google.com/?q=Pune+Maharashtra+India" },
+  { name: "Ahmedabad", tag: "Branch office", addr: "Serving Ahmedabad and the Gujarat industrial belt", hq: false, mapsLink: "https://maps.google.com/?q=Ahmedabad+Gujarat+India" },
+  { name: "Bhopal", tag: "Branch office", addr: "Serving Bhopal and central India corporate clusters", hq: false, mapsLink: "https://maps.google.com/?q=Bhopal+Madhya+Pradesh+India" },
+];
+
 export function Home() {
+  const [active, setActive] = useState<string | null>(null);
+
   useSEO({
     title: "Sentinel IFM | Integrated Facilities Management — Mumbai, Pune, Ahmedabad, Bhopal",
-    description: "Sentinel provides integrated facilities management — housekeeping, pantry, technical maintenance, payroll compliance, and staffing — for corporate India. ISO certified. 700+ staff. Est. 1999.",
+    description: "Sentinel provides integrated facilities management — housekeeping, pantry, technical maintenance, payroll compliance, and staffing — for corporate India. ISO certified. 25+ years. 700+ staff.",
     path: "/",
   });
 
@@ -45,360 +54,197 @@ export function Home() {
     return () => { document.getElementById(id)?.remove(); };
   }, []);
 
+  const featured = TESTIMONIALS[0];
+  const others = TESTIMONIALS.slice(1);
+
   return (
     <>
-      {/* ── HERO — split layout ── */}
-      <section style={{ background: NAVY }} className="flex flex-col justify-center overflow-hidden lg:min-h-[92vh]">
-        <div className="max-w-7xl mx-auto px-5 lg:px-8 w-full py-8 lg:py-0 flex items-center lg:min-h-[92vh]">
-          <div className="grid lg:grid-cols-5 gap-0 w-full items-center lg:min-h-[92vh]">
-
-            {/* Left: copy */}
-            <div className="lg:col-span-3 py-10 lg:py-20">
-              <p className="text-xs font-bold tracking-[0.2em] uppercase mb-8" style={{ color: AMBER }}>
-                Trusted by corporate India since 1999
-              </p>
-              <h1 className="text-white mb-8" style={{ fontSize: "clamp(2.4rem, 5vw, 4.2rem)", fontWeight: 800, lineHeight: 1.05, letterSpacing: "-0.03em" }}>
-                Your facility runs.<br />
-                <span style={{ color: AMBER }}>Your team focuses.</span>
-              </h1>
-              <p className="mb-10 max-w-xl" style={{ color: "rgba(255,255,255,0.6)", fontSize: "clamp(1rem, 1.4vw, 1.1rem)", lineHeight: 1.8 }}>
-                Sentinel takes staffing, compliance, and day-to-day coordination completely off your plate — one vendor, one point of contact, full accountability. No chasing. No gaps.
-              </p>
-              <div className="flex flex-wrap gap-3 mb-16">
-                <Link to="/contact" className="px-7 py-3.5 rounded font-bold text-sm transition-all hover:brightness-110 active:scale-95" style={{ background: AMBER, color: NAVY }}>
-                  Get a Free Quote
-                </Link>
-                <Link to="/compliance" className="px-7 py-3.5 rounded font-bold text-sm transition-all hover:bg-white/10 flex items-center gap-2" style={{ background: "rgba(255,255,255,0.07)", color: "rgba(255,255,255,0.85)", border: "1px solid rgba(255,255,255,0.15)" }}>
-                  View Credentials
-                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4"><path d="M3 8h10M8 3l5 5-5 5" /></svg>
-                </Link>
-              </div>
-
-              {/* Stats bar */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 pt-8" style={{ borderTop: "1px solid rgba(255,255,255,0.1)" }}>
-                {[
-                  { value: "25+", label: "Years Est. 1999" },
-                  { value: "700+", label: "Trained Staff" },
-                  { value: "₹55 Cr+", label: "Annual Turnover" },
-                  { value: "7+", label: "States Covered" },
-                ].map((s, i) => (
-                  <div key={i}>
-                    <div className="font-extrabold" style={{ fontSize: "clamp(1.6rem, 2.5vw, 2.4rem)", color: AMBER, lineHeight: 1, letterSpacing: "-0.02em" }}>{s.value}</div>
-                    <div className="mt-1 text-xs font-medium uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.6)" }}>{s.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Mobile/tablet: hero image */}
-            <img
-              src={heroImage}
-              alt="Sentinel staff cleaning office glass partitions"
-              className="lg:hidden w-full h-64 sm:h-80 object-cover mt-10 mb-12 rounded"
-              width={700}
-              height={560}
-              decoding="async"
-            />
-
-            {/* Right: image */}
-            <div className="hidden lg:block lg:col-span-2 self-stretch relative" style={{ minHeight: "92vh" }}>
-              <div className="absolute inset-0" style={{ marginLeft: "3rem" }}>
-                {/* Amber accent line */}
-                <div className="absolute left-0 top-[15%] bottom-[15%] w-1" style={{ background: AMBER }} />
-                <img
-                  src={heroImage}
-                  alt="Sentinel staff cleaning office glass partitions"
-                  className="w-full h-full object-cover"
-                  style={{ marginLeft: "1rem" }}
-                  width={700}
-                  height={1000}
-                  fetchPriority="high"
-                />
-                {/* Stat overlay card */}
-                <div className="absolute bottom-12 left-4 right-8 p-5" style={{ background: NAVY, border: `1px solid rgba(255,255,255,0.1)` }}>
-                  <div className="font-extrabold mb-1" style={{ color: AMBER, fontSize: "1.8rem", lineHeight: 1 }}>₹2.04 Cr+</div>
-                  <div className="text-white text-sm font-bold">Active GeM contracts</div>
-                  <div className="text-xs mt-1" style={{ color: "rgba(255,255,255,0.6)" }}>Government-verified — 6 central institutions</div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ── PROOF ── */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-5 lg:px-8">
-          <FadeIn>
-            <p className="text-xs font-bold tracking-[0.18em] uppercase mb-14" style={{ color: AMBER }}>
-              Why organisations choose Sentinel
-            </p>
-          </FadeIn>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-12">
-            {PROOF_POINTS.map((pt, i) => (
-              <FadeIn key={i} delay={i * 0.06}>
-                <div className="flex flex-col gap-3" style={{ borderTop: `2px solid ${i === 0 ? AMBER : "rgba(15,42,74,0.1)"}`, paddingTop: "1.25rem" }}>
-                  <div className="font-extrabold" style={{ fontSize: "2rem", color: NAVY, lineHeight: 1, letterSpacing: "-0.02em" }}>{pt.stat}</div>
-                  <div className="font-bold text-sm" style={{ color: NAVY }}>{pt.label}</div>
-                  <p className="text-sm leading-relaxed" style={{ color: "rgba(15,42,74,0.6)" }}>{pt.detail}</p>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── SERVICES — editorial numbered list ── */}
-      <section style={{ background: NAVY }} className="py-20 lg:py-28">
-        <div className="max-w-7xl mx-auto px-5 lg:px-8">
-          <FadeIn>
-            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-16">
-              <div>
-                <p className="text-xs font-bold tracking-[0.18em] uppercase mb-4" style={{ color: AMBER }}>What we do</p>
-                <h2 className="text-white" style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.025em" }}>
-                  Six services.<br />One accountable partner.
-                </h2>
-              </div>
-              <Link to="/services" className="flex-shrink-0 text-sm font-bold flex items-center gap-2 transition-all hover:gap-3" style={{ color: "rgba(255,255,255,0.5)" }}>
-                All services
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4"><path d="M3 8h10M8 3l5 5-5 5" /></svg>
-              </Link>
-            </div>
-          </FadeIn>
-
+      {/* Hero: the floor plan is the page's one memorable object. */}
+      <section className="bg-concrete">
+        <Container className="grid items-center gap-12 py-12 sm:py-16 lg:grid-cols-[1.2fr_0.8fr] lg:gap-14 lg:py-24">
           <div>
-            {SERVICES.map((svc, i) => (
-              <FadeIn key={svc.id} delay={i * 0.05}>
-                <Link to={`/services/${svc.slug}`} className="group flex items-center gap-6 py-5 transition-all" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
-                  <span className="text-xs font-bold tabular-nums w-6 flex-shrink-0" style={{ color: "rgba(255,255,255,0.6)" }}>0{i + 1}</span>
-                  <div className="flex-1 min-w-0">
-                    <div className="font-bold mb-1 text-white/90 group-hover:text-amber-400 transition-colors" style={{ fontSize: "clamp(1rem, 1.8vw, 1.2rem)" }}>
-                      {svc.title}
-                    </div>
-                    <p className="text-sm hidden lg:block text-white/55">{svc.outcome}</p>
-                  </div>
-                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5 flex-shrink-0 transition-transform group-hover:translate-x-1" style={{ color: "rgba(255,255,255,0.6)" }}>
-                    <path d="M3 8h10M8 3l5 5-5 5" />
-                  </svg>
-                </Link>
-              </FadeIn>
-            ))}
-            <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }} />
+            <h1 className="display text-[clamp(2.8rem,6.6vw,5rem)]">
+              Your facility runs.<br />Your team focuses.
+            </h1>
+            <p className="mt-7 max-w-[50ch] text-[18px] leading-relaxed text-steel">
+              Sentinel takes staffing, compliance, and day-to-day coordination completely off your plate: one vendor, one point of contact, full accountability. No chasing. No gaps.
+            </p>
+            <div className="mt-9 flex flex-wrap gap-3">
+              <Btn to="/contact">Get a free quote</Btn>
+              <Btn to="/compliance" variant="ghost">View credentials</Btn>
+            </div>
+            <p className="mt-9 max-w-[46ch] text-[15px] text-steel">
+              Serving corporate, government and institutional sites across 7+ states, from Mumbai, Pune, Ahmedabad and Bhopal, since 1999.
+            </p>
           </div>
 
-          <FadeIn delay={0.3}>
-            <p className="mt-10 text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>
-              Each service is managed by the same team, under the same SLA, on the same invoice. That's the actual value.
-            </p>
-          </FadeIn>
-        </div>
+          <figure>
+            <div className="border-2 border-ink bg-white p-3 sm:p-4">
+              <CoveragePlan active={active} onActive={setActive} />
+            </div>
+            <figcaption className="mt-3 text-[14px] text-steel">
+              One floor, six services we run on it. Select a room to see what we do there.
+            </figcaption>
+          </figure>
+        </Container>
       </section>
 
-      {/* ── CORPORATE VALUE PROP TABLE ── */}
-      <section className="py-20 lg:py-28 bg-white">
-        <div className="max-w-7xl mx-auto px-5 lg:px-8">
-          <FadeIn>
-            <p className="text-xs font-bold tracking-[0.18em] uppercase mb-4" style={{ color: AMBER }}>Before &amp; after Sentinel</p>
-            <h2 className="mb-3" style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 800, color: NAVY, lineHeight: 1.1, letterSpacing: "-0.025em" }}>
-              What changes when you hand it over.
-            </h2>
-            <p className="mb-12 max-w-xl text-sm" style={{ color: "rgba(15,42,74,0.6)", lineHeight: 1.75 }}>
-              These are real operational headaches we've heard from facility managers and HR leads. Every row on the right is something Sentinel absorbs completely.
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.06}>
-            <div className="rounded overflow-hidden" style={{ border: "1px solid rgba(15,42,74,0.12)" }}>
-              <div className="grid grid-cols-2 text-xs font-bold py-3 px-6 tracking-wider uppercase" style={{ background: NAVY, color: "white" }}>
-                <div>What you deal with today</div>
-                <div style={{ color: AMBER }}>What you deal with after Sentinel</div>
-              </div>
+      {/* Directory */}
+      <section className="bg-ink py-20 text-white lg:py-28">
+        <Container>
+          <SectionTitle
+            light
+            title="Six services. One accountable partner."
+            intro="Each service is managed by the same team, under the same SLA, on the same invoice. That is the actual value."
+          />
+          <ul className="mt-14 border-b border-white/25">
+            {SERVICES.map((svc) => {
+              const code = ZONES.find((z) => z.slug === svc.slug)?.code ?? "";
+              return (
+                <li key={svc.id} className="border-t border-white/25">
+                  <Link
+                    to={`/services/${svc.slug}`}
+                    onMouseEnter={() => setActive(svc.slug)}
+                    onMouseLeave={() => setActive(null)}
+                    className="group grid grid-cols-[auto_1fr] items-center gap-x-5 gap-y-2 py-6 transition-colors hover:bg-white/5 md:grid-cols-[auto_1.1fr_1.5fr_auto] md:gap-x-8"
+                  >
+                    <Code>{code}</Code>
+                    <span className="display text-[clamp(1.5rem,2.6vw,2.1rem)]">{svc.title}</span>
+                    <span className="col-span-2 text-[16px] leading-relaxed text-white/80 md:col-span-1">{svc.outcome}</span>
+                    <span className="col-span-2 text-[15px] font-bold text-hivis underline-offset-4 group-hover:underline md:col-span-1">View service</span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </Container>
+      </section>
+
+      {/* Before / with Sentinel */}
+      <section className="bg-white py-20 lg:py-28">
+        <Container>
+          <SectionTitle
+            title="What changes when you hand it over."
+            intro="These are operational headaches facility managers and HR leads tell us about. The right-hand column is what Sentinel absorbs completely."
+          />
+          <div className="mt-12 border-2 border-ink">
+            <div className="hidden bg-ink text-[15px] font-bold text-white md:grid md:grid-cols-2">
+              <div className="px-6 py-3">What you deal with today</div>
+              <div className="bg-hivis px-6 py-3 text-ink">What you deal with with Sentinel</div>
+            </div>
+            <ul>
               {CORP_VALUE_PROPS.map((row, i) => (
-                <div key={i} className="grid grid-cols-2 text-sm py-4 px-6" style={{ borderTop: "1px solid rgba(15,42,74,0.07)", background: i % 2 === 1 ? "rgba(15,42,74,0.02)" : "#fff" }}>
-                  <div className="pr-6" style={{ color: "rgba(15,42,74,0.65)" }}>{row.problem}</div>
-                  <div className="pl-6 font-semibold" style={{ color: NAVY, borderLeft: "1px solid rgba(15,42,74,0.08)" }}>{row.solution}</div>
-                </div>
+                <li key={i} className="grid border-t-2 border-ink first:border-t-0 md:grid-cols-2 md:border-t md:border-ink/20 md:first:border-t-0">
+                  <div className="px-5 py-5 md:px-6">
+                    <span className="mb-1 block text-[13px] font-bold text-steel md:hidden">Today</span>
+                    <span className="text-[16px] leading-relaxed text-steel">{row.problem}</span>
+                  </div>
+                  <div className="bg-concrete px-5 py-5 md:border-l-2 md:border-ink md:px-6">
+                    <span className="mb-1 block text-[13px] font-bold text-steel md:hidden">With Sentinel</span>
+                    <span className="text-[16px] font-semibold leading-relaxed">{row.solution}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Container>
+      </section>
+
+      {/* Evidence ledger */}
+      <section className="bg-concrete py-20 lg:py-28">
+        <Container>
+          <SectionTitle title="Why clients stay, not just why they buy." />
+          <dl className="mt-12 border-b-2 border-ink">
+            {PROOF_POINTS.map((pt) => (
+              <div key={pt.label} className="grid gap-x-10 gap-y-2 border-t-2 border-ink py-7 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.6fr)] md:items-baseline">
+                <dt className="display text-[clamp(2.6rem,5.4vw,4.2rem)]">{pt.stat}</dt>
+                <dd>
+                  <span className="block text-[18px] font-bold">{pt.label}</span>
+                  <span className="mt-1 block max-w-[58ch] text-[16px] leading-relaxed text-steel">{pt.detail}</span>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </Container>
+      </section>
+
+      {/* Testimonials */}
+      <section className="bg-white py-20 lg:py-28">
+        <Container>
+          <SectionTitle title="Operational reliability you notice from the first week." />
+          <div className="mt-12 grid gap-12 lg:grid-cols-[1.25fr_1fr] lg:gap-16">
+            <figure className="flex flex-col gap-6">
+              <div className="aspect-[16/9] overflow-hidden rounded-[10px] border-2 border-ink bg-concrete">
+                <img src={testimonialsImage} alt="Sentinel facility team at work" width={1124} height={629} loading="lazy" decoding="async" className="h-full w-full object-cover" />
+              </div>
+              <blockquote className="display text-[clamp(1.5rem,2.8vw,2.2rem)] !font-bold !leading-[1.15]" style={{ fontStretch: "92%" }}>
+                &ldquo;{featured.quote}&rdquo;
+              </blockquote>
+              <figcaption className="text-[15px]">
+                <span className="font-bold">{featured.author}</span>, {featured.role}, {featured.company}
+                {"tenure" in featured && <span className="text-steel"> (client for {(featured as { tenure: string }).tenure})</span>}
+              </figcaption>
+            </figure>
+            <div className="divide-y-2 divide-ink border-y-2 border-ink">
+              {others.map((t) => (
+                <figure key={t.author} className="py-8 first:pt-6">
+                  <blockquote className="text-[17px] leading-relaxed">&ldquo;{t.quote}&rdquo;</blockquote>
+                  <figcaption className="mt-4 text-[15px]">
+                    <span className="font-bold">{t.author}</span>, {t.role}, {t.company}
+                    {"tenure" in t && <span className="text-steel"> (client for {(t as { tenure: string }).tenure})</span>}
+                  </figcaption>
+                </figure>
               ))}
             </div>
-          </FadeIn>
-          <FadeIn delay={0.1}>
-            <div className="mt-8">
-              <Link to="/contact" className="inline-flex items-center gap-2 px-6 py-3 rounded text-sm font-bold transition-all hover:brightness-110" style={{ background: NAVY, color: "#fff" }}>
-                Talk to our team
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4"><path d="M3 8h10M8 3l5 5-5 5" /></svg>
-              </Link>
-            </div>
-          </FadeIn>
-        </div>
+          </div>
+        </Container>
       </section>
 
-      {/* ── TESTIMONIALS + image ── */}
-      <section style={{ background: NAVY }} className="py-20 lg:py-28">
-        <div className="max-w-7xl mx-auto px-5 lg:px-8">
-          <FadeIn>
-            <div className="grid lg:grid-cols-5 gap-12 items-start mb-16">
-              <div className="lg:col-span-3">
-                <p className="text-xs font-bold tracking-[0.18em] uppercase mb-4" style={{ color: AMBER }}>
-                  Why clients stay — not just why they buy
-                </p>
-                <h2 className="text-white" style={{ fontSize: "clamp(1.6rem, 3vw, 2.4rem)", fontWeight: 800, lineHeight: 1.15, letterSpacing: "-0.025em" }}>
-                  Operational reliability you notice from the first week.
-                </h2>
-              </div>
-              <div className="lg:col-span-2">
-                <img
-                  src={testimonialsImage}
-                  alt="Corporate facility management team"
-                  className="w-full object-cover"
-                  style={{ borderRadius: "2px" }}
-                  width={600}
-                  height={340}
-                  loading="lazy"
-                />
-              </div>
-            </div>
-          </FadeIn>
+      <CtaBand
+        title="Every enquiry gets a reply within 4 business hours."
+        text="A real person calls or WhatsApps you. No auto-responders."
+        primary={{ label: "Get a quote", to: "/contact" }}
+        secondary={{ label: "WhatsApp now", href: "https://wa.me/918655362161" }}
+      />
 
-          <div className="grid lg:grid-cols-3 gap-10">
-            {TESTIMONIALS.map((t, i) => (
-              <FadeIn key={i} delay={i * 0.08}>
-                <div className="flex flex-col gap-5" style={{ borderTop: `3px solid ${i === 0 ? AMBER : "rgba(255,255,255,0.12)"}`, paddingTop: "1.5rem" }}>
-                  <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.75)", fontStyle: "italic" }}>
-                    "{t.quote}"
-                  </p>
-                  <div className="flex items-end justify-between gap-4">
-                    <div>
-                      <div className="font-bold text-sm text-white">{t.author}</div>
-                      <div className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.6)" }}>{t.role} · {t.company}</div>
-                    </div>
-                    {"tenure" in t && (
-                      <div className="flex-shrink-0 text-xs font-bold px-2.5 py-1 rounded-full" style={{ background: "rgba(255,255,255,0.07)", color: "rgba(255,255,255,0.6)" }}>
-                        {(t as { tenure: string }).tenure}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </FadeIn>
+      {/* Presence */}
+      <section className="bg-concrete py-20 lg:py-28">
+        <Container>
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <SectionTitle title="Four cities. Seven states." />
+            <Link to="/contact#locations" className="inline-flex min-h-[44px] items-center text-[15px] font-bold underline underline-offset-4 hover:bg-hivis">See offices on the map</Link>
+          </div>
+          <ul className="mt-12 grid border-2 border-ink bg-white sm:grid-cols-2 lg:grid-cols-4">
+            {CITIES.map((c, i) => (
+              <li key={c.name} className={`flex flex-col p-6 ${i > 0 ? "border-t-2 border-ink" : ""} ${i === 1 ? "sm:border-t-0 sm:border-l-2" : ""} ${i === 2 ? "sm:border-l-0" : ""} ${i === 3 ? "sm:border-l-2" : ""} lg:border-t-0 ${i > 0 ? "lg:border-l-2" : ""} ${c.hq ? "bg-hivis" : ""}`}>
+                <span className="text-[14px] font-semibold">{c.tag}</span>
+                <span className="display mt-1 text-[2rem]">{c.name}</span>
+                <p className="mt-3 flex-1 text-[15px] leading-relaxed">{c.addr}</p>
+                <a href={c.mapsLink} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex min-h-[44px] items-center text-[15px] font-bold underline underline-offset-4">
+                  Open in Google Maps
+                </a>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </section>
+
+      {/* FAQ: native details/summary, no JavaScript */}
+      <section className="bg-white py-20 lg:py-28">
+        <Container className="grid gap-12 lg:grid-cols-[0.8fr_1.4fr] lg:gap-20">
+          <SectionTitle title="What buyers ask us first." />
+          <div className="border-b-2 border-ink">
+            {HOME_FAQS.map((faq) => (
+              <details key={faq.q} className="group border-t-2 border-ink">
+                <summary className="flex min-h-[64px] cursor-pointer list-none items-center justify-between gap-6 py-4 text-[18px] font-bold [&::-webkit-details-marker]:hidden">
+                  {faq.q}
+                  <span aria-hidden="true" className="display text-[2rem] leading-none transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <p className="max-w-[62ch] pb-6 text-[16px] leading-relaxed text-steel">{faq.a}</p>
+              </details>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ── CTA BAND ── */}
-      <section className="py-16" style={{ background: AMBER }}>
-        <div className="max-w-7xl mx-auto px-5 lg:px-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
-          <FadeIn>
-            <div>
-              <h2 className="text-white font-extrabold mb-1" style={{ fontSize: "clamp(1.4rem, 2.5vw, 2rem)", letterSpacing: "-0.02em" }}>
-                Every enquiry. 4 business hours.
-              </h2>
-              <p className="text-sm" style={{ color: "rgba(255,255,255,0.75)" }}>A real person calls or WhatsApps you. No auto-responders.</p>
-            </div>
-          </FadeIn>
-          <FadeIn delay={0.05}>
-            <div className="flex flex-wrap gap-3 flex-shrink-0">
-              <Link to="/contact" className="px-7 py-3.5 rounded font-bold text-sm transition-all hover:bg-white/90" style={{ background: "#fff", color: NAVY }}>
-                Get a Quote
-              </Link>
-              <a href="https://wa.me/918655362161" target="_blank" rel="noopener noreferrer" className="px-7 py-3.5 rounded font-bold text-sm transition-all hover:bg-white/10 flex items-center gap-2" style={{ background: "rgba(255,255,255,0.15)", color: "#fff", border: "1px solid rgba(255,255,255,0.35)" }}>
-                <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4"><path d={WA_PATH} /></svg>
-                WhatsApp Now
-              </a>
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* ── PRESENCE ── */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-5 lg:px-8">
-          <FadeIn>
-            <div className="flex items-end justify-between gap-4 mb-14">
-              <div>
-                <p className="text-xs font-bold tracking-[0.18em] uppercase mb-4" style={{ color: AMBER }}>Presence</p>
-                <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 800, color: NAVY, lineHeight: 1.1, letterSpacing: "-0.025em" }}>
-                  4 cities · 7+ states
-                </h2>
-              </div>
-              <Link to="/contact#locations" className="hidden sm:flex items-center gap-1.5 text-xs font-bold transition-opacity hover:opacity-70 flex-shrink-0" style={{ color: AMBER }}>
-                View all maps
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4"><path d="M3 8h10M8 3l5 5-5 5" /></svg>
-              </Link>
-            </div>
-          </FadeIn>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-0 overflow-hidden" style={{ border: "1px solid rgba(15,42,74,0.1)", borderRadius: "4px" }}>
-            {[
-              { name: "Mumbai", tag: "Corporate Office", addr: "409, Sej Plaza, Marve Road, Malad (W), Mumbai – 400064", hq: true, mapsLink: "https://maps.google.com/?q=409+Sej+Plaza+Marve+Road+Malad+West+Mumbai+400064" },
-              { name: "Pune", tag: "Branch Office", addr: "Serving Pune metropolitan region and PCMC industrial corridor", hq: false, mapsLink: "https://maps.google.com/?q=Pune+Maharashtra+India" },
-              { name: "Ahmedabad", tag: "Branch Office", addr: "Serving Ahmedabad and the Gujarat industrial belt", hq: false, mapsLink: "https://maps.google.com/?q=Ahmedabad+Gujarat+India" },
-              { name: "Bhopal", tag: "Branch Office", addr: "Serving Bhopal and central India corporate clusters", hq: false, mapsLink: "https://maps.google.com/?q=Bhopal+Madhya+Pradesh+India" },
-            ].map((city, i) => (
-              <FadeIn key={city.name} delay={i * 0.08}>
-                <div className="p-7 h-full flex flex-col" style={{ background: city.hq ? NAVY : "#fff", borderRight: i < 3 ? "1px solid rgba(15,42,74,0.1)" : "none" }}>
-                  <div className="text-xs font-bold tracking-widest uppercase mb-3" style={{ color: city.hq ? AMBER : "rgba(15,42,74,0.4)" }}>{city.tag}</div>
-                  <div className="font-extrabold mb-2" style={{ fontSize: "1.4rem", color: city.hq ? "#fff" : NAVY, letterSpacing: "-0.02em" }}>{city.name}</div>
-                  <p className="text-sm flex-1 mb-4" style={{ color: city.hq ? "rgba(255,255,255,0.55)" : "rgba(15,42,74,0.6)", lineHeight: 1.65 }}>{city.addr}</p>
-                  <a
-                    href={city.mapsLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs font-bold transition-opacity hover:opacity-70"
-                    style={{ color: city.hq ? AMBER : AMBER }}
-                  >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3.5 h-3.5">
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
-                    </svg>
-                    Open in Google Maps
-                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={2} className="w-3 h-3"><path d="M6 3H3v10h10v-3M9 3h4v4M13 3l-6 6" /></svg>
-                  </a>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── FAQ ── */}
-      <section className="py-20 lg:py-28 bg-white">
-        <div className="max-w-7xl mx-auto px-5 lg:px-8">
-          <FadeIn>
-            <p className="text-xs font-bold tracking-[0.18em] uppercase mb-4" style={{ color: AMBER }}>Common questions</p>
-            <h2 className="mb-12" style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 800, color: NAVY, lineHeight: 1.1, letterSpacing: "-0.025em" }}>
-              What buyers ask us first.
-            </h2>
-          </FadeIn>
-          <div className="grid lg:grid-cols-2 gap-x-16 gap-y-8">
-            {HOME_FAQS.map((faq, i) => (
-              <FadeIn key={i} delay={i * 0.04}>
-                <div style={{ borderTop: "1px solid rgba(15,42,74,0.1)", paddingTop: "1.25rem" }}>
-                  <h3 className="font-bold text-sm mb-2" style={{ color: NAVY }}>{faq.q}</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: "rgba(15,42,74,0.6)" }}>{faq.a}</p>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── CAREERS BAND ── */}
-      <section className="pb-20 bg-white">
-        <div className="max-w-7xl mx-auto px-5 lg:px-8">
-          <FadeIn>
-            <div
-              className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 px-7 py-9 sm:px-10"
-              style={{ background: NAVY, borderRadius: "12px", boxShadow: "0 16px 40px rgba(15,42,74,0.18)" }}
-            >
-              <div>
-                <div className="text-xs font-bold tracking-[0.18em] uppercase mb-2" style={{ color: AMBER }}>Careers</div>
-                <h3 className="text-white font-bold mb-1" style={{ fontSize: "1.15rem", letterSpacing: "-0.01em" }}>Join 700+ professionals across India</h3>
-                <p className="text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>PF, ESIC, salary by the 7th — every employee, every month.</p>
-              </div>
-              <Link to="/careers" className="flex-shrink-0 px-6 py-3 rounded text-sm font-bold transition-all hover:brightness-110" style={{ background: AMBER, color: NAVY }}>
-                View Careers
-              </Link>
-            </div>
-          </FadeIn>
-        </div>
+        </Container>
       </section>
     </>
   );

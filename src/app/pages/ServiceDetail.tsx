@@ -1,15 +1,21 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router";
-import { FadeIn } from "../components/FadeIn";
-import { NAVY, AMBER, SERVICES } from "../constants";
+import { SERVICES } from "../constants";
+import { ZONES } from "../components/CoveragePlan";
+import { Btn, Code, Container, CtaBand, PageHeader } from "../components/kit";
 import { useSEO } from "../hooks/useSEO";
 
 import { SITE_URL as BASE } from "../site";
+
+const Tick = () => (
+  <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={2.5} className="mt-1 h-5 w-5 shrink-0 text-go"><path d="M3 8l3.5 3.5L13 5" /></svg>
+);
 
 export function ServiceDetail() {
   const { slug } = useParams<{ slug: string }>();
   const svc = SERVICES.find((s) => s.slug === slug);
   const related = SERVICES.filter((s) => svc?.relatedSlugs.includes(s.slug));
+  const codeOf = (sl: string) => ZONES.find((z) => z.slug === sl)?.code ?? "";
 
   useSEO({
     title: svc ? `${svc.title} | Sentinel IFM` : "Service | Sentinel IFM",
@@ -52,181 +58,124 @@ export function ServiceDetail() {
 
   if (!svc) {
     return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
-        <h1 className="text-2xl font-bold" style={{ color: NAVY }}>Service not found</h1>
-        <Link to="/services" className="text-sm font-bold" style={{ color: AMBER }}>← Back to Services</Link>
+      <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4 px-5">
+        <h1 className="display text-3xl text-ink">Service not found</h1>
+        <Link to="/services" className="inline-flex min-h-[44px] items-center font-bold text-ink underline underline-offset-4">Back to Services</Link>
       </div>
     );
   }
 
   return (
     <>
-      {/* Page header */}
-      {svc.heroFull && svc.image ? (
-        <div className="relative overflow-hidden bg-cover bg-center" style={{ backgroundColor: NAVY, backgroundImage: `url(${svc.image})` }}>
-          <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(20,35,70,0.75) 0%, rgba(20,35,70,0.85) 100%)" }} />
-          <div className="relative max-w-7xl mx-auto px-5 lg:px-8 py-24 lg:py-32">
-            <div className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER }}>
-              <Link to="/" className="transition-opacity hover:opacity-70">Home</Link>
-              <span className="mx-2 opacity-30">/</span>
-              <Link to="/services" className="transition-opacity hover:opacity-70">Services</Link>
-              <span className="mx-2 opacity-30">/</span>{svc.shortTitle}
-            </div>
-            <h1 className="text-white mb-5 max-w-2xl" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-0.025em" }}>
-              {svc.h1}
-            </h1>
-            <p className="text-sm" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.8, maxWidth: "650px" }}>{svc.subhead}</p>
-          </div>
+      <PageHeader
+        path={[{ label: "Home", to: "/" }, { label: "Services", to: "/services" }, { label: svc.shortTitle }]}
+        title={svc.h1}
+        lede={svc.subhead}
+        image={svc.image}
+        imageAlt={svc.h1}
+      >
+        <div className="mt-8 flex items-center gap-3">
+          <Code>{codeOf(svc.slug)}</Code>
+          <span className="display text-xl text-white">{svc.shortTitle}</span>
         </div>
-      ) : (
-        <div className="relative overflow-hidden" style={{ background: NAVY }}>
-          {/* Subtle geometric pattern overlay */}
-          <div className="absolute inset-0 opacity-5" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)", backgroundSize: "32px 32px" }} />
-          <div className="relative max-w-7xl mx-auto px-5 lg:px-8 py-24 lg:py-32">
-            <div className={`grid ${svc.image ? "lg:grid-cols-2 lg:gap-12 items-center" : ""}`}>
+      </PageHeader>
+
+      <section className="bg-white py-14 lg:py-20">
+        <Container>
+          <div className="grid gap-12 lg:grid-cols-[1fr_360px] lg:gap-16">
+            <div className="space-y-14">
               <div>
-                <div className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER }}>
-                  <Link to="/" className="transition-opacity hover:opacity-70">Home</Link>
-                  <span className="mx-2 opacity-30">/</span>
-                  <Link to="/services" className="transition-opacity hover:opacity-70">Services</Link>
-                  <span className="mx-2 opacity-30">/</span>{svc.shortTitle}
-                </div>
-                <div className="max-w-2xl">
-                  <h1 className="text-white mb-4" style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.025em" }}>
-                    {svc.h1}
-                  </h1>
-                  <p className="text-sm" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.8, maxWidth: "600px" }}>{svc.subhead}</p>
-                </div>
+                <h2 className="display text-[clamp(1.8rem,3.6vw,2.6rem)] text-ink">What's included</h2>
+                <ul className="mt-5 border-t-2 border-ink">
+                  {svc.whatIncluded.map((item, i) => (
+                    <li key={i} className="flex items-start gap-3 border-b border-ink/20 py-4 text-[17px] leading-relaxed text-steel">
+                      <Tick />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              {svc.image && (
-                <div className="mt-10 lg:mt-0">
-                  <img
-                    src={svc.image}
-                    alt={svc.h1}
-                    className="w-full h-64 sm:h-80 lg:h-[420px] object-cover"
-                    style={{ borderRadius: "6px", border: "1px solid rgba(255,255,255,0.15)" }}
-                  />
-                </div>
-              )}
+
+              <div>
+                <h2 className="display text-[clamp(1.8rem,3.6vw,2.6rem)] text-ink">Client benefits</h2>
+                <ul className="mt-5 border-t-2 border-ink">
+                  {svc.benefits.map((b, i) => (
+                    <li key={i} className="border-b border-ink/20 py-4 text-[17px] leading-relaxed text-steel">{b}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <h2 className="display text-[clamp(1.8rem,3.6vw,2.6rem)] text-ink">Industries served</h2>
+                <ul className="mt-5 flex flex-wrap gap-2">
+                  {svc.industries.split(" · ").map((ind) => (
+                    <li key={ind} className="rounded-[3px] border border-ink/30 bg-concrete px-4 py-2 text-[15px] font-semibold text-ink">{ind}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="bg-concrete p-6">
+                <h2 className="display text-2xl text-ink">Backed by certifications</h2>
+                <ul className="mt-4 flex flex-wrap gap-2">
+                  {["ISO 9001:2015", "ISO 45001:2018", "MSME Udyam", "EPFO/ESIC Compliant"].map((cert) => (
+                    <li key={cert} className="rounded-[3px] bg-ink px-3 py-1.5 text-sm font-bold text-white">{cert}</li>
+                  ))}
+                </ul>
+                <Link to="/compliance" className="mt-4 inline-flex min-h-[44px] items-center font-bold text-ink underline underline-offset-4 decoration-2">
+                  View all certifications & registrations
+                </Link>
+              </div>
             </div>
+
+            <aside className="lg:sticky lg:top-24 lg:self-start">
+              <div className="rounded-[10px] border-2 border-ink bg-concrete p-6">
+                <h2 className="display text-2xl text-ink">Get a quote for {svc.shortTitle}</h2>
+                <p className="mt-2 text-[16px] text-steel">Response within 4 business hours.</p>
+                <div className="mt-5 flex flex-col gap-3">
+                  <Btn to={`/contact?service=${svc.id}`}>Request this Service</Btn>
+                  <Btn href="https://wa.me/918655362161" variant="ghost" external>WhatsApp Us</Btn>
+                </div>
+                <ul className="mt-6 border-t border-ink/25">
+                  {["Background-verified, trained staff", "Full PF/ESIC compliance — zero liability", "Same-day replacement guarantee"].map((pt) => (
+                    <li key={pt} className="flex items-start gap-2 border-b border-ink/15 py-3 text-[15px] text-steel">
+                      <Tick />
+                      <span>{pt}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </aside>
           </div>
-        </div>
-      )}
-
-      {/* Main content */}
-      <section className="py-20 lg:py-28 bg-white">
-        <div className="max-w-7xl mx-auto px-5 lg:px-8">
-          <div className="grid lg:grid-cols-3 gap-12">
-            <div className="lg:col-span-2 space-y-14">
-              <FadeIn>
-                <div>
-                  <p className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER }}>What's included</p>
-                  <ul className="space-y-3">
-                    {svc.whatIncluded.map((item, i) => (
-                      <li key={i} className="flex items-start gap-3 text-sm" style={{ color: "rgba(15,42,74,0.7)" }}>
-                        <svg viewBox="0 0 16 16" fill="none" stroke={AMBER} strokeWidth={2.5} className="w-4 h-4 flex-shrink-0 mt-0.5"><path d="M3 8l3.5 3.5L13 5" /></svg>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </FadeIn>
-
-              <FadeIn delay={0.05}>
-                <div>
-                  <p className="text-xs font-bold tracking-[0.18em] uppercase mb-6" style={{ color: AMBER }}>Client benefits</p>
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    {svc.benefits.map((b, i) => (
-                      <div key={i} className="p-5" style={{ border: "1px solid rgba(15,42,74,0.1)", borderRadius: "4px" }}>
-                        <p className="text-sm leading-relaxed" style={{ color: "rgba(15,42,74,0.7)" }}>{b}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </FadeIn>
-
-              <FadeIn delay={0.08}>
-                <div>
-                  <p className="text-xs font-bold tracking-[0.18em] uppercase mb-4" style={{ color: AMBER }}>Industries served</p>
-                  <div className="flex flex-wrap gap-2">
-                    {svc.industries.split(" · ").map((ind) => (
-                      <span key={ind} className="px-4 py-2 text-sm font-medium" style={{ background: "rgba(15,42,74,0.05)", color: NAVY, border: "1px solid rgba(15,42,74,0.1)", borderRadius: "3px" }}>{ind}</span>
-                    ))}
-                  </div>
-                </div>
-              </FadeIn>
-
-              <FadeIn delay={0.1}>
-                <div className="p-6" style={{ background: "rgba(15,42,74,0.03)", border: "1px solid rgba(15,42,74,0.08)", borderRadius: "4px" }}>
-                  <p className="text-xs font-bold tracking-widest uppercase mb-3" style={{ color: NAVY }}>Backed by certifications</p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {["ISO 9001:2015", "ISO 45001:2018", "MSME Udyam", "EPFO/ESIC Compliant"].map((cert) => (
-                      <span key={cert} className="px-3 py-1.5 text-xs font-bold" style={{ background: NAVY, color: "#fff", borderRadius: "3px" }}>{cert}</span>
-                    ))}
-                  </div>
-                  <Link to="/compliance" className="text-sm font-bold flex items-center gap-1.5 transition-all hover:gap-2.5" style={{ color: AMBER }}>
-                    View all certifications & registrations
-                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4"><path d="M3 8h10M8 3l5 5-5 5" /></svg>
-                  </Link>
-                </div>
-              </FadeIn>
-            </div>
-
-            {/* Sidebar */}
-            <div>
-              <FadeIn delay={0.06}>
-                <div className="sticky top-24 p-7" style={{ background: NAVY, borderRadius: "4px" }}>
-                  <h3 className="text-white font-bold mb-2" style={{ fontSize: "1.05rem" }}>Get a quote for {svc.shortTitle}</h3>
-                  <p className="text-sm mb-6" style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.65 }}>
-                    Response within 4 business hours.
-                  </p>
-                  <Link to={`/contact?service=${svc.id}`} className="block w-full text-center py-3.5 text-sm font-bold text-[#0F2A4A] transition-all hover:brightness-110 mb-3" style={{ background: AMBER, borderRadius: "4px" }}>
-                    Request this Service
-                  </Link>
-                  <a href="https://wa.me/918655362161" target="_blank" rel="noopener noreferrer"
-                    className="block w-full text-center py-3.5 text-sm font-bold transition-all hover:bg-white/10 mb-8"
-                    style={{ background: "rgba(255,255,255,0.07)", color: "rgba(255,255,255,0.8)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: "4px" }}>
-                    WhatsApp Us
-                  </a>
-                  <div className="space-y-3 pt-6" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
-                    {["Background-verified, trained staff", "Full PF/ESIC compliance — zero liability", "Same-day replacement guarantee"].map((pt, i) => (
-                      <div key={i} className="flex items-start gap-2 text-xs" style={{ color: "rgba(255,255,255,0.6)" }}>
-                        <svg viewBox="0 0 16 16" fill="none" stroke={AMBER} strokeWidth={2} className="w-3.5 h-3.5 flex-shrink-0 mt-0.5"><path d="M3 8l3.5 3.5L13 5" /></svg>
-                        {pt}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </FadeIn>
-            </div>
-          </div>
-        </div>
+        </Container>
       </section>
 
       {related.length > 0 && (
-        <section className="py-16" style={{ background: NAVY }}>
-          <div className="max-w-7xl mx-auto px-5 lg:px-8">
-            <FadeIn>
-              <p className="text-xs font-bold tracking-[0.18em] uppercase mb-8" style={{ color: AMBER }}>Related Services</p>
-            </FadeIn>
-            <div className="grid sm:grid-cols-2 gap-4">
-              {related.map((rel, i) => (
-                <FadeIn key={rel.id} delay={i * 0.08}>
-                  <Link to={`/services/${rel.slug}`} className="group flex items-start gap-5 p-6 transition-all hover:bg-white/5" style={{ border: "1px solid rgba(255,255,255,0.1)", borderRadius: "4px" }}>
-                    <div className="w-10 h-10 flex items-center justify-center flex-shrink-0" style={{ borderRadius: "4px", background: "rgba(255,255,255,0.08)" }}>
-                      <svg viewBox="0 0 24 24" fill="none" stroke={AMBER} strokeWidth={1.5} className="w-5 h-5"><path d="M9 12h6M9 16h6M7 4h10a2 2 0 012 2v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2z"/></svg>
-                    </div>
-                    <div>
-                      <div className="font-bold text-sm mb-1 text-white">{rel.title}</div>
-                      <p className="text-xs" style={{ color: "rgba(255,255,255,0.6)" }}>{rel.desc}</p>
-                    </div>
+        <section className="bg-concrete py-14 lg:py-16">
+          <Container>
+            <h2 className="display text-[clamp(1.8rem,3.6vw,2.6rem)] text-ink">Related services</h2>
+            <ul className="mt-5 border-t-2 border-ink">
+              {related.map((rel) => (
+                <li key={rel.id} className="border-b border-ink/25">
+                  <Link to={`/services/${rel.slug}`} className="flex min-h-[44px] items-start gap-4 py-5 hover:bg-white">
+                    <Code tone="ink">{codeOf(rel.slug)}</Code>
+                    <span>
+                      <span className="display block text-xl text-ink">{rel.title}</span>
+                      <span className="mt-1 block max-w-[60ch] text-[16px] text-steel">{rel.desc}</span>
+                    </span>
                   </Link>
-                </FadeIn>
+                </li>
               ))}
-            </div>
-          </div>
+            </ul>
+          </Container>
         </section>
       )}
+
+      <CtaBand
+        title={`Need ${svc.shortTitle}?`}
+        text="Tell us about your site. We reply with a quote within 4 business hours."
+        primary={{ label: "Request this Service", to: `/contact?service=${svc.id}` }}
+        secondary={{ label: "WhatsApp Us", href: "https://wa.me/918655362161" }}
+      />
     </>
   );
 }

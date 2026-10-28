@@ -1,15 +1,42 @@
-/* Global focus ring — visible on keyboard nav, hidden on mouse */
-:focus-visible {
-  outline: 2px solid #E8871A;
-  outline-offset: 2px;
-}
-
-/* Suppress default blue outline everywhere (we handle it above) */
-:focus:not(:focus-visible) {
-  outline: none;
-}
-
-/* Smooth scroll */
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: #fff;
+  font-size: 16px;
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+}
+
+/* Headlines are set in Archivo at a narrow width: signage proportions, tight leading. */
+.display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 82%;
+  line-height: 0.98;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+}
+
+/* Keyboard focus: yellow ring with an ink halo so it reads on light and dark surfaces. */
+:focus-visible {
+  outline: 3px solid var(--color-hivis);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px var(--color-ink);
+}
+:focus:not(:focus-visible) { outline: none; }
+
+::selection { background: var(--color-hivis); color: var(--color-ink); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+/* One orchestrated moment: the hero floor plan draws itself once. */
+@keyframes plan-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+.plan-draw { stroke-dasharray: 1; stroke-dashoffset: 0; animation: plan-draw 1100ms cubic-bezier(.3,.7,.2,1) both; }

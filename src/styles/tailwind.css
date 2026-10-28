@@ -1,3 +1,15 @@
 @import 'tailwindcss' source(none);
 @source '../**/*.{js,ts,jsx,tsx}';
 
+/* Sentinel design tokens — wayfinding / site-signage system.
+   hivis is a FILL colour only (always with ink text); never use it as text on light backgrounds. */
+@theme {
+  --color-ink: #0B2540;
+  --color-mist: #B8CBD8;
+  --color-concrete: #EEF2F5;
+  --color-hivis: #FFC20E;
+  --color-steel: #4A6075;
+  --color-go: #167A5E;
+  --font-display: 'Archivo Variable', 'Archivo', 'Arial Narrow', Arial, sans-serif;
+  --font-sans: 'Public Sans Variable', 'Public Sans', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+}

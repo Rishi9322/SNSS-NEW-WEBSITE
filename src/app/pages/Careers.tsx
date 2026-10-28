@@ -1,8 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router";
-import { AnimatePresence, motion } from "motion/react";
-import { FadeIn } from "../components/FadeIn";
-import { NAVY, AMBER, EMPLOYEE_BENEFITS } from "../constants";
+import { Container, PageHeader, SectionTitle } from "../components/kit";
+import { EMPLOYEE_BENEFITS } from "../constants";
 import { useSEO } from "../hooks/useSEO";
 import careersHeroImage from "../../assets/images/careers-hero.webp";
 
@@ -12,7 +10,17 @@ const ROLES = [
   "Account Manager (Client Services)", "HR Executive", "Other",
 ];
 
+const WHY = [
+  { label: "Stability", desc: "25+ years in operation. Your employment is secure." },
+  { label: "Timely Salary", desc: "Salary to your bank account by the 7th, every month." },
+  { label: "Legal Protection", desc: "PF, ESIC, PT, police verification — all handled from day one." },
+  { label: "Growth", desc: "Field staff become supervisors. Supervisors become managers." },
+];
+
 const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+
+const field = "h-12 w-full rounded-[4px] border-2 border-ink/40 bg-white px-4 text-[16px] text-ink focus:border-ink";
+const label = "mb-2 block text-[15px] font-bold text-ink";
 
 export function Careers() {
   const [submitted, setSubmitted] = useState(false);
@@ -58,150 +66,129 @@ export function Careers() {
     }
   };
 
-  const inputStyle = { borderColor: "rgba(15,42,74,0.15)", background: "#fff", color: NAVY, borderRadius: "4px" };
-
   return (
     <>
-      <div className="py-24 lg:py-32 bg-cover bg-center" style={{ backgroundColor: NAVY, backgroundImage: `linear-gradient(rgba(15,42,74,0.55), rgba(15,42,74,0.8)), url(${careersHeroImage})` }}>
-        <div className="max-w-7xl mx-auto px-5 lg:px-8">
-          <div className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER, textShadow: "0 2px 8px rgba(0,0,0,0.6)" }}>
-            <Link to="/" className="transition-opacity hover:opacity-70">Home</Link>
-            <span className="mx-2 opacity-30">/</span>Careers
+      <PageHeader
+        path={[{ label: "Home", to: "/" }, { label: "Careers" }]}
+        title="Join 700+ professionals across India."
+        lede="Every employee receives a complete benefits package from day one — appointment letter, PF, ESIC, salary by the 7th. No delays, no exceptions."
+        image={careersHeroImage}
+      />
+
+      <section className="bg-white py-16 lg:py-24">
+        <Container className="grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+          <div>
+            <SectionTitle title="What every Sentinel employee receives" />
+            <ul className="mt-8 border-t-2 border-ink">
+              {EMPLOYEE_BENEFITS.map((benefit, i) => (
+                <li key={i} className="flex items-center gap-4 border-b border-ink/20 py-4">
+                  <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={2.5} className="h-5 w-5 shrink-0 text-go"><path d="M3 8l3.5 3.5L13 5" /></svg>
+                  <span className="text-[16px] font-semibold text-ink">{benefit}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <h1 className="text-white mb-4" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-0.025em", textShadow: "0 2px 8px rgba(0,0,0,0.6)" }}>
-            Join 700+ professionals<br />across India.
-          </h1>
-          <p className="max-w-xl text-sm" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.8, textShadow: "0 2px 8px rgba(0,0,0,0.6)" }}>
-            Every employee receives a complete benefits package from day one — appointment letter, PF, ESIC, salary by the 7th. No delays, no exceptions.
-          </p>
-        </div>
-      </div>
 
-      <section className="py-20 lg:py-28 bg-white">
-        <div className="max-w-7xl mx-auto px-5 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16">
-
-            {/* Benefits */}
-            <FadeIn>
-              <div>
-                <p className="text-xs font-bold tracking-[0.18em] uppercase mb-8" style={{ color: AMBER }}>What every Sentinel employee receives</p>
-                <ul className="space-y-0">
-                  {EMPLOYEE_BENEFITS.map((benefit, i) => (
-                    <li key={i} className="flex items-center gap-4 py-4" style={{ borderBottom: "1px solid rgba(15,42,74,0.08)" }}>
-                      <svg viewBox="0 0 16 16" fill="none" stroke={AMBER} strokeWidth={2.5} className="w-4 h-4 flex-shrink-0"><path d="M3 8l3.5 3.5L13 5" /></svg>
-                      <span className="text-sm font-medium" style={{ color: NAVY }}>{benefit}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </FadeIn>
-
-            {/* Application */}
-            <FadeIn delay={0.1}>
-              <div>
-                <p className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER }}>Actively hiring</p>
-                <div className="flex flex-wrap gap-2 mb-8">
-                  {ROLES.map((role) => (
-                    <button type="button" key={role} onClick={() => setSelectedRole(role === selectedRole ? "" : role)} className="px-3.5 py-2.5 lg:py-1.5 text-xs font-medium transition-all" style={{ background: selectedRole === role ? NAVY : "rgba(15,42,74,0.06)", color: selectedRole === role ? "#fff" : NAVY, border: selectedRole === role ? `1px solid ${NAVY}` : "1px solid rgba(15,42,74,0.1)", borderRadius: "3px" }}>
-                      {role}
-                    </button>
-                  ))}
-                </div>
-
-                <form onSubmit={handleSubmit} className="p-7" style={{ border: "1px solid rgba(15,42,74,0.1)", borderRadius: "4px" }}>
-                  <div className="grid sm:grid-cols-2 gap-4 mb-4">
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: NAVY }}>Full Name *</label>
-                      <input name="fullName" type="text" required placeholder="Your full name" className="w-full px-4 py-3 border text-sm focus:outline-none" style={inputStyle} />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: NAVY }}>Phone *</label>
-                      <input name="phone" type="tel" required placeholder="+91 98000 00000" className="w-full px-4 py-3 border text-sm focus:outline-none" style={inputStyle} />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: NAVY }}>City *</label>
-                      <select name="city" required className="w-full px-4 py-3 border text-sm focus:outline-none appearance-none" style={inputStyle}>
-                        <option value="">Select city</option>
-                        {["Mumbai", "Pune", "Ahmedabad", "Bhopal", "Other"].map((c) => <option key={c}>{c}</option>)}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: NAVY }}>Role *</label>
-                      <select name="role" required value={selectedRole} onChange={(e) => setSelectedRole(e.target.value)} className="w-full px-4 py-3 border text-sm focus:outline-none appearance-none" style={inputStyle}>
-                        <option value="">Select role</option>
-                        {ROLES.map((r) => <option key={r}>{r}</option>)}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: NAVY }}>Experience *</label>
-                      <select name="experience" required className="w-full px-4 py-3 border text-sm focus:outline-none appearance-none" style={inputStyle}>
-                        <option value="">Select range</option>
-                        {["Fresher (0–1 years)", "1–3 years", "3–5 years", "5–10 years", "10+ years"].map((r) => <option key={r}>{r}</option>)}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: NAVY }}>How did you hear?</label>
-                      <select name="source" className="w-full px-4 py-3 border text-sm focus:outline-none appearance-none" style={inputStyle}>
-                        <option value="">Select source</option>
-                        {["Job board", "WhatsApp / Referral", "Sentinel employee", "Walk-in", "Other"].map((s) => <option key={s}>{s}</option>)}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="hidden" aria-hidden="true"><input type="text" name="_honey" tabIndex={-1} autoComplete="off" /></div>
-
-                  <AnimatePresence>
-                    {submitted && (
-                      <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mb-4 px-4 py-3 text-sm font-medium" style={{ background: "rgba(34,197,94,0.08)", color: "#16a34a", border: "1px solid rgba(34,197,94,0.2)", borderRadius: "4px" }}>
-                        ✓ Application submitted. Our HR team will contact you within 2 business days.
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-
-                  <AnimatePresence>
-                    {error && (
-                      <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mb-4 px-4 py-3 text-sm font-medium" style={{ background: "rgba(220,38,38,0.08)", color: "#dc2626", border: "1px solid rgba(220,38,38,0.2)", borderRadius: "4px" }}>
-                        {error}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-
-                  <button type="submit" disabled={submitting} className="w-full py-3.5 text-sm font-bold text-white transition-all hover:brightness-110 active:scale-[0.98] disabled:opacity-60" style={{ background: NAVY, borderRadius: "4px" }}>
-                    {submitting ? "Sending…" : "Submit Application"}
+          <div>
+            <h2 className="display text-[clamp(1.6rem,3.2vw,2.4rem)] text-ink">Actively hiring</h2>
+            <div className="mt-5 flex flex-wrap gap-2" role="group" aria-label="Open roles">
+              {ROLES.map((role) => {
+                const on = selectedRole === role;
+                return (
+                  <button
+                    type="button"
+                    key={role}
+                    aria-pressed={on}
+                    onClick={() => setSelectedRole(on ? "" : role)}
+                    className={`min-h-[44px] rounded-[4px] border-2 border-ink px-4 text-[15px] font-semibold transition-colors ${on ? "bg-ink text-white" : "bg-white text-ink hover:bg-hivis"}`}
+                  >
+                    {role}
                   </button>
-                  <p className="text-center text-xs mt-3" style={{ color: "rgba(15,42,74,0.4)" }}>
-                    Or email your resume to{" "}
-                    <a href="mailto:info@sentinelifm.com" className="underline">info@sentinelifm.com</a>
-                  </p>
-                </form>
+                );
+              })}
+            </div>
+
+            <form onSubmit={handleSubmit} className="mt-8 rounded-[10px] border-2 border-ink bg-concrete p-5 sm:p-7">
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="c-name" className={label}>Full name (required)</label>
+                  <input id="c-name" name="fullName" type="text" required autoComplete="name" placeholder="Your full name" className={field} />
+                </div>
+                <div>
+                  <label htmlFor="c-phone" className={label}>Phone (required)</label>
+                  <input id="c-phone" name="phone" type="tel" required autoComplete="tel" placeholder="+91 98000 00000" className={field} />
+                </div>
+                <div>
+                  <label htmlFor="c-city" className={label}>City (required)</label>
+                  <select id="c-city" name="city" required className={field}>
+                    <option value="">Select city</option>
+                    {["Mumbai", "Pune", "Ahmedabad", "Bhopal", "Other"].map((c) => <option key={c}>{c}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="c-role" className={label}>Role (required)</label>
+                  <select id="c-role" name="role" required value={selectedRole} onChange={(e) => setSelectedRole(e.target.value)} className={field}>
+                    <option value="">Select role</option>
+                    {ROLES.map((r) => <option key={r}>{r}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="c-exp" className={label}>Experience (required)</label>
+                  <select id="c-exp" name="experience" required className={field}>
+                    <option value="">Select range</option>
+                    {["Fresher (0–1 years)", "1–3 years", "3–5 years", "5–10 years", "10+ years"].map((r) => <option key={r}>{r}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="c-src" className={label}>How did you hear about us?</label>
+                  <select id="c-src" name="source" className={field}>
+                    <option value="">Select source</option>
+                    {["Job board", "WhatsApp / Referral", "Sentinel employee", "Walk-in", "Other"].map((s) => <option key={s}>{s}</option>)}
+                  </select>
+                </div>
               </div>
-            </FadeIn>
+
+              <div className="hidden" aria-hidden="true"><input type="text" name="_honey" tabIndex={-1} autoComplete="off" /></div>
+
+              {submitted && (
+                <p role="status" className="mt-5 rounded-[4px] border-2 border-go bg-white px-4 py-3 text-[16px] font-semibold text-ink">
+                  Application submitted. Our HR team will contact you within 2 business days.
+                </p>
+              )}
+              {error && (
+                <p role="alert" className="mt-5 rounded-[4px] border-2 border-ink bg-hivis px-4 py-3 text-[16px] font-semibold text-ink">
+                  {error}
+                </p>
+              )}
+
+              <button
+                type="submit"
+                disabled={submitting}
+                className="mt-6 inline-flex min-h-[52px] w-full items-center justify-center rounded-[4px] bg-hivis px-6 text-[16px] font-bold text-ink transition-colors hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {submitting ? "Sending…" : "Submit Application"}
+              </button>
+              <p className="mt-4 text-[15px] text-steel">
+                Or email your resume to{" "}
+                <a href="mailto:info@sentinelifm.com" className="font-semibold text-ink underline underline-offset-4">info@sentinelifm.com</a>
+              </p>
+            </form>
           </div>
-        </div>
+        </Container>
       </section>
 
-      {/* Why join */}
-      <section className="py-16" style={{ background: NAVY }}>
-        <div className="max-w-7xl mx-auto px-5 lg:px-8">
-          <FadeIn>
-            <p className="text-xs font-bold tracking-[0.18em] uppercase mb-12" style={{ color: AMBER }}>Why work at Sentinel</p>
-          </FadeIn>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-0" style={{ border: "1px solid rgba(255,255,255,0.08)", borderRadius: "4px", overflow: "hidden" }}>
-            {[
-              { label: "Stability", desc: "25+ years in operation. Your employment is secure." },
-              { label: "Timely Salary", desc: "Salary to your bank account by the 7th, every month." },
-              { label: "Legal Protection", desc: "PF, ESIC, PT, police verification — all handled from day one." },
-              { label: "Growth", desc: "Field staff become supervisors. Supervisors become managers." },
-            ].map((item, i) => (
-              <FadeIn key={i} delay={i * 0.07}>
-                <div className="p-7" style={{ borderRight: i < 3 ? "1px solid rgba(255,255,255,0.08)" : "none" }}>
-                  <div className="font-bold text-white mb-2">{item.label}</div>
-                  <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>{item.desc}</p>
-                </div>
-              </FadeIn>
+      <section className="bg-concrete py-16 lg:py-24">
+        <Container className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+          <SectionTitle title="Why work at Sentinel" />
+          <dl className="border-t-2 border-ink">
+            {WHY.map((item) => (
+              <div key={item.label} className="grid gap-1 border-b border-ink/20 py-5 sm:grid-cols-[11rem_1fr] sm:gap-6">
+                <dt className="font-bold text-ink">{item.label}</dt>
+                <dd className="max-w-[56ch] text-[16px] leading-relaxed text-steel">{item.desc}</dd>
+              </div>
             ))}
-          </div>
-        </div>
+          </dl>
+        </Container>
       </section>
     </>
   );

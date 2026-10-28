@@ -1,20 +1,28 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router";
-import { AnimatePresence, motion } from "motion/react";
-import { NAVY, AMBER, SERVICES } from "../constants";
+import { SERVICES, WA_PATH } from "../constants";
+import { Btn, Container } from "./kit";
+import { ZONES } from "./CoveragePlan";
 import logo from "../../assets/images/sentinel-logo.webp";
 
 const NAV = [
-  { label: "Services", to: "/services" },
   { label: "About", to: "/about" },
   { label: "Compliance", to: "/compliance" },
   { label: "Careers", to: "/careers" },
   { label: "Contact", to: "/contact" },
 ];
 
+const codeFor = (slug: string) => ZONES.find((z) => z.slug === slug)?.code ?? "";
+
+const REGISTRATIONS = [
+  { k: "CIN", v: "U74999MH2019PTC323363" },
+  { k: "GST", v: "27ABBCS8372G1Z2" },
+  { k: "MSME", v: "UDYAM-MH-18-0067937" },
+  { k: "DIPP", v: "DIPP115148" },
+];
+
 export function Layout() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [fabOpen, setFabOpen] = useState(false);
   const fabRef = useRef<HTMLDivElement>(null);
@@ -22,244 +30,208 @@ export function Layout() {
 
   useEffect(() => { setMenuOpen(false); setServicesOpen(false); setFabOpen(false); window.scrollTo(0, 0); }, [location.pathname]);
   useEffect(() => {
-    const handler = (e: MouseEvent) => { if (fabRef.current && !fabRef.current.contains(e.target as Node)) setFabOpen(false); };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
+    const away = (e: MouseEvent) => { if (fabRef.current && !fabRef.current.contains(e.target as Node)) setFabOpen(false); };
+    const esc = (e: KeyboardEvent) => { if (e.key === "Escape") { setFabOpen(false); setServicesOpen(false); } };
+    document.addEventListener("mousedown", away);
+    document.addEventListener("keydown", esc);
+    return () => { document.removeEventListener("mousedown", away); document.removeEventListener("keydown", esc); };
   }, []);
-  useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", fn);
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
+
+  const navLink = ({ isActive }: { isActive: boolean }) =>
+    `relative px-3 py-2 text-[15px] font-semibold text-ink transition-colors hover:bg-ink/10 ${isActive ? "after:absolute after:inset-x-3 after:-bottom-[2px] after:h-[3px] after:bg-hivis after:content-['']" : ""}`;
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: NAVY }}>
-
-      {/* Skip navigation — screen readers + keyboard users */}
-      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:rounded" style={{ background: AMBER, color: NAVY }}>
+    <div className="flex min-h-screen flex-col bg-white text-ink">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-[100] focus:rounded-[4px] focus:bg-hivis focus:px-4 focus:py-3 focus:text-sm focus:font-bold focus:text-ink">
         Skip to main content
       </a>
 
-      {/* Top bar */}
-      <div className="hidden lg:flex items-center justify-end px-8 py-2 text-xs gap-6" style={{ background: "#08192e", color: "rgba(255,255,255,0.6)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-        <a href="mailto:info@sentinelifm.com" className="hover:text-white transition-colors">info@sentinelifm.com</a>
-        <a href="https://wa.me/918655362161" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">+91 86553 62161</a>
+      <div className="hidden bg-ink text-[13px] text-white/80 lg:block">
+        <Container className="flex justify-end gap-6 py-2">
+          <a href="mailto:info@sentinelifm.com" className="hover:text-white hover:underline">info@sentinelifm.com</a>
+          <a href="tel:+918655362161" className="hover:text-white hover:underline">+91 86553 62161</a>
+        </Container>
       </div>
 
-      {/* Header */}
-      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:rounded focus:bg-white focus:text-[#0F2A4A] focus:font-bold">Skip to content</a>
-      <header className="sticky top-0 z-50 transition-all duration-200" style={{ background: scrolled ? "rgba(184,203,216,0.96)" : "#B8CBD8", backdropFilter: scrolled ? "blur(16px)" : "none", borderBottom: "1px solid rgba(15,42,74,0.12)", boxShadow: "0 2px 8px rgba(15,42,74,0.1)" }}>
-        <div className="max-w-7xl mx-auto px-5 lg:px-8 flex items-stretch justify-between h-[64px]">
-
-          <Link to="/" className="flex items-center flex-shrink-0 focus:outline-none" style={{ background: "#B8CBD8", padding: "0 20px" }}>
-            <img src={logo} alt="Sentinel Security Services & Integrated Facility Management" className="h-9 lg:h-11 w-auto" width={200} height={66} decoding="async" />
+      <header className="sticky top-0 z-50 bg-mist shadow-[0_2px_0_0_var(--color-ink)]">
+        <Container className="flex h-[68px] items-stretch justify-between">
+          <Link to="/" className="flex items-center" aria-label="Sentinel IFM home">
+            <img src={logo} alt="Sentinel Security Services & Integrated Facility Management" className="h-9 w-auto lg:h-11" width={200} height={66} decoding="async" />
           </Link>
 
-          {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-0.5">
-            {/* Services dropdown */}
+          <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
             <div
               className="relative"
               onMouseEnter={() => setServicesOpen(true)}
               onMouseLeave={() => setServicesOpen(false)}
-              onFocus={() => setServicesOpen(true)}
               onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setServicesOpen(false); }}
             >
               <Link
                 to="/services"
                 aria-haspopup="true"
                 aria-expanded={servicesOpen}
-                className="flex items-center gap-1 text-sm px-3 py-2 rounded transition-colors focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-1 focus-visible:outline-none"
-                style={{ color: location.pathname.startsWith("/services") ? NAVY : "rgba(15,42,74,0.6)" }}
+                onFocus={() => setServicesOpen(true)}
+                className={`relative flex items-center gap-1.5 px-3 py-2 text-[15px] font-semibold text-ink hover:bg-ink/10 ${location.pathname.startsWith("/services") ? "after:absolute after:inset-x-3 after:-bottom-[2px] after:h-[3px] after:bg-hivis after:content-['']" : ""}`}
               >
                 Services
-                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth={2} className={`w-3 h-3 transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`}><path d="M2 4l4 4 4-4" /></svg>
+                <svg aria-hidden="true" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth={2} className={`h-3 w-3 transition-transform ${servicesOpen ? "rotate-180" : ""}`}><path d="M2 4l4 4 4-4" /></svg>
               </Link>
-              <AnimatePresence>
-                {servicesOpen && (
-                  <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 4 }} transition={{ duration: 0.12 }}
-                    className="absolute top-full left-0 pt-1.5 z-50 w-60">
-                    <div className="overflow-hidden" style={{ background: "#fff", border: "1px solid rgba(15,42,74,0.12)", borderRadius: "6px", boxShadow: "0 8px 24px rgba(0,0,0,0.12)" }}>
-                      {SERVICES.map((s) => (
-                        <Link key={s.slug} to={`/services/${s.slug}`} className="block px-4 py-2.5 text-sm transition-colors hover:bg-slate-50 border-b last:border-0 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-amber-400 focus-visible:outline-none" style={{ borderColor: "rgba(15,42,74,0.06)", color: NAVY }}>
+              {servicesOpen && (
+                <div className="absolute left-0 top-full z-50 w-72 pt-2">
+                  <ul className="border-2 border-ink bg-white">
+                    {SERVICES.map((s) => (
+                      <li key={s.slug} className="border-b border-ink/15 last:border-0">
+                        <Link to={`/services/${s.slug}`} className="flex items-center gap-3 px-3 py-3 text-[15px] font-semibold text-ink hover:bg-hivis">
+                          <span aria-hidden="true" className="display w-7 text-[15px]">{codeFor(s.slug)}</span>
                           {s.title}
                         </Link>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
-
-            {NAV.filter(l => l.label !== "Services").map((l) => (
-              <NavLink key={l.to} to={l.to} className={({ isActive }) => `text-sm px-3 py-2 rounded transition-colors ${isActive ? "text-[#0F2A4A]" : "text-[#0F2A4A]/60 hover:text-[#0F2A4A]"}`}>
-                {l.label}
-              </NavLink>
-            ))}
-            <Link to="/contact" className="ml-2 px-5 py-2 rounded text-sm font-bold transition-all hover:brightness-110 active:scale-95" style={{ background: AMBER, color: NAVY }}>
-              Get a Quote
-            </Link>
+            {NAV.map((l) => <NavLink key={l.to} to={l.to} className={navLink}>{l.label}</NavLink>)}
+            <Btn to="/contact" className="ml-3 !min-h-[44px]">Request a quote</Btn>
           </nav>
 
-          {/* Mobile hamburger */}
-          <button type="button" className="lg:hidden p-3 -mr-1 flex items-center justify-center flex-shrink-0" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu" aria-expanded={menuOpen} aria-controls="mobile-menu">
-            <div className="w-5 flex flex-col gap-1.5">
-              <span className={`h-0.5 bg-[#0F2A4A] rounded-full transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
-              <span className={`h-0.5 bg-[#0F2A4A] rounded-full transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
-              <span className={`h-0.5 bg-[#0F2A4A] rounded-full transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
-            </div>
+          <button
+            type="button"
+            className="-mr-3 flex min-w-[48px] items-center justify-center lg:hidden"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+          >
+            <span className="flex w-6 flex-col gap-[6px]" aria-hidden="true">
+              <span className={`h-[3px] bg-ink transition-transform ${menuOpen ? "translate-y-[9px] rotate-45" : ""}`} />
+              <span className={`h-[3px] bg-ink transition-opacity ${menuOpen ? "opacity-0" : ""}`} />
+              <span className={`h-[3px] bg-ink transition-transform ${menuOpen ? "-translate-y-[9px] -rotate-45" : ""}`} />
+            </span>
           </button>
-        </div>
+        </Container>
 
-        <AnimatePresence>
-          {menuOpen && (
-            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }}
-              id="mobile-menu" className="lg:hidden overflow-hidden" style={{ background: "#B8CBD8", borderTop: "1px solid rgba(15,42,74,0.12)" }}>
-              <div className="px-5 py-4 flex flex-col">
-                {/* Services accordion */}
-                <button
-                  type="button"
-                  onClick={() => setServicesOpen(!servicesOpen)}
-                  aria-expanded={servicesOpen}
-                  className="flex items-center justify-between text-[#0F2A4A]/70 hover:text-[#0F2A4A] text-sm py-3 border-b border-[#0F2A4A]/10 w-full text-left"
-                >
-                  Services
-                  <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth={2} className={`w-3 h-3 transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`}><path d="M2 4l4 4 4-4" /></svg>
-                </button>
-                <AnimatePresence>
-                  {servicesOpen && (
-                    <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.15 }} className="overflow-hidden">
-                      <Link to="/services" className="block pl-4 py-2.5 text-xs border-b border-[#0F2A4A]/10 font-medium" style={{ color: "rgba(15,42,74,0.6)" }}>All Services</Link>
-                      {SERVICES.map((s) => (
-                        <Link key={s.slug} to={`/services/${s.slug}`} className="block pl-4 py-2.5 text-xs border-b border-[#0F2A4A]/10 last:border-0" style={{ color: "rgba(15,42,74,0.55)" }}>{s.title}</Link>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-                {NAV.filter(l => l.label !== "Services").map((l) => (
-                  <Link key={l.to} to={l.to} className="text-[#0F2A4A]/70 hover:text-[#0F2A4A] text-sm py-3 border-b border-[#0F2A4A]/10">{l.label}</Link>
-                ))}
-                <Link to="/contact" className="mt-4 w-full py-3 rounded text-sm font-bold text-center" style={{ background: AMBER, color: NAVY }}>Get a Quote</Link>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {menuOpen && (
+          <div id="mobile-menu" className="border-t-2 border-ink bg-mist lg:hidden">
+            <Container className="flex flex-col py-2">
+              <button
+                type="button"
+                onClick={() => setServicesOpen(!servicesOpen)}
+                aria-expanded={servicesOpen}
+                className="flex min-h-[52px] items-center justify-between border-b border-ink/20 text-left text-[17px] font-semibold"
+              >
+                Services
+                <svg aria-hidden="true" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth={2} className={`h-3.5 w-3.5 transition-transform ${servicesOpen ? "rotate-180" : ""}`}><path d="M2 4l4 4 4-4" /></svg>
+              </button>
+              {servicesOpen && (
+                <ul className="border-b border-ink/20 bg-white/50">
+                  <li><Link to="/services" className="flex min-h-[48px] items-center pl-4 text-[15px] font-semibold">All services</Link></li>
+                  {SERVICES.map((s) => (
+                    <li key={s.slug}>
+                      <Link to={`/services/${s.slug}`} className="flex min-h-[48px] items-center gap-3 pl-4 text-[15px]">
+                        <span aria-hidden="true" className="display w-7">{codeFor(s.slug)}</span>{s.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {NAV.map((l) => (
+                <Link key={l.to} to={l.to} className="flex min-h-[52px] items-center border-b border-ink/20 text-[17px] font-semibold">{l.label}</Link>
+              ))}
+              <Btn to="/contact" className="my-4 w-full">Request a quote</Btn>
+            </Container>
+          </div>
+        )}
       </header>
 
       <main id="main-content" className="flex-1"><Outlet /></main>
 
-      {/* Footer */}
-      <footer style={{ background: NAVY, borderTop: "1px solid rgba(255,255,255,0.07)" }} className="pt-16 pb-10">
-        <div className="max-w-7xl mx-auto px-5 lg:px-8">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-12 pb-12" style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
-
-            <div className="sm:col-span-2 lg:col-span-1">
-              <div className="mb-5">
+      <footer className="bg-ink text-white">
+        <div aria-hidden="true" className="h-2 bg-hivis" />
+        <Container className="py-16">
+          <div className="grid gap-12 border-b border-white/20 pb-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1.2fr_1.2fr]">
+            <div>
+              <div className="inline-block bg-mist px-4 py-3">
                 <img src={logo} alt="Sentinel Security Services & Integrated Facility Management" className="h-10 w-auto" width={200} height={66} loading="lazy" decoding="async" />
-                <div className="text-[10px] tracking-widest uppercase mt-2" style={{ color: "rgba(255,255,255,0.6)" }}>Pvt. Ltd. · Est. 1999</div>
               </div>
-              <p className="text-sm mb-6 leading-relaxed" style={{ color: "rgba(255,255,255,0.6)" }}>
-                Integrated Facilities Management for corporate India. 25 years. 700+ staff. ISO certified.
+              <p className="mt-5 max-w-[34ch] text-[15px] leading-relaxed text-white/80">
+                Integrated facilities management for corporate India. Since 1999. 700+ staff. ISO certified.
               </p>
-              <div>
-                <div className="text-[10px] font-bold tracking-widest uppercase mb-3" style={{ color: "rgba(255,255,255,0.6)" }}>Statutory Registrations</div>
-                {[
-                  { k: "CIN", v: "U74999MH2019PTC323363" },
-                  { k: "GST", v: "27ABBCS8372G1Z2" },
-                  { k: "MSME", v: "UDYAM-MH-18-0067937" },
-                  { k: "DIPP", v: "DIPP115148" },
-                ].map((r) => (
-                  <div key={r.k} className="flex gap-3 text-[11px] mb-1.5">
-                    <span className="w-9 flex-shrink-0 font-semibold" style={{ color: "rgba(255,255,255,0.6)" }}>{r.k}</span>
-                    <span className="font-mono" style={{ color: "rgba(255,255,255,0.5)" }}>{r.v}</span>
+              <dl className="mt-6 space-y-1.5 text-[13px]">
+                {REGISTRATIONS.map((r) => (
+                  <div key={r.k} className="flex gap-3">
+                    <dt className="w-12 shrink-0 font-semibold text-white">{r.k}</dt>
+                    <dd className="font-mono text-white/80">{r.v}</dd>
                   </div>
                 ))}
-              </div>
+              </dl>
             </div>
 
-            <div>
-              <div className="text-[10px] font-bold tracking-widest uppercase mb-5" style={{ color: "rgba(255,255,255,0.6)" }}>Company</div>
-              <ul className="space-y-3">
-                {[
-                  { label: "Home", to: "/" }, { label: "About Us", to: "/about" }, { label: "Services", to: "/services" },
-                  { label: "Compliance", to: "/compliance" }, { label: "Careers", to: "/careers" },
-                  { label: "Contact", to: "/contact" }, { label: "Privacy Policy", to: "/privacy" }, { label: "Terms", to: "/terms" },
-                ].map((l) => <li key={l.to}><Link to={l.to} className="text-sm transition-colors" style={{ color: "rgba(255,255,255,0.5)" }} onMouseEnter={e => (e.currentTarget.style.color = "#fff")} onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.5)")}>{l.label}</Link></li>)}
+            <nav aria-label="Company">
+              <h2 className="display text-xl">Company</h2>
+              <ul className="mt-4 space-y-1">
+                {[["Home", "/"], ["About", "/about"], ["Services", "/services"], ["Compliance", "/compliance"], ["Careers", "/careers"], ["Contact", "/contact"], ["Labour Law Assist", "/assist"], ["Privacy policy", "/privacy"], ["Terms of service", "/terms"]].map(([label, to]) => (
+                  <li key={to}><Link to={to} className="inline-flex min-h-[36px] items-center text-[15px] text-white/80 underline-offset-4 hover:text-white hover:underline">{label}</Link></li>
+                ))}
               </ul>
-            </div>
+            </nav>
+
+            <nav aria-label="Services">
+              <h2 className="display text-xl">Services</h2>
+              <ul className="mt-4 space-y-1">
+                {SERVICES.map((s) => (
+                  <li key={s.slug}>
+                    <Link to={`/services/${s.slug}`} className="flex min-h-[36px] items-center gap-3 text-[15px] text-white/80 hover:text-white hover:underline underline-offset-4">
+                      <span aria-hidden="true" className="display w-7 text-hivis">{codeFor(s.slug)}</span>{s.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
 
             <div>
-              <div className="text-[10px] font-bold tracking-widest uppercase mb-5" style={{ color: "rgba(255,255,255,0.6)" }}>Services</div>
-              <ul className="space-y-3">
-                {SERVICES.map((s) => <li key={s.slug}><Link to={`/services/${s.slug}`} className="text-sm transition-colors" style={{ color: "rgba(255,255,255,0.5)" }} onMouseEnter={e => (e.currentTarget.style.color = "#fff")} onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.5)")}>{s.title}</Link></li>)}
+              <h2 className="display text-xl">Contact</h2>
+              <address className="mt-4 text-[15px] not-italic leading-relaxed text-white/80">
+                409, Sej Plaza, Marve Road<br />Malad (W), Mumbai 400064
+              </address>
+              <ul className="mt-4 space-y-1 text-[15px]">
+                <li><a href="mailto:info@sentinelifm.com" className="inline-flex min-h-[36px] items-center text-white underline underline-offset-4 hover:text-hivis">info@sentinelifm.com</a></li>
+                <li><a href="tel:+918655362161" className="inline-flex min-h-[36px] items-center text-white underline underline-offset-4 hover:text-hivis">+91 86553 62161</a></li>
               </ul>
-            </div>
-
-            <div>
-              <div className="text-[10px] font-bold tracking-widest uppercase mb-5" style={{ color: "rgba(255,255,255,0.6)" }}>Contact</div>
-              <ul className="space-y-5">
-                <li>
-                  <div className="text-[10px] uppercase tracking-widest mb-1.5" style={{ color: "rgba(255,255,255,0.6)" }}>Head Office</div>
-                  <address className="not-italic text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>409, Sej Plaza, Marve Road<br />Malad (W), Mumbai – 400064</address>
-                </li>
-                <li>
-                  <div className="text-[10px] uppercase tracking-widest mb-1.5" style={{ color: "rgba(255,255,255,0.6)" }}>Email</div>
-                  <a href="mailto:info@sentinelifm.com" className="text-sm transition-colors" style={{ color: "rgba(255,255,255,0.5)" }}>info@sentinelifm.com</a>
-                </li>
-                <li>
-                  <div className="text-[10px] uppercase tracking-widest mb-1.5" style={{ color: "rgba(255,255,255,0.6)" }}>WhatsApp</div>
-                  <a href="https://wa.me/918655362161" className="text-sm transition-colors" style={{ color: "rgba(255,255,255,0.5)" }}>+91 86553 62161</a>
-                </li>
-              </ul>
+              <p className="mt-4 text-[15px] text-white/80">Offices in Mumbai, Pune, Ahmedabad and Bhopal.</p>
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p className="text-xs" style={{ color: "rgba(255,255,255,0.6)" }}>
-              © {new Date().getFullYear()} Sentinel IFM Pvt. Ltd. · An ISO Certified Company
-            </p>
-            <div className="flex gap-5">
-              <Link to="/privacy" className="text-xs transition-colors" style={{ color: "rgba(255,255,255,0.6)" }}>Privacy Policy</Link>
-              <Link to="/terms" className="text-xs transition-colors" style={{ color: "rgba(255,255,255,0.6)" }}>Terms of Service</Link>
-            </div>
+          <div className="flex flex-col gap-3 pt-8 text-[13px] text-white/75 sm:flex-row sm:items-center sm:justify-between">
+            <p>© {new Date().getFullYear()} Sentinel IFM Pvt. Ltd. An ISO certified company.</p>
+            <p>Formerly SNSS Global Services.</p>
           </div>
-        </div>
+        </Container>
       </footer>
 
-      {/* Expandable FAB — single entry point for contact actions */}
-      <div ref={fabRef} className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
-        {/* Action items — shown when open */}
+      <div ref={fabRef} className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3">
         {fabOpen && (
           <>
-            <Link to="/assist"
-              className="flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold text-white shadow-lg transition-all hover:scale-105 active:scale-95 animate-fadeInUp"
-              style={{ background: AMBER, boxShadow: "0 4px 16px rgba(232,135,26,0.4)", whiteSpace: "nowrap" }}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} className="w-4 h-4">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-              </svg>
-              Ask Labour Law AI
+            <Link to="/assist" className="flex min-h-[48px] items-center gap-2 rounded-full bg-hivis px-5 text-sm font-bold text-ink shadow-[0_0_0_2px_var(--color-ink)]">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} className="h-4 w-4"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
+              Ask Labour Law Assist
             </Link>
-            <a href="https://wa.me/918655362161" target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold text-white shadow-lg transition-all hover:scale-105 active:scale-95"
-              style={{ background: "#25D366", boxShadow: "0 4px 16px rgba(37,211,102,0.4)", whiteSpace: "nowrap" }}>
-              <svg viewBox="0 0 24 24" fill="white" className="w-4 h-4">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-              </svg>
-              WhatsApp Us
+            <a href="https://wa.me/918655362161" target="_blank" rel="noopener noreferrer" className="flex min-h-[48px] items-center gap-2 rounded-full bg-[#25D366] px-5 text-sm font-bold text-ink shadow-[0_0_0_2px_var(--color-ink)]">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4"><path d={WA_PATH} /></svg>
+              WhatsApp us
             </a>
           </>
         )}
-        {/* Main toggle button */}
         <button
           type="button"
-          onClick={() => setFabOpen(o => !o)}
+          onClick={() => setFabOpen((o) => !o)}
           aria-label="Contact options"
-          className="w-14 h-14 rounded-full flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-lg"
-          style={{ background: NAVY, boxShadow: "0 4px 20px rgba(15,42,74,0.4)" }}>
+          aria-expanded={fabOpen}
+          className="flex h-14 w-14 items-center justify-center rounded-full bg-ink text-white shadow-[0_0_0_3px_var(--color-hivis)] transition-transform hover:scale-105"
+        >
           {fabOpen
-            ? <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2.5} className="w-5 h-5"><path d="M18 6L6 18M6 6l12 12" /></svg>
-            : <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2} className="w-5 h-5"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
-          }
+            ? <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="h-5 w-5"><path d="M18 6L6 18M6 6l12 12" /></svg>
+            : <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="h-6 w-6"><path d="M21 12c0 4.4-4 8-9 8a9.9 9.9 0 01-4.3-.9L3 20l1.4-3.7C3.5 15 3 13.6 3 12c0-4.4 4-8 9-8s9 3.6 9 8z" /></svg>}
         </button>
       </div>
     </div>

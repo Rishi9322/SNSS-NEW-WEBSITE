@@ -1,40 +1,38 @@
-import { useState } from "react";
-import { Link } from "react-router";
-import { AnimatePresence, motion } from "motion/react";
-import { FadeIn } from "../components/FadeIn";
-import { NAVY, AMBER, REGISTRATIONS, LABOUR_COMPLIANCE, GEM_CONTRACTS, ISO_CERTS } from "../constants";
+import { Container, CtaBand, PageHeader, SectionTitle } from "../components/kit";
+import { REGISTRATIONS, LABOUR_COMPLIANCE, GEM_CONTRACTS, ISO_CERTS } from "../constants";
 import { useSEO } from "../hooks/useSEO";
 import complianceHeroImage from "../../assets/images/compliance-hero.webp";
 
-type Tab = "registrations" | "labour" | "iso" | "gem" | "financial";
-
-const TABS: { key: Tab; label: string }[] = [
-  { key: "registrations", label: "Company Registrations" },
-  { key: "labour", label: "Labour Compliance" },
-  { key: "iso", label: "ISO Certifications" },
-  { key: "gem", label: "GeM Contracts" },
-  { key: "financial", label: "Financial Standing" },
-];
-
-function RegTable({ rows }: { rows: { label: string; value: string }[] }) {
+function KeyValue({ rows, head }: { rows: { label: string; value: string }[]; head: [string, string] }) {
   return (
-    <div className="overflow-hidden" style={{ border: "1px solid rgba(15,42,74,0.1)", borderRadius: "4px" }}>
-      <div className="grid grid-cols-2 text-xs font-bold py-3 px-6 tracking-wider uppercase" style={{ background: NAVY, color: "white" }}>
-        <div>Registration</div><div>Number</div>
-      </div>
-      {rows.map((r, i) => (
-        <div key={r.label} className="grid grid-cols-2 text-sm py-4 px-6" style={{ borderTop: "1px solid rgba(15,42,74,0.07)", background: i % 2 === 1 ? "rgba(15,42,74,0.02)" : "#fff" }}>
-          <div className="font-semibold" style={{ color: NAVY }}>{r.label}</div>
-          <div className="font-mono break-all" style={{ color: "rgba(15,42,74,0.7)" }}>{r.value}</div>
-        </div>
-      ))}
-    </div>
+    <table className="w-full border-t-2 border-ink text-left">
+      <caption className="sr-only">{head[0]} and {head[1]}</caption>
+      <thead className="sr-only"><tr><th scope="col">{head[0]}</th><th scope="col">{head[1]}</th></tr></thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr key={r.label} className="block border-b border-ink/20 py-3 sm:table-row sm:py-0">
+            <th scope="row" className="block pr-6 text-[16px] font-bold text-ink sm:table-cell sm:w-[40%] sm:py-4 sm:align-top">{r.label}</th>
+            <td className="block break-words text-[16px] tabular-nums text-steel sm:table-cell sm:py-4">{r.value}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
 
-export function Compliance() {
-  const [activeTab, setActiveTab] = useState<Tab>("registrations");
+const COMPLETIONS = [
+  { org: "Sports Authority of India", note: "8+ years continuous service" },
+  { org: "Shirdi Saibaba Trust", note: "₹5.03 Cr work completion certificate" },
+  { org: "Thermo Fisher Scientific", note: "₹9.83 Cr work completion certificate" },
+];
 
+const FINANCIALS = [
+  { label: "3-Year Turnover", value: "₹55.10 Cr", note: "Verify against current FY25-26 records" },
+  { label: "Annual Average", value: "₹18.36 Cr", note: "Based on 3-year consolidated turnover" },
+  { label: "Solvency Certificate", value: "₹1.00 Cr", note: "Issued by State Bank of India" },
+];
+
+export function Compliance() {
   useSEO({
     title: "Compliance Resource Centre — ISO Certs, GeM Contracts & Registrations",
     description: "View Sentinel IFM' full compliance credentials: ISO 9001/14001/45001/27001 certifications, EPFO/ESIC registrations, GeM contract history, GST, MSME Udyam, and DIPP Startup India.",
@@ -43,154 +41,115 @@ export function Compliance() {
 
   return (
     <>
-      <div className="py-24 lg:py-32 bg-cover bg-center" style={{ backgroundColor: NAVY, backgroundImage: `linear-gradient(rgba(15,42,74,0.55), rgba(15,42,74,0.8)), url(${complianceHeroImage})` }}>
-        <div className="max-w-7xl mx-auto px-5 lg:px-8">
-          <div className="text-xs font-bold tracking-[0.18em] uppercase mb-5" style={{ color: AMBER, textShadow: "0 2px 8px rgba(0,0,0,0.6)" }}>
-            <Link to="/" className="transition-opacity hover:opacity-70">Home</Link>
-            <span className="mx-2 opacity-30">/</span>Compliance
-          </div>
-          <h1 className="text-white mb-4" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-0.025em", textShadow: "0 2px 8px rgba(0,0,0,0.6)" }}>
-            Every credential.<br />One place.
-          </h1>
-          <p className="max-w-2xl text-sm mb-5" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.8, textShadow: "0 2px 8px rgba(0,0,0,0.6)" }}>
-            For procurement officers: all registration numbers, ISO certifications, GeM contracts, and financial standing — verified and ready.
-          </p>
-          <p className="text-xs font-bold tracking-widest uppercase" style={{ color: "rgba(255,255,255,0.6)", textShadow: "0 2px 8px rgba(0,0,0,0.6)" }}>
-            Last verified: 12 June 2026
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        path={[{ label: "Home", to: "/" }, { label: "Compliance" }]}
+        title="Every credential. One place."
+        lede="For procurement officers: all registration numbers, ISO certifications, GeM contracts, and financial standing — verified and ready."
+        image={complianceHeroImage}
+      >
+        <p className="mt-6 text-[15px] font-bold text-white">Last verified: 12 June 2026</p>
+      </PageHeader>
 
-      <section className="py-16 lg:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-5 lg:px-8">
-          <div className="flex items-start justify-between gap-4 mb-8 flex-wrap">
-            {/* Tab nav */}
-            <div className="flex flex-wrap gap-1 p-1" style={{ background: "rgba(15,42,74,0.05)", borderRadius: "6px" }}>
-              {TABS.map((tab) => (
-                <button key={tab.key} onClick={() => setActiveTab(tab.key)} className="px-4 py-2 text-sm font-bold transition-all duration-200" style={{ background: activeTab === tab.key ? NAVY : "transparent", color: activeTab === tab.key ? "#fff" : "rgba(15,42,74,0.5)", borderRadius: "4px" }}>
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-            <Link to="/contact" className="flex-shrink-0 px-5 py-2.5 text-sm font-bold text-[#0F2A4A] transition-all hover:brightness-110" style={{ background: AMBER, borderRadius: "4px" }}>
-              Request Documents
-            </Link>
-          </div>
-
-          <AnimatePresence mode="wait">
-            {activeTab === "registrations" && (
-              <motion.div key="reg" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }}>
-                <RegTable rows={REGISTRATIONS} />
-              </motion.div>
-            )}
-            {activeTab === "labour" && (
-              <motion.div key="lab" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }}>
-                <RegTable rows={LABOUR_COMPLIANCE} />
-              </motion.div>
-            )}
-            {activeTab === "iso" && (
-              <motion.div key="iso" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }}>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {ISO_CERTS.map((cert, i) => (
-                    <div key={cert.standard} className="p-6" style={{ border: "1px solid rgba(15,42,74,0.1)", borderRadius: "4px", borderTop: i === 0 ? `3px solid ${AMBER}` : undefined }}>
-                      <div className="font-extrabold text-sm mb-1" style={{ color: AMBER }}>{cert.standard}</div>
-                      <div className="font-bold text-sm mb-2" style={{ color: NAVY }}>{cert.name}</div>
-                      <p className="text-xs leading-relaxed mb-3" style={{ color: "rgba(15,42,74,0.6)" }}>{cert.scope}</p>
-                      <div className="text-xs font-semibold" style={{ color: "rgba(15,42,74,0.35)" }}>Certificate available on request</div>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-            {activeTab === "gem" && (
-              <motion.div key="gem" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }}>
-                <div className="overflow-x-auto" style={{ border: "1px solid rgba(15,42,74,0.1)", borderRadius: "4px" }}>
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr style={{ background: NAVY, color: "white" }}>
-                        <th className="text-left py-3 px-5 text-xs font-bold uppercase tracking-wider">Institution</th>
-                        <th className="text-left py-3 px-5 text-xs font-bold uppercase tracking-wider">Ministry</th>
-                        <th className="text-center py-3 px-5 text-xs font-bold uppercase tracking-wider">Staff</th>
-                        <th className="text-left py-3 px-5 text-xs font-bold uppercase tracking-wider">Value</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {GEM_CONTRACTS.map((row, i) => (
-                        <tr key={i} style={{ borderTop: "1px solid rgba(15,42,74,0.07)", background: i % 2 === 1 ? "rgba(15,42,74,0.02)" : "#fff" }}>
-                          <td className="py-4 px-5 font-semibold" style={{ color: NAVY }}>{row.institution}</td>
-                          <td className="py-4 px-5 text-xs" style={{ color: "rgba(15,42,74,0.6)" }}>{row.ministry}</td>
-                          <td className="py-4 px-5 text-center font-bold" style={{ color: NAVY }}>{row.staff}</td>
-                          <td className="py-4 px-5 font-bold" style={{ color: AMBER }}>{row.value}</td>
-                        </tr>
-                      ))}
-                      <tr style={{ borderTop: `2px solid ${NAVY}`, background: "rgba(15,42,74,0.03)" }}>
-                        <td className="py-4 px-5 font-bold" style={{ color: NAVY }}>Total — 6 active contracts</td>
-                        <td />
-                        <td className="py-4 px-5 text-center font-bold" style={{ color: NAVY }}>58</td>
-                        <td className="py-4 px-5 font-bold" style={{ color: AMBER }}>₹2.04 Cr+</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div className="mt-5 p-5" style={{ background: "rgba(15,42,74,0.03)", border: "1px solid rgba(15,42,74,0.08)", borderRadius: "4px" }}>
-                  <div className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: NAVY }}>Work Completion Record</div>
-                  <div className="grid sm:grid-cols-3 gap-3">
-                    {[
-                      { org: "Sports Authority of India", note: "8+ years continuous service" },
-                      { org: "Shirdi Saibaba Trust", note: "₹5.03 Cr work completion certificate" },
-                      { org: "Thermo Fisher Scientific", note: "₹9.83 Cr work completion certificate" },
-                    ].map((item) => (
-                      <div key={item.org} className="p-4 bg-white" style={{ border: "1px solid rgba(15,42,74,0.09)", borderRadius: "3px" }}>
-                        <div className="font-bold text-sm mb-0.5" style={{ color: NAVY }}>{item.org}</div>
-                        <div className="text-xs" style={{ color: "rgba(15,42,74,0.55)" }}>{item.note}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            )}
-            {activeTab === "financial" && (
-              <motion.div key="fin" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }}>
-                <div className="grid sm:grid-cols-3 gap-0 overflow-hidden mb-5" style={{ border: "1px solid rgba(15,42,74,0.1)", borderRadius: "4px" }}>
-                  {[
-                    { label: "3-Year Turnover", value: "₹55.10 Cr", note: "Verify against current FY25-26 records" },
-                    { label: "Annual Average", value: "₹18.36 Cr", note: "Based on 3-year consolidated turnover" },
-                    { label: "Solvency Certificate", value: "₹1.00 Cr", note: "Issued by State Bank of India" },
-                  ].map((item, i) => (
-                    <div key={item.label} className="p-7" style={{ borderRight: i < 2 ? "1px solid rgba(15,42,74,0.1)" : "none" }}>
-                      <div className="text-xs font-bold tracking-widest uppercase mb-3" style={{ color: "rgba(15,42,74,0.4)" }}>{item.label}</div>
-                      <div className="font-extrabold mb-1" style={{ fontSize: "2rem", color: NAVY, lineHeight: 1, letterSpacing: "-0.02em" }}>{item.value}</div>
-                      <div className="text-xs" style={{ color: "rgba(15,42,74,0.5)" }}>{item.note}</div>
-                    </div>
-                  ))}
-                </div>
-                <p className="text-sm p-4" style={{ background: "rgba(232,135,26,0.07)", border: "1px solid rgba(232,135,26,0.2)", color: "#5a4010", borderRadius: "4px" }}>
-                  <strong>Note:</strong> Verify against current Sentinel Accounts records before publishing. Replace with updated FY25-26 turnover when available.
-                </p>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+      <section className="bg-white py-16 lg:py-20">
+        <Container className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+          <SectionTitle title="Company registrations" />
+          <KeyValue rows={REGISTRATIONS} head={["Registration", "Number"]} />
+        </Container>
       </section>
 
-      {/* Procurement CTA */}
-      <FadeIn>
-        <section className="py-14" style={{ background: NAVY }}>
-          <div className="max-w-7xl mx-auto px-5 lg:px-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
-            <div>
-              <p className="text-xs font-bold tracking-[0.18em] uppercase mb-3" style={{ color: AMBER }}>For Procurement Officers</p>
-              <h2 className="text-white font-bold mb-2" style={{ fontSize: "1.3rem", letterSpacing: "-0.01em" }}>Need a document package for a tender?</h2>
-              <p className="text-sm max-w-lg" style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.7 }}>
-                We'll prepare a compliance pack with ISO certificates, registration extracts, and GeM contract references — tailored to your tender requirements.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-3 flex-shrink-0">
-              <Link to="/contact" className="px-6 py-3 text-sm font-bold text-[#0F2A4A] transition-all hover:brightness-110" style={{ background: AMBER, borderRadius: "4px" }}>Request Document Pack</Link>
-              <a href="https://wa.me/918655362161" target="_blank" rel="noopener noreferrer" className="px-6 py-3 text-sm font-bold transition-all hover:bg-white/10" style={{ color: "rgba(255,255,255,0.75)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "4px" }}>WhatsApp Us</a>
-            </div>
+      <section className="bg-concrete py-16 lg:py-20">
+        <Container className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+          <SectionTitle title="Labour compliance" />
+          <KeyValue rows={LABOUR_COMPLIANCE} head={["Registration", "Number"]} />
+        </Container>
+      </section>
+
+      <section className="bg-white py-16 lg:py-20">
+        <Container className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+          <SectionTitle title="ISO certifications" />
+          <ul className="border-t-2 border-ink">
+            {ISO_CERTS.map((cert) => (
+              <li key={cert.standard} className="grid gap-1 border-b border-ink/20 py-5 sm:grid-cols-[9rem_1fr] sm:gap-6">
+                <span className="display text-[1.5rem] text-ink">{cert.standard}</span>
+                <div>
+                  <div className="font-bold text-ink">{cert.name}</div>
+                  <p className="mt-1 max-w-[60ch] text-[16px] leading-relaxed text-steel">{cert.scope}</p>
+                  <p className="mt-1 text-[15px] text-steel">Certificate available on request</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </section>
+
+      <section className="bg-concrete py-16 lg:py-20">
+        <Container>
+          <SectionTitle title="GeM contracts" />
+          <div className="mt-10 overflow-x-auto border-y-2 border-ink bg-white">
+            <table className="w-full min-w-[640px] text-left text-[16px]">
+              <thead>
+                <tr className="border-b-2 border-ink bg-ink text-white">
+                  <th scope="col" className="px-5 py-3 font-bold">Institution</th>
+                  <th scope="col" className="px-5 py-3 font-bold">Ministry</th>
+                  <th scope="col" className="px-5 py-3 text-right font-bold">Staff</th>
+                  <th scope="col" className="px-5 py-3 text-right font-bold">Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                {GEM_CONTRACTS.map((row, i) => (
+                  <tr key={i} className="border-b border-ink/20">
+                    <th scope="row" className="px-5 py-4 font-bold text-ink">{row.institution}</th>
+                    <td className="px-5 py-4 text-steel">{row.ministry}</td>
+                    <td className="px-5 py-4 text-right tabular-nums text-ink">{row.staff}</td>
+                    <td className="px-5 py-4 text-right font-bold tabular-nums text-ink">{row.value}</td>
+                  </tr>
+                ))}
+                <tr className="border-t-2 border-ink bg-concrete">
+                  <th scope="row" className="px-5 py-4 font-bold text-ink">Total — 6 active contracts</th>
+                  <td />
+                  <td className="px-5 py-4 text-right font-bold tabular-nums text-ink">58</td>
+                  <td className="px-5 py-4 text-right font-bold tabular-nums text-ink">₹2.04 Cr+</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-        </section>
-      </FadeIn>
+
+          <h3 className="display mt-14 text-[1.6rem] text-ink">Work completion record</h3>
+          <dl className="mt-4 border-t-2 border-ink">
+            {COMPLETIONS.map((c) => (
+              <div key={c.org} className="grid gap-1 border-b border-ink/20 py-4 sm:grid-cols-[16rem_1fr] sm:gap-6">
+                <dt className="font-bold text-ink">{c.org}</dt>
+                <dd className="text-steel">{c.note}</dd>
+              </div>
+            ))}
+          </dl>
+        </Container>
+      </section>
+
+      <section className="bg-white py-16 lg:py-20">
+        <Container>
+          <SectionTitle title="Financial standing" />
+          <dl className="mt-10 border-t-2 border-ink">
+            {FINANCIALS.map((f) => (
+              <div key={f.label} className="grid gap-1 border-b border-ink/20 py-5 sm:grid-cols-[16rem_14rem_1fr] sm:items-baseline sm:gap-6">
+                <dt className="font-bold text-ink">{f.label}</dt>
+                <dd className="display text-[2rem] tabular-nums text-ink">{f.value}</dd>
+                <dd className="text-steel">{f.note}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="mt-6 max-w-[60ch] border-l-4 border-hivis bg-concrete p-4 text-[16px] leading-relaxed text-ink">
+            <strong>Note:</strong> Verify against current Sentinel Accounts records before publishing. Replace with updated FY25-26 turnover when available.
+          </p>
+        </Container>
+      </section>
+
+      <CtaBand
+        title="Need a document package for a tender?"
+        text="We'll prepare a compliance pack with ISO certificates, registration extracts, and GeM contract references — tailored to your tender requirements."
+        primary={{ label: "Request Document Pack", to: "/contact" }}
+        secondary={{ label: "WhatsApp Us", href: "https://wa.me/918655362161" }}
+      />
     </>
   );
 }

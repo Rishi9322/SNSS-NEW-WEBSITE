@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { motion, AnimatePresence } from "motion/react";
-import { NAVY, AMBER, LABOUR_ASSIST_DISCLAIMER, LABOUR_ASSIST_SHORT_DISCLAIMER, DEFAULT_PROFILE, COMMON_STATES, ISSUE_QUICKSTARTS, ESCALATION_MESSAGE } from "../constants";
+import { Container, PageHeader, Btn } from "../components/kit";
+import { LABOUR_ASSIST_DISCLAIMER, LABOUR_ASSIST_SHORT_DISCLAIMER, DEFAULT_PROFILE, COMMON_STATES, ISSUE_QUICKSTARTS, ESCALATION_MESSAGE } from "../constants";
 import { useSEO } from "../hooks/useSEO";
 import { retrieveRelevantChunks, type DatasetEntry, getDatasetLastUpdated } from "../../lib/rag";
 import { checkQueryGuardrails, applyResponseGuardrails, checkRateLimit, checkQueryLength } from "../../lib/guardrails";
@@ -463,86 +464,63 @@ export function LabourLawAssist() {
 
     return (
       <div key={msg.id} className={`flex ${isUser ? "justify-end" : "justify-start"} mb-4`}>
-        <div
-          className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed`}
-          style={{
-            background: isUser ? AMBER : "#f8fafc",
-            color: isUser ? "#fff" : NAVY,
-            border: isUser ? "none" : "1px solid rgba(15,42,74,0.08)",
-          }}
-        >
+        <div className={`max-w-[88%] rounded-[10px] px-4 py-3 text-[15px] leading-relaxed ${isUser ? "bg-ink text-white" : "bg-concrete text-ink"}`}>
           <div className="whitespace-pre-wrap">{renderInlineMarkdown(msg.content)}</div>
 
           {/* RAG citations */}
           {msg.citations && msg.citations.length > 0 && (
-            <div className="mt-3 pt-3 border-t" style={{ borderColor: "rgba(15,42,74,0.1)" }}>
-              <div className="text-[10px] uppercase tracking-widest mb-1.5 opacity-60">Legal references</div>
-              <div className="flex flex-wrap gap-1.5">
+            <div className="mt-3 border-t-2 border-ink pt-2">
+              <div className="mb-1 text-sm font-bold">Legal references</div>
+              <ul>
                 {msg.citations.map((c, idx) => (
-                  <span
-                    key={idx}
-                    className="inline-block text-[10px] px-2 py-0.5 rounded font-medium"
-                    style={{ background: "rgba(15,42,74,0.06)", color: NAVY }}
-                  >
+                  <li key={idx} className="border-b border-ink/20 py-1.5 text-sm text-steel last:border-b-0">
                     {c.act} — {c.section}
-                  </span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           )}
 
           {/* Web sources */}
           {msg.webSources && msg.webSources.length > 0 && (
-            <div className="mt-2 pt-2 border-t" style={{ borderColor: "rgba(15,42,74,0.1)" }}>
-              <div className="text-[10px] uppercase tracking-widest mb-1.5 opacity-60 flex items-center gap-1">
-                <span>🔍</span> Web sources
-              </div>
-              <div className="flex flex-col gap-1">
+            <div className="mt-2 border-t-2 border-ink pt-2">
+              <div className="mb-1 text-sm font-bold">Web sources</div>
+              <ul>
                 {msg.webSources.map((url, idx) => (
-                  <a
-                    key={idx}
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[10px] truncate underline opacity-60 hover:opacity-100 transition"
-                    style={{ color: NAVY }}
-                  >
-                    {url}
-                  </a>
+                  <li key={idx} className="border-b border-ink/20 py-1.5 last:border-b-0">
+                    <a href={url} target="_blank" rel="noopener noreferrer" className="block truncate text-sm text-steel underline underline-offset-2 hover:text-ink">
+                      {url}
+                    </a>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           )}
 
           {/* Web search badge */}
           {!isUser && msg.usedWebSearch && (
             <div className="mt-2">
-              <span
-                className="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full font-medium"
-                style={{ background: "rgba(232,135,26,0.1)", color: AMBER }}
-              >
-                🔍 Supplemented with web search
-              </span>
+              <span className="inline-block rounded-[3px] bg-hivis px-2 py-0.5 text-sm font-semibold text-ink">Supplemented with web search</span>
             </div>
           )}
 
           {/* Feedback for assistant */}
           {!isUser && (
-            <div className="mt-2 flex items-center gap-2 text-xs">
-              <span className="opacity-50">{formatTime(msg.timestamp)}</span>
+            <div className="mt-2 flex flex-wrap items-center gap-2 text-sm">
+              <span className="text-steel">{formatTime(msg.timestamp)}</span>
               <button
                 onClick={() => setFeedback(msg.id, "up")}
-                className={`px-1.5 py-0.5 rounded transition ${msg.feedback === "up" ? "bg-emerald-100" : "hover:bg-white/60"}`}
-                title="Helpful"
+                aria-pressed={msg.feedback === "up"}
+                className={`min-h-[44px] rounded-[4px] border-2 border-ink px-3 font-semibold ${msg.feedback === "up" ? "bg-hivis text-ink" : "bg-white text-ink hover:bg-ink hover:text-white"}`}
               >
-                👍
+                Helpful
               </button>
               <button
                 onClick={() => setFeedback(msg.id, "down")}
-                className={`px-1.5 py-0.5 rounded transition ${msg.feedback === "down" ? "bg-red-100" : "hover:bg-white/60"}`}
-                title="Not helpful"
+                aria-pressed={msg.feedback === "down"}
+                className={`min-h-[44px] rounded-[4px] border-2 border-ink px-3 font-semibold ${msg.feedback === "down" ? "bg-hivis text-ink" : "bg-white text-ink hover:bg-ink hover:text-white"}`}
               >
-                👎
+                Not helpful
               </button>
             </div>
           )}
@@ -552,47 +530,28 @@ export function LabourLawAssist() {
   }
 
   const datasetUpdated = getDatasetLastUpdated();
+  const outlineBtn = "inline-flex min-h-[48px] items-center rounded-[4px] border-2 border-ink px-4 text-[15px] font-bold text-ink hover:bg-ink hover:text-white";
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-white" style={{ color: NAVY }}>
-      {/* Top bar */}
-      <div className="border-b" style={{ borderColor: "rgba(15,42,74,0.08)" }}>
-        <div className="max-w-7xl mx-auto px-5 lg:px-8 py-4 flex items-center justify-between">
-          <div>
-            <div className="text-xs tracking-[2px] uppercase" style={{ color: AMBER }}>Sentinel IFM</div>
-            <h1 className="text-2xl font-bold tracking-tight">Labour Law Assist</h1>
-          </div>
+    <div className="bg-white text-ink">
+      <PageHeader
+        path={[{ label: "Home", to: "/" }, { label: "Labour Law Assist" }]}
+        title="Labour Law Assist"
+        lede="Describe your workplace situation. I will ask clarifying questions when needed and cite the relevant law."
+      />
 
-          <div className="flex items-center gap-3">
-            <button
-              onClick={handleNewChat}
-              className="px-4 py-2 text-sm font-bold rounded transition active:scale-[0.985]"
-              style={{ background: NAVY, color: "#fff" }}
-            >
-              New Chat
-            </button>
-
-            <button
-              onClick={() => setShowProfile(true)}
-              className="px-4 py-2 text-sm font-medium rounded border transition hover:bg-slate-50"
-              style={{ borderColor: "rgba(15,42,74,0.15)" }}
-            >
-              Profile: {profile.role} • {profile.state}
-            </button>
-
-            <button
-              onClick={() => setShowSidebar(!showSidebar)}
-              className="lg:hidden px-3 py-2 text-sm border rounded"
-              style={{ borderColor: "rgba(15,42,74,0.15)" }}
-            >
-              {showSidebar ? "Hide" : "History"}
-            </button>
-          </div>
+      <Container className="py-8">
+        <div className="mb-6 flex flex-wrap items-center gap-3">
+          <Btn onClick={handleNewChat}>New Chat</Btn>
+          <button onClick={() => setShowProfile(true)} className={outlineBtn}>
+            Profile: {profile.role} • {profile.state}
+          </button>
+          <button onClick={() => setShowSidebar(!showSidebar)} className={`lg:hidden ${outlineBtn}`}>
+            {showSidebar ? "Hide" : "History"}
+          </button>
         </div>
-      </div>
 
-      <div className="max-w-7xl mx-auto px-5 lg:px-8 py-6">
-        <div className="grid lg:grid-cols-[280px,1fr] gap-6">
+        <div className="grid gap-6 lg:grid-cols-[280px,1fr]">
           {/* Sidebar */}
           <AnimatePresence>
             {(showSidebar || isDesktop) && (
@@ -600,42 +559,40 @@ export function LabourLawAssist() {
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0 }}
-                className="lg:block bg-white border rounded-xl p-4 self-start"
-                style={{ borderColor: "rgba(15,42,74,0.1)" }}
+                className="self-start lg:block"
               >
-                <div className="text-xs uppercase tracking-widest mb-3" style={{ color: "rgba(15,42,74,0.5)" }}>
-                  Your Conversations
-                </div>
+                <div className="border-b-2 border-ink pb-2 text-lg font-bold">Your conversations</div>
 
                 {threads.length === 0 && (
-                  <div className="text-sm text-slate-500 py-6">No conversations yet. Start by asking a question below.</div>
+                  <div className="py-6 text-[15px] text-steel">No conversations yet. Start by asking a question below.</div>
                 )}
 
-                <div className="space-y-1 max-h-[420px] overflow-auto pr-1">
+                <ul className="max-h-[420px] overflow-auto">
                   {threads.map((t) => (
-                    <div
+                    <li
                       key={t.id}
                       onClick={() => switchThread(t.id)}
-                      className={`group flex items-center justify-between gap-2 px-3 py-2 rounded-lg cursor-pointer text-sm transition ${currentThreadId === t.id ? "bg-slate-100" : "hover:bg-slate-50"}`}
+                      className={`flex min-h-[48px] cursor-pointer items-center justify-between gap-2 border-b border-ink/20 px-2 text-[15px] ${currentThreadId === t.id ? "bg-concrete font-bold" : "hover:bg-concrete"}`}
                     >
                       <div className="truncate pr-2">{t.title}</div>
                       <button
                         onClick={(e) => { e.stopPropagation(); deleteThread(t.id); }}
-                        className="opacity-40 hover:opacity-100 text-xs px-1"
+                        className="min-h-[44px] min-w-[44px] text-lg text-steel hover:text-ink"
                         title="Delete thread"
+                        aria-label="Delete thread"
                       >
                         ×
                       </button>
-                    </div>
+                    </li>
                   ))}
-                </div>
+                </ul>
 
-                <div className="mt-6 pt-4 border-t text-[11px] leading-relaxed" style={{ color: "rgba(15,42,74,0.45)", borderColor: "rgba(15,42,74,0.08)" }}>
+                <div className="mt-6 border-t-2 border-ink pt-3 text-sm leading-relaxed text-steel">
                   Dataset last updated: {datasetUpdated}<br />
                   All information is for reference only.<br />
                   Chats are saved only in this browser. Questions are sent to an AI service to generate answers.
                   {threads.length > 0 && (
-                    <button onClick={clearAllChats} className="block mt-2 underline hover:opacity-80">Clear all chats</button>
+                    <button onClick={clearAllChats} className="mt-2 block min-h-[44px] font-bold text-ink underline underline-offset-4">Clear all chats</button>
                   )}
                 </div>
               </motion.aside>
@@ -643,54 +600,47 @@ export function LabourLawAssist() {
           </AnimatePresence>
 
           {/* Main Chat Area */}
-          <div className="flex flex-col min-h-[620px] bg-white border rounded-2xl overflow-hidden" style={{ borderColor: "rgba(15,42,74,0.1)" }}>
+          <div className="flex min-h-[620px] flex-col overflow-hidden rounded-[10px] border-2 border-ink bg-white">
             {/* Chat header */}
-            <div className="px-5 py-3 border-b flex items-center justify-between" style={{ background: "rgba(15,42,74,0.02)", borderColor: "rgba(15,42,74,0.06)" }}>
-              <div className="text-sm font-semibold">Ask about Indian labour law</div>
-              <div className="text-[10px] px-2 py-0.5 rounded" style={{ background: "rgba(232,135,26,0.1)", color: AMBER }}>
-                Grounded in curated legal data
-              </div>
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b-2 border-ink px-5 py-3">
+              <div className="font-bold">Ask about Indian labour law</div>
+              <div className="rounded-[3px] bg-hivis px-2 py-0.5 text-sm font-semibold text-ink">Grounded in curated legal data</div>
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-auto p-5 space-y-1 bg-white" style={{ background: "#fafbfc" }}>
+            <div className="flex-1 space-y-1 overflow-auto bg-white p-5">
               {messages.length === 0 && (
-                <div className="max-w-2xl mx-auto pt-8">
-                  <div className="text-center mb-6">
-                    <div className="inline-block px-3 py-1 text-xs tracking-widest rounded-full mb-3" style={{ background: "rgba(15,42,74,0.06)" }}>
-                      FREE • INFORMATIONAL • NO ACCOUNT REQUIRED
-                    </div>
-                    <h2 className="text-2xl font-bold mb-2">What would you like to know?</h2>
-                    <p className="text-sm text-slate-600 max-w-md mx-auto">
+                <div className="mx-auto max-w-2xl pt-4">
+                  <div className="mb-6">
+                    <p className="mb-3 text-sm font-bold text-steel">FREE • INFORMATIONAL • NO ACCOUNT REQUIRED</p>
+                    <h2 className="display mb-2 text-[clamp(1.8rem,3.6vw,2.6rem)]">What would you like to know?</h2>
+                    <p className="max-w-[60ch] text-[17px] text-steel">
                       Describe your workplace situation. I will ask clarifying questions when needed and cite the relevant law.
                     </p>
                   </div>
 
                   {/* Quick starts */}
-                  <div className="grid sm:grid-cols-2 gap-2">
+                  <div className="flex flex-wrap gap-2">
                     {ISSUE_QUICKSTARTS.map((q, i) => (
                       <button
                         key={i}
                         onClick={() => useQuickStart(q)}
-                        className="text-left px-4 py-3 text-sm rounded-xl border transition hover:border-amber-200 hover:bg-white"
-                        style={{ borderColor: "rgba(15,42,74,0.1)" }}
+                        className="min-h-[44px] rounded-[4px] border-2 border-ink px-4 py-2 text-left text-[15px] font-semibold text-ink hover:bg-ink hover:text-white"
                       >
                         {q}
                       </button>
                     ))}
                   </div>
 
-                  <div className="mt-8 text-center">
-                    <p className="text-xs text-slate-500">{LABOUR_ASSIST_SHORT_DISCLAIMER}</p>
-                  </div>
+                  <p className="mt-8 text-sm text-steel">{LABOUR_ASSIST_SHORT_DISCLAIMER}</p>
                 </div>
               )}
 
               {messages.map(renderMessage)}
 
               {isTyping && (
-                <div className="flex items-center gap-2 text-sm px-4 py-2 rounded-2xl w-fit" style={{ background: "#f1f5f9", color: NAVY }}>
-                  <div className="w-1.5 h-1.5 bg-current rounded-full animate-pulse" />
+                <div className="flex w-fit items-center gap-2 rounded-[10px] bg-concrete px-4 py-2 text-[15px] text-ink">
+                  <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-current" />
                   Thinking…
                 </div>
               )}
@@ -699,23 +649,19 @@ export function LabourLawAssist() {
             </div>
 
             {/* Disclaimer bar */}
-            <div className="px-4 py-2 text-[11px] border-t" style={{ background: "rgba(15,42,74,0.015)", borderColor: "rgba(15,42,74,0.06)", color: "rgba(15,42,74,0.6)" }}>
-              {LABOUR_ASSIST_SHORT_DISCLAIMER} Dataset: {datasetUpdated}. 
-              <Link to="/contact" className="ml-1 underline">Talk to an Sentinel expert</Link> for complex matters.
+            <div className="border-t-2 border-ink bg-concrete px-4 py-3 text-sm text-steel">
+              {LABOUR_ASSIST_SHORT_DISCLAIMER} Dataset: {datasetUpdated}.{" "}
+              <Link to="/contact" className="font-bold text-ink underline underline-offset-4">Talk to an Sentinel expert</Link> for complex matters.
             </div>
 
             {/* Input */}
-            <div className="p-4 border-t bg-white" style={{ borderColor: "rgba(15,42,74,0.08)" }}>
+            <div className="border-t-2 border-ink bg-white p-4">
               {inputError && (
-                <div
-                  role="alert"
-                  className="mb-2 px-3 py-2 text-xs rounded-lg border"
-                  style={{ background: "rgba(220,38,38,0.05)", borderColor: "rgba(220,38,38,0.25)", color: "#b91c1c" }}
-                >
+                <div role="alert" className="mb-2 rounded-[4px] border-2 border-red-700 bg-white px-3 py-2 text-sm font-semibold text-red-700">
                   {inputError}
                 </div>
               )}
-              <div className="flex gap-2">
+              <div className="flex flex-col gap-2 sm:flex-row">
                 <textarea
                   ref={textareaRef}
                   value={input}
@@ -724,20 +670,19 @@ export function LabourLawAssist() {
                     if (inputError) setInputError(null);
                   }}
                   onKeyDown={handleKeyDown}
+                  aria-label="Your question"
                   placeholder="Describe your situation (e.g. 'I was terminated without notice after 3 years in Mumbai')"
-                  className="flex-1 resize-y min-h-[52px] max-h-32 rounded-2xl border px-4 py-3 text-sm focus:outline-none"
-                  style={{ borderColor: "rgba(15,42,74,0.15)" }}
+                  className="max-h-32 min-h-[56px] flex-1 resize-y rounded-[4px] border-2 border-ink px-4 py-3 text-[16px] text-ink placeholder:text-steel focus:outline-2 focus:outline-offset-2 focus:outline-ink"
                 />
                 <button
                   onClick={() => sendMessage()}
                   disabled={!input.trim() || isTyping}
-                  className="self-end px-6 py-3 rounded-2xl text-sm font-bold transition disabled:opacity-50"
-                  style={{ background: AMBER, color: NAVY }}
+                  className="min-h-[56px] self-end rounded-[4px] bg-hivis px-8 text-[15px] font-bold text-ink hover:bg-ink hover:text-white disabled:cursor-not-allowed disabled:opacity-60 max-sm:w-full"
                 >
                   {isTyping ? "…" : "Send"}
                 </button>
               </div>
-              <div className="mt-2 text-[10px] text-center" style={{ color: "rgba(15,42,74,0.4)" }}>
+              <div className="mt-2 text-sm text-steel">
                 Press Enter to send. Shift+Enter for new line.
               </div>
             </div>
@@ -745,50 +690,47 @@ export function LabourLawAssist() {
         </div>
 
         {/* Full-width disclaimer */}
-        <div className="mt-8 text-xs max-w-3xl mx-auto text-center leading-relaxed" style={{ color: "rgba(15,42,74,0.55)" }}>
+        <div className="mx-auto mt-8 max-w-3xl border-t-2 border-ink pt-4 text-sm leading-relaxed text-steel">
           {LABOUR_ASSIST_DISCLAIMER}
         </div>
-      </div>
+      </Container>
 
       {/* Profile Modal */}
       <AnimatePresence>
         {showProfile && (
-          <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/40 p-4" onClick={() => setShowProfile(false)}>
+          <div className="fixed inset-0 z-[70] flex items-center justify-center bg-ink/60 p-4" onClick={() => setShowProfile(false)}>
             <motion.div
               initial={{ opacity: 0, scale: 0.96, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96 }}
-              className="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden"
+              className="w-full max-w-md overflow-hidden rounded-[10px] border-2 border-ink bg-white"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="px-5 py-4 border-b" style={{ background: NAVY, color: "#fff" }}>
-                <div className="font-semibold">Your Profile</div>
-                <div className="text-xs opacity-70">Used to personalize answers. Change anytime.</div>
+              <div className="border-b-2 border-ink bg-hivis px-5 py-4 text-ink">
+                <div className="display text-2xl">Your Profile</div>
+                <div className="text-sm">Used to personalize answers. Change anytime.</div>
               </div>
 
-              <div className="p-5 space-y-4 text-sm">
+              <div className="space-y-4 p-5 text-[15px]">
                 <div>
-                  <label className="block text-xs mb-1 opacity-70">Name (optional)</label>
+                  <label className="mb-1 block text-sm font-bold">Name (optional)</label>
                   <input
                     value={profile.name || ""}
                     onChange={(e) => updateProfile({ name: e.target.value })}
-                    className="w-full border rounded px-3 py-2"
+                    className="min-h-[48px] w-full rounded-[4px] border-2 border-ink px-3 placeholder:text-steel"
                     placeholder="Your name"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs mb-1 opacity-70">I am</label>
+                  <label className="mb-1 block text-sm font-bold">I am</label>
                   <div className="flex gap-2">
                     {(["employee", "employer"] as const).map((r) => (
                       <button
                         key={r}
                         onClick={() => updateProfile({ role: r })}
-                        className={`flex-1 py-2 rounded border text-sm ${profile.role === r ? "font-semibold" : ""}`}
-                        style={{
-                          borderColor: profile.role === r ? AMBER : "rgba(15,42,74,0.15)",
-                          background: profile.role === r ? "rgba(232,135,26,0.08)" : "white",
-                        }}
+                        aria-pressed={profile.role === r}
+                        className={`min-h-[48px] flex-1 rounded-[4px] border-2 border-ink text-[15px] font-bold ${profile.role === r ? "bg-ink text-white" : "bg-white text-ink"}`}
                       >
                         {r === "employee" ? "Employee / Worker" : "Employer / HR"}
                       </button>
@@ -797,11 +739,11 @@ export function LabourLawAssist() {
                 </div>
 
                 <div>
-                  <label className="block text-xs mb-1 opacity-70">State</label>
+                  <label className="mb-1 block text-sm font-bold">State</label>
                   <select
                     value={profile.state}
                     onChange={(e) => updateProfile({ state: e.target.value })}
-                    className="w-full border rounded px-3 py-2 bg-white"
+                    className="min-h-[48px] w-full rounded-[4px] border-2 border-ink bg-white px-3"
                   >
                     {COMMON_STATES.map((s) => (
                       <option key={s} value={s}>{s}</option>
@@ -810,24 +752,24 @@ export function LabourLawAssist() {
                 </div>
 
                 <div>
-                  <label className="block text-xs mb-1 opacity-70">Sector / Industry (optional)</label>
+                  <label className="mb-1 block text-sm font-bold">Sector / Industry (optional)</label>
                   <input
                     value={profile.sector || ""}
                     onChange={(e) => updateProfile({ sector: e.target.value })}
-                    className="w-full border rounded px-3 py-2"
+                    className="min-h-[48px] w-full rounded-[4px] border-2 border-ink px-3 placeholder:text-steel"
                     placeholder="e.g. IT, Manufacturing, Retail"
                   />
                 </div>
               </div>
 
-              <div className="p-4 border-t flex justify-end gap-2 bg-slate-50">
-                <button onClick={() => setShowProfile(false)} className="px-4 py-2 text-sm">Done</button>
+              <div className="flex justify-end gap-2 border-t-2 border-ink bg-concrete p-4">
+                <button onClick={() => setShowProfile(false)} className="min-h-[48px] rounded-[4px] bg-hivis px-5 text-[15px] font-bold text-ink">Done</button>
                 <button
                   onClick={() => {
                     setProfile(DEFAULT_PROFILE);
                     setShowProfile(false);
                   }}
-                  className="px-4 py-2 text-sm text-red-600"
+                  className="min-h-[48px] rounded-[4px] border-2 border-ink px-5 text-[15px] font-bold text-ink"
                 >
                   Reset
                 </button>

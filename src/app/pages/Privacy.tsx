@@ -1,25 +1,8 @@
 import { Link } from "react-router";
-import { NAVY, AMBER } from "../constants";
+import { Container, PageHeader } from "../components/kit";
 import { useSEO } from "../hooks/useSEO";
 
-export function Privacy() {
-  useSEO({ title: "Privacy Policy | Sentinel IFM", description: "Privacy policy for Sentinel IFM Pvt. Ltd.", path: "/privacy" });
-  return (
-    <>
-      <div className="py-14" style={{ background: NAVY }}>
-        <div className="max-w-4xl mx-auto px-5 lg:px-8">
-          <div className="text-xs font-semibold tracking-widest uppercase mb-4" style={{ color: "rgba(232,135,26,0.8)" }}>
-            <Link to="/" className="hover:text-amber-400 transition-colors">Home</Link>
-            <span className="mx-2 opacity-40">/</span>Privacy Policy
-          </div>
-          <h1 className="text-white font-bold" style={{ fontSize: "clamp(1.6rem, 3vw, 2.5rem)" }}>Privacy Policy</h1>
-          <p className="text-white/55 text-sm mt-2">Last updated: 12 June 2026</p>
-        </div>
-      </div>
-      <section className="py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-5 lg:px-8">
-          <div className="prose prose-sm max-w-none" style={{ color: "#4a5a6a" }}>
-            {[
+const SECTIONS = [
               {
                 title: "1. Who We Are",
                 body: "Sentinel IFM Pvt. Ltd. (CIN: U74999MH2019PTC323363) is the data controller for information collected through sentinelifm.com. Our registered office is at 409, Sej Plaza, Marve Road, Malad (W), Mumbai – 400064, Maharashtra, India.",
@@ -56,20 +39,37 @@ export function Privacy() {
                 title: "9. Contact",
                 body: "For privacy-related queries, write to info@sentinelifm.com with the subject line 'Privacy Query'. We will respond within 10 business days.",
               },
-            ].map((section) => (
-              <div key={section.title} className="mb-8">
-                <h2 className="font-bold mb-2" style={{ color: NAVY, fontSize: "1rem" }}>{section.title}</h2>
-                <p className="leading-relaxed text-sm">{section.body}</p>
+];
+
+export function Privacy() {
+  useSEO({ title: "Privacy Policy | Sentinel IFM", description: "Privacy policy for Sentinel IFM Pvt. Ltd.", path: "/privacy" });
+  return (
+    <>
+      <PageHeader path={[{ label: "Home", to: "/" }, { label: "Privacy Policy" }]} title="Privacy Policy" lede="Last updated: 12 June 2026" />
+      <section className="bg-white py-14 lg:py-20">
+        <Container className="grid gap-12 lg:grid-cols-[240px_minmax(0,1fr)]">
+          <nav aria-label="Contents" className="hidden self-start lg:sticky lg:top-24 lg:block">
+            <p className="display mb-3 text-lg text-ink">Contents</p>
+            <ol className="border-t-2 border-ink">
+              {SECTIONS.map((s, i) => (
+                <li key={s.title} className="border-b border-ink/20">
+                  <a href={`#s-${i + 1}`} className="block py-2 text-[15px] text-steel underline-offset-4 hover:text-ink hover:underline">{s.title}</a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+          <div className="max-w-[68ch]">
+            {SECTIONS.map((section, i) => (
+              <div key={section.title} id={`s-${i + 1}`} className="mb-10 scroll-mt-24">
+                <h2 className="display mb-3 text-[clamp(1.5rem,2.6vw,2rem)] text-ink">{section.title}</h2>
+                <p className="text-[17px] leading-[1.7] text-steel">{section.body}</p>
               </div>
             ))}
+            <div className="mt-12 border-t-2 border-ink pt-6">
+              <Link to="/" className="inline-flex min-h-[44px] items-center font-bold text-ink underline underline-offset-4">Back to Home</Link>
+            </div>
           </div>
-          <div className="mt-10 pt-8 border-t" style={{ borderColor: "rgba(15,42,74,0.1)" }}>
-            <Link to="/" className="text-sm font-semibold flex items-center gap-1.5 transition-all hover:gap-2" style={{ color: AMBER }}>
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4"><path d="M13 8H3M8 3l-5 5 5 5" /></svg>
-              Back to Home
-            </Link>
-          </div>
-        </div>
+        </Container>
       </section>
     </>
   );
