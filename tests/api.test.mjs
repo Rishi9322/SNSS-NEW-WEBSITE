@@ -95,3 +95,12 @@ test("health endpoint reports 503 when the configured model has been retired, 20
   const fine = await call(["openai/gpt-oss-20b"]);
   assert.equal(fine.code, 200);
 });
+
+test("guardrails add the Labour Codes note when an older Act is cited, and only once", () => {
+  const cited = api.applyGuardrails("Under the Industrial Disputes Act, 1947, Section 25F, notice is required.", true, false, false);
+  assert.match(cited, /Labour Codes may have replaced or changed/);
+  const already = api.applyGuardrails("The Payment of Gratuity Act is now part of the Code on Social Security, 2020.", true, false, false);
+  assert.doesNotMatch(already, /Labour Codes may have replaced or changed/);
+  const neutral = api.applyGuardrails("Ask HR for a written copy of your contract.", true, false, false);
+  assert.doesNotMatch(neutral, /Labour Codes may have replaced or changed/);
+});

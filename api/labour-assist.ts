@@ -27,7 +27,10 @@ const OVERCONFIDENT: Array<[RegExp, string]> = [
   [/\b(?:100% (?:sure|certain|guaranteed)|without (?:a )?doubt)\b/gi, "subject to facts"],
 ];
 
-const ESCALATION_RE = /termination|terminated|fired|retrench|dismiss|sacked|posh|sexual harass|labour court|conciliation|wrongful/i;
+// Pre-2020 central Acts that the Labour Codes subsume. Naming one of these triggers the currency note.
+const OLD_ACTS = /Industrial Disputes Act|Payment of Gratuity Act|Employees.? Provident Funds?(?: and Miscellaneous Provisions)? Act|\bEPF Act\b|Minimum Wages Act|Payment of Wages Act|Payment of Bonus Act|Equal Remuneration Act|Employees.? State Insurance Act|\bESI Act\b|Maternity Benefit Act|Contract Labour .Regulation and Abolition. Act|Industrial Employment .Standing Orders. Act|Trade Unions Act|Factories Act|Employees.? Compensation Act|Building and Other Construction Workers/i;
+
+const ESCALATION_RE =/termination|terminated|fired|retrench|dismiss|sacked|posh|sexual harass|labour court|conciliation|wrongful/i;
 
 // ─── Abuse protection ─────────────────────────────────────────────────────────
 // ponytail: per-instance memory — a determined caller spread across cold instances
@@ -97,6 +100,11 @@ export function applyGuardrails(text: string, hasRag: boolean, hasWeb: boolean, 
 
   if (escalation && !out.toLowerCase().includes("consult a qualified")) {
     out += "\n\n⚠️ Your situation may involve termination, POSH, or a potential dispute. This tool provides general information only. Strongly consider consulting a qualified labour lawyer or the appropriate authority (Labour Commissioner, Internal Complaints Committee, etc.).";
+  }
+
+  // Enforced in code, not just in the prompt: the model does not reliably add this itself.
+  if (OLD_ACTS.test(out) && !/labour codes?|code on (wages|social security|industrial relations|occupational)/i.test(out)) {
+    out += "\n\nNote: India's four Labour Codes may have replaced or changed the Act(s) named above. Confirm the current provision with the Labour Department or a qualified lawyer before you act.";
   }
 
   if (!out.toLowerCase().includes("not legal advice")) {
